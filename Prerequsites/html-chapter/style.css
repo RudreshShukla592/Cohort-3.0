@@ -1,9 +1,18 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+html,body{
+    height: 100%;
+    width: 100%;
+}
 @font-face {
     font-family: alex;
     src: url(./AlexBrush-Regular.ttf);
 }
 h1{
-    font-size: 100px;
+    font-size: 50px;
     font-family: alex;
 }
 div{
@@ -11,4 +20,14 @@ div{
     width: 400px;
     background-image: url(https://images.unsplash.com/photo-1591779051696-1c3fa1469a79?q=80&w=1074&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D);
     background-size: cover;
+}
+button{
+    margin: 20px;
+    padding: 10px;
+    border-radius: 50px;
+    background-color: transparent;
+}
+button:hover{
+    color: black;
+    background-color: wheat;
 }
