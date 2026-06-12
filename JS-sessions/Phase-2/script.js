@@ -39,7 +39,7 @@ let c = [5,6,7]
 let d= a.concat(b.concat(c))
 let set = new Set(d)
 let newArr=[...set]
-console.log(newArr);
+// console.log(newArr);
 
 
 
