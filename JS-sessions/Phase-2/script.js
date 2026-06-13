@@ -48,5 +48,25 @@ let maxACC=arrACC.reduce((acc,val)=>{
     if(val>acc) return val
     return acc
 },0)
-console.log(maxACC);
+// console.log(maxACC);
 
+let students = [
+  { name: "Anubhav", marks: 85 },
+  { name: "Rahul", marks: 42 },
+  { name: "Aman", marks: 90 },
+];
+
+// students.forEach((elem)=>{
+//     if(elem.marks > 50) console.log("Pass");
+//     else console.log("Fail");
+// })
+
+let names = ["anubhav", "rahul", "aman"];
+let name2=names.map((elem)=>{
+    return elem.toUpperCase()
+})
+// console.log(name2);
+
+let nums = [1,2,3,4,5,6,7,8];
+let newNum=nums.filter((n)=> n%2 === 0)
+console.log(newNum);
