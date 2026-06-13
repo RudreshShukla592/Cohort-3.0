@@ -41,5 +41,12 @@ let set = new Set(d)
 let newArr=[...set]
 // console.log(newArr);
 
+// reduce
+let arrACC=[102,2430,3720,10]
 
+let maxACC=arrACC.reduce((acc,val)=>{
+    if(val>acc) return val
+    return acc
+},0)
+console.log(maxACC);
 
