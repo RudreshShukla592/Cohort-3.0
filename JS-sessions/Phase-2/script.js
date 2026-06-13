@@ -69,4 +69,26 @@ let name2=names.map((elem)=>{
 
 let nums = [1,2,3,4,5,6,7,8];
 let newNum=nums.filter((n)=> n%2 === 0)
-console.log(newNum);
+// console.log(newNum);
+
+// METHODS
+let obj={
+    user:'raja',
+    greet:function(){
+        console.log("Morning");
+    }
+}
+// obj.greet()
+
+let calculator = {
+    add: function(a, b) {
+        return a + b;
+    },
+    subtract: function(a, b) {
+        return a - b;
+    }
+};
+
+console.log(calculator.add(5, 3));       
+console.log(calculator.subtract(10, 4));  
+
