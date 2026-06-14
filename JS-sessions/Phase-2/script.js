@@ -136,4 +136,16 @@ let stu={
         return this.marks > 40 ? 'Pass' : 'Fail';
     }
 }
-console.log(stu.getResult());
+// console.log(stu.getResult());
+
+// Lexical scope
+
+function outer() {
+  let name = "Sara";
+  function inner() {
+    console.log(name); 
+  }
+  inner();
+}
+outer(); 
+
