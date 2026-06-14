@@ -89,6 +89,51 @@ let calculator = {
     }
 };
 
-console.log(calculator.add(5, 3));       
-console.log(calculator.subtract(10, 4));  
+// console.log(calculator.add(5, 3));       
+// console.log(calculator.subtract(10, 4));  
 
+// Count Properties
+let countProperties={
+    a:1,b:2,c:3,d:4,e:5
+}
+let count=0
+let countFunc=(obj)=>{
+   return Object.keys(obj).length
+}
+// console.log(countFunc(countProperties));
+
+const obj1 = { a: 1, b: 2 }
+const obj2 = { c: 3, d: 4 }
+const obj3 = {...obj1, ...obj2}
+// console.log(obj3);
+
+const marks = {
+  Anubhav: 95,
+  Rahul: 82,
+  Aman: 90
+}
+
+let highMarks = Object.values(marks).reduce((max,val)=>{
+    if(val>max) return val
+    return max
+},0)
+let topper= Object.keys(marks).find((key)=>marks[key] === highMarks)
+console.log(topper);
+
+const user = {
+  name: "Anubhav",
+  address: {
+    city: "Bhopal",
+    pincode: 462001
+  }
+}
+console.log(user.address.pincode);
+
+let stu={
+    name:'Aryan',
+    marks:60,
+    getResult(){
+        return this.marks > 40 ? 'Pass' : 'Fail';
+    }
+}
+console.log(stu.getResult());
