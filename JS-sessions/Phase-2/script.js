@@ -156,4 +156,25 @@ const obj333 = {
   }
 };
 
-obj333.greet(); // undefined
+// obj333.greet(); // undefined
+
+let stu1={
+    Fname: 'Ansh',
+    Lname: 'Shukla',
+    getInfo:function(city,state){
+        console.log(`${this.Fname} ${this.Lname} ${city}(${state})`);
+    }
+}
+let stu2={
+    Fname:'aryan',
+    Lname:'Shukla'
+}
+let stu3={
+    Fname:'rudresh',
+    Lname:'Shukla'
+}
+stu1.getInfo("lko","UP")
+stu1.getInfo.call(stu2,"Gkp","UP")
+stu1.getInfo.apply(stu3,["basti","UP"])
+let out= stu1.getInfo.bind(stu2,"sydney","AU")
+out()
