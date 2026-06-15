@@ -118,16 +118,16 @@ let highMarks = Object.values(marks).reduce((max,val)=>{
     return max
 },0)
 let topper= Object.keys(marks).find((key)=>marks[key] === highMarks)
-console.log(topper);
+// console.log(topper);
 
-const user = {
+const user1 = {
   name: "Anubhav",
   address: {
     city: "Bhopal",
     pincode: 462001
   }
 }
-console.log(user.address.pincode);
+// console.log(user.address.pincode);
 
 let stu={
     name:'Aryan',
@@ -147,5 +147,13 @@ function outer() {
   }
   inner();
 }
-outer(); 
+// outer(); 
 
+const obj333 = {
+  name: "Rahul",
+  greet: ()=>{
+    console.log(this.name);
+  }
+};
+
+obj333.greet(); // undefined
