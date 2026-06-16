@@ -105,7 +105,8 @@ let countFunc=(obj)=>{
 const obj1 = { a: 1, b: 2 }
 const obj2 = { c: 3, d: 4 }
 const obj3 = {...obj1, ...obj2}
-// console.log(obj3);
+const obj4={...obj3}
+console.log(obj3);
 
 const marks = {
   Anubhav: 95,
@@ -118,7 +119,7 @@ let highMarks = Object.values(marks).reduce((max,val)=>{
     return max
 },0)
 let topper= Object.keys(marks).find((key)=>marks[key] === highMarks)
-// console.log(topper);
+console.log(topper);
 
 const user1 = {
   name: "Anubhav",
@@ -127,7 +128,9 @@ const user1 = {
     pincode: 462001
   }
 }
-// console.log(user.address.pincode);
+console.log(user.name);
+console.log(user.address.city);
+console.log(user.address.pincode);
 
 let stu={
     name:'Aryan',
@@ -136,7 +139,7 @@ let stu={
         return this.marks > 40 ? 'Pass' : 'Fail';
     }
 }
-// console.log(stu.getResult());
+console.log(stu.getResult());
 
 // Lexical scope
 
@@ -147,7 +150,7 @@ function outer() {
   }
   inner();
 }
-// outer(); 
+outer(); 
 
 const obj333 = {
   name: "Rahul",
@@ -156,7 +159,7 @@ const obj333 = {
   }
 };
 
-// obj333.greet(); // undefined
+obj333.greet(); // undefined
 
 let stu1={
     Fname: 'Ansh',
@@ -178,3 +181,4 @@ stu1.getInfo.call(stu2,"Gkp","UP")
 stu1.getInfo.apply(stu3,["basti","UP"])
 let out= stu1.getInfo.bind(stu2,"sydney","AU")
 out()
+
