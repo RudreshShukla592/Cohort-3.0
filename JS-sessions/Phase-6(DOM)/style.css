@@ -19,15 +19,16 @@ main{
 .bulb{
     height: 300px;
     width: 300px;
-    background-color: white;
+    background-color: transparent;
     border-radius: 50%;
     color: white;
+    border: 2px solid white;
 }
 button{
     padding: 10px 20px;
-    background-color: rgb(125, 99, 149);
-      border-radius: 20px;
-      
+    background-color: rgb(191, 171, 210);
+      border-radius: 15px;
+
 } 
 .yellow{
     background-color: yellow;
