@@ -1,0 +1,34 @@
+*{
+  margin: 0;
+   padding: 0;
+   box-sizing: border-box;
+}
+html,body{
+   height: 100%;
+   width: 100%;
+}
+main{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+    gap: 20px;
+}
+.bulb{
+    height: 300px;
+    width: 300px;
+    background-color: white;
+    border-radius: 50%;
+    color: white;
+}
+button{
+    padding: 10px 20px;
+    background-color: rgb(125, 99, 149);
+      border-radius: 20px;
+      
+} 
+.yellow{
+    background-color: yellow;
+}
