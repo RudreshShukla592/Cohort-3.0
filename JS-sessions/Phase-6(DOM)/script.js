@@ -16,5 +16,5 @@ console.log(attr);
 
 btn2.addEventListener("click",()=>{
     console.log(inp.value);
-    
+    inp.value=""
 })
