@@ -1,8 +1,3 @@
-const form = document.querySelector("form")
-const inp1 = document.querySelector("#name")
-const inp2 = document.querySelector("#mail")
-const users = document.querySelector(".users")
-
 let userData=[
   {
     "id": 1,
@@ -40,22 +35,40 @@ let userData=[
     "image": "https://images.unsplash.com/photo-1504593811423-6dd665756598"
   }
 ]
+let form = document.querySelector(("form"))
+let inp1= document.querySelector("#name")
+let inp2= document.querySelector("#mail")
+let users = document.querySelector(".users")
+let url = document.querySelector("#url")
+let ui = ()=>{
+    userData.forEach((elem)=>{
+        users.innerHTML+=`<div class="u-card">
+            <div class="img-box">
+                <img src="${elem.image}" alt="">
+            </div>
+            <h3 class="text">${elem.name}</h3>
+            <h3 class="text">${elem.email}</h3>
+        </div>`
+    })
+}
+ui()
 
 form.addEventListener("submit",(events)=>{
+    users.innerHTML=""
     events.preventDefault();
-    let name = inp1.value;
-    let email = inp2.value
-    if(name.trim()==="" && email.trim()==="") return
-    users.innerHTML+=`<div class="u-card">
-           <div class="img-box">
-              <img src="https://images.unsplash.com/photo-1619441207978-3d326c46e2c9?q=80&w=1169&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="">
-           </div>
-           <div>
-            <h3  class="text">${name}</h3>
-            <h3 class="text">${email}</h3>
-           </div>
-        </div>`
+    let name = inp1.value
+    let email=inp2.value
+    let image = url.value
 
-    form.reset();
+    if(name.trim()==="" && email.trim()==="" && url.trim()==="") return
+
+    userData.push({
+        name,
+        email,
+        image
+    })
+    ui()
+
+    form.reset()
+
 })
-
