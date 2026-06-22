@@ -19,6 +19,7 @@ let randomBox = ()=>{
 
 btn.addEventListener("click",()=>{
         
+    time=0
         // For clearing the interval every time when btn is clicked
     clearInterval(interval);
 
