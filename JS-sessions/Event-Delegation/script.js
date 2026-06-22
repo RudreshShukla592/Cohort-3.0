@@ -1,9 +1,12 @@
 const main = document.querySelector("main")
 const box = document.querySelector(".box")
 const timer = document.querySelector("#timer")
+const scoree = document.querySelector("#score")
 const btn = document.querySelector("button")
+const overLay = document.querySelector(".overLay")
 
 let time=0
+let score = 0
 let interval;
 
 let randomBox = ()=>{
@@ -29,5 +32,11 @@ btn.addEventListener("click",()=>{
 
     setTimeout(()=>{
         clearInterval(interval);
+        overLay.style.display = "flex"
     },10000)
+})
+
+box.addEventListener("click",()=>{
+    score+=1;
+    scoree.textContent = score
 })
