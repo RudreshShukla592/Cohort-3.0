@@ -1,0 +1,38 @@
+*{
+  margin: 0;
+   padding: 0;
+   box-sizing: border-box;
+}
+html,body{
+   height: 100%;
+   width: 100%;
+   background-color: black;
+   color: white;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   flex-direction: column;
+   gap: 10px;
+}
+main{
+    height: 70%;
+    width: 25%;
+    border-radius: 15px;
+    border: 2px solid white;
+    padding: 10px;
+    position: relative;
+}
+button{
+    padding: 10px 20px;
+    background-color: rgb(191, 171, 210);
+    border-radius: 15px;
+    border: none;
+    cursor: pointer;
+}
+.box{
+  background-color: red;
+  height: 10%;
+  width: 15%;
+  border-radius: 10px;
+  position: absolute;
+}

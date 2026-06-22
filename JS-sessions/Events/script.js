@@ -80,4 +80,3 @@ form.addEventListener("submit",(events)=>{
 
 })
 
-// <button onclick="${delBtn(index)}" class="del">Delete</button>
