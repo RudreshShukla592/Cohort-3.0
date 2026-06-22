@@ -40,27 +40,34 @@ let inp1= document.querySelector("#name")
 let inp2= document.querySelector("#mail")
 let users = document.querySelector(".users")
 let url = document.querySelector("#url")
+
+let delBtn = (idx)=>{
+    userData.splice(idx,1)
+    ui()
+}
 let ui = ()=>{
-    userData.forEach((elem)=>{
+     users.innerHTML=""
+    userData.forEach((elem,index)=>{
         users.innerHTML+=`<div class="u-card">
             <div class="img-box">
                 <img src="${elem.image}" alt="">
             </div>
             <h3 class="text">${elem.name}</h3>
             <h3 class="text">${elem.email}</h3>
+            <button onclick="delBtn(${index})" class="del">Delete</button>
         </div>`
     })
 }
 ui()
 
 form.addEventListener("submit",(events)=>{
-    users.innerHTML=""
+    // users.innerHTML=""
     events.preventDefault();
     let name = inp1.value
     let email=inp2.value
     let image = url.value
 
-    if(name.trim()==="" && email.trim()==="" && url.trim()==="") return
+    if(name.trim()==="" && email.trim()==="" && image.trim()==="") return
 
     userData.push({
         name,
@@ -72,3 +79,5 @@ form.addEventListener("submit",(events)=>{
     form.reset()
 
 })
+
+// <button onclick="${delBtn(index)}" class="del">Delete</button>
