@@ -39,6 +39,8 @@ button{
    display: flex;
    height: 100%;
    width: 100%;
+   gap: 15px;
+   flex-wrap: wrap;
 }
 .product-card{
    height: 45%;
