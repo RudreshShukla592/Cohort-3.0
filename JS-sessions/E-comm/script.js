@@ -15,6 +15,8 @@ closeBtn.addEventListener("click",()=>{
 let products = []
 let updateIdx = null;
 
+let lsD = JSON.parse(localStorage.getItem("products"))
+
 let ui = ()=>{
    productDiv.innerHTML = ""
    products.forEach((e,idx)=>{
@@ -25,7 +27,7 @@ let ui = ()=>{
                 <div class="text">
                     <h3>${e.productName}</h3>
                     <p>${e.des}</p>
-                    <p>${e.price}</p>
+                    <p>₹${e.price}</p>
                 </div>
 
                 <div class="btns" >
@@ -64,8 +66,10 @@ form.addEventListener("submit", (event) => {
   if(updateIdx !== null){
     products[updateIdx] = obj
     updateIdx = null
+    localStorage.setItem("products", JSON.stringify(products));
   }else{
     products.push(obj)
+    localStorage.setItem("products", JSON.stringify(products));
   }
 
   ui();
@@ -89,5 +93,4 @@ let updateProduct = (name)=>{
   form[1].value = product.des;
   form[2].value = product.price;
   form[3].value = product.image;
-
 }

@@ -1,122 +1,295 @@
 *{
-  margin: 0;
-   padding: 0;
-   box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
-html,body{
-   height: 100%;
-   width: 100%;
-   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+
+html,
+body{
+    width: 100%;
+    min-height: 100%;
+    font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background: #f4f7fc;
 }
+
 main{
-   height: 100%;
-   width: 100%;
-   background-color: whitesmoke;
-   padding: 10px;
-   display: flex;
-   flex-direction: column;
-   gap: 20px;
+    min-height: 100vh;
+    width: 100%;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
 }
+
+/* ===========================
+   NAVBAR
+=========================== */
+
 nav{
-   height: 10%;
-   width: 100%;
-   display: flex;
-   align-items: center;
-   justify-content: space-between;
-   background-color: rgb(122, 122, 186);
-   color: white;
-   border-radius: 15px;
-   padding: 10px;
+    width: 100%;
+    min-height: 80px;
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 0 1.5rem;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
 }
+
+nav h1{
+    color: #111827;
+    font-size: 1.8rem;
+    font-weight: 700;
+}
+
 button{
-    padding: 10px 20px;
-    background-color: rgb(223, 208, 238);
-    border-radius: 10px;
     border: none;
     cursor: pointer;
+    transition: all 0.3s ease;
 }
+
+.create{
+    background: #4f46e5;
+    color: white;
+    padding: 12px 22px;
+    border-radius: 12px;
+    font-weight: 600;
+}
+
+.create:hover{
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(79,70,229,.3);
+}
+
+/* ===========================
+   PRODUCTS GRID
+=========================== */
+
 .products{
-   display: flex;
-   height: 100%;
-   width: 100%;
-   gap: 15px;
-   flex-wrap: wrap;
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(auto-fill,minmax(300px,1fr));
+    gap: 1.5rem;
 }
+
+/* ===========================
+   PRODUCT CARD
+=========================== */
+
 .product-card{
-   height: 45%;
-   width: 25%;
-   border-radius: 10px;
-   border: 1px solid gray;
-   padding: 10px;
-   box-shadow: 3px 0px 10px rgba(0, 0, 0, 0.434);
-   display: flex;
-   flex-direction: column;
-   gap: 5px;
+    background: white;
+    border-radius: 20px;
+    overflow: hidden;
+
+    display: flex;
+    flex-direction: column;
+
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+
+    transition: all .3s ease;
 }
+
+.product-card:hover{
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.12);
+}
+
 .img{
-   width: 100%;
-   height: 60%;
+    width: 100%;
+    height: 220px;
+    overflow: hidden;
 }
+
 .img img{
-   object-fit: cover;
-   height: 100%;
-   width: 100%;
-   border-radius: 10px;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform .4s ease;
 }
-.btns{
-   display: flex;
-   width: 100%;
-   justify-content: space-between;
-   align-items: center;
+
+.product-card:hover img{
+    transform: scale(1.05);
 }
-.del{
-   background-color: rgba(205, 46, 46, 0.751)
-}
-.upd{
-   background-color: rgb(222, 174, 51);
-}
+
 .text{
-   display: flex;
-   flex-direction: column;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: .7rem;
 }
+
+.text h3{
+    font-size: 1.25rem;
+    color: #111827;
+    font-weight: 700;
+}
+
+.text p{
+    color: #6b7280;
+    line-height: 1.5;
+    word-break: break-word;
+}
+
+/* last paragraph = price */
+.text p:last-child{
+    color: #4f46e5;
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+
+/* ===========================
+   BUTTONS
+=========================== */
+
+.btns{
+    display: flex;
+    gap: .8rem;
+    padding: 1rem;
+    margin-top: auto;
+}
+
+.btns button{
+    flex: 1;
+    padding: .8rem;
+    border-radius: 10px;
+    font-weight: 600;
+}
+
+.upd{
+    background: #f59e0b;
+    color: white;
+}
+
+.upd:hover{
+    background: #d97706;
+}
+
+.del{
+    background: #ef4444;
+    color: white;
+}
+
+.del:hover{
+    background: #dc2626;
+}
+
+/* ===========================
+   MODAL
+=========================== */
+
 .form{
-   height: 100%;
-   width: 100%;
-   background-color: rgba(0, 0, 0, 0.648);
-   position: absolute;
-   top: 0;
-   left: 0;
-   display: none;
-   flex-direction: column;
-   justify-content: center;
-   align-items: center; 
+    position: fixed;
+    inset: 0;
+
+    background: rgba(0,0,0,.55);
+    backdrop-filter: blur(6px);
+
+    display: none;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+    z-index: 999;
 }
-form{
-   display: flex;
-   flex-direction: column;
-   gap: 20px;
-   border-radius: 15px;
-   width: 50%;
-   background-color: white;
-   padding: 20px;
-}
-input{
-   padding: 10px;
-   outline: none;
-   border: 1px solid gray;
-   border-radius: 10px;
-}
+
 .top{
-   display: flex;
-   width: 50%;
-   color: white;
-   align-items: center;
-   justify-content: space-between;
-   padding: 10px;
+    width: min(500px,90%);
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: .8rem;
 }
+
 .top h1{
-   font-weight: 200;
-   font-size: 35px;
-   letter-spacing: 4px;
-   cursor: pointer;
+    color: white;
+    font-size: 2rem;
+    cursor: pointer;
+    transition: .3s;
+}
+
+.top h1:hover{
+    transform: rotate(90deg);
+}
+
+form{
+    width: min(500px,90%);
+    background: white;
+    border-radius: 24px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    padding: 2rem;
+
+    box-shadow: 0 20px 50px rgba(0,0,0,.2);
+}
+
+form h1{
+    color: #111827;
+    margin-bottom: .5rem;
+}
+
+input{
+    width: 100%;
+    padding: 14px 16px;
+
+    border: 1px solid #d1d5db;
+    border-radius: 12px;
+
+    outline: none;
+    font-size: .95rem;
+
+    transition: .3s;
+}
+
+input:focus{
+    border-color: #4f46e5;
+    box-shadow: 0 0 0 4px rgba(79,70,229,.15);
+}
+
+form button{
+    background: #4f46e5;
+    color: white;
+
+    padding: 14px;
+    border-radius: 12px;
+
+    font-weight: 600;
+    margin-top: .5rem;
+}
+
+form button:hover{
+    background: #4338ca;
+}
+
+/* ===========================
+   RESPONSIVE
+=========================== */
+
+@media (max-width: 768px){
+
+    main{
+        padding: 1rem;
+    }
+
+    nav{
+        flex-direction: column;
+        gap: 1rem;
+        padding: 1rem;
+    }
+
+    nav h1{
+        font-size: 1.5rem;
+    }
+
+    .products{
+        grid-template-columns: 1fr;
+    }
+
+    .img{
+        height: 200px;
+    }
 }
