@@ -3,6 +3,7 @@ let formDiv = document.querySelector(".form")
 let closeBtn = document.querySelector("#close")
 let form = document.querySelector("form")
 let productDiv = document.querySelector(".products")
+// let delBtn = devicePixelRatio.querySelector(".del")
 
 createBtn.addEventListener("click",()=>{
     formDiv.style.display="flex"
@@ -16,7 +17,7 @@ let products = []
 
 let ui = ()=>{
    productDiv.innerHTML = ""
-   products.forEach((e)=>{
+   products.forEach((e,idx)=>{
     productDiv.innerHTML += ` <div class="product-card">
                 <div class="img">
                     <img src="${e.image}" alt="">
@@ -29,7 +30,7 @@ let ui = ()=>{
 
                 <div class="btns" >
                     <button class="upd">Update</button>
-                    <button class="del">Delete</button>
+                    <button onclick="del(${idx})" class="del">Delete</button>
                 </div>
             </div>` 
    })
@@ -70,3 +71,8 @@ form.addEventListener("submit", (event) => {
 
   formDiv.style.display = "none";
 });
+
+let del = (id)=>{
+    products.splice(id,1)
+    ui()
+}
