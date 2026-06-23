@@ -3,7 +3,6 @@ let formDiv = document.querySelector(".form")
 let closeBtn = document.querySelector("#close")
 let form = document.querySelector("form")
 let productDiv = document.querySelector(".products")
-// let delBtn = devicePixelRatio.querySelector(".del")
 
 createBtn.addEventListener("click",()=>{
     formDiv.style.display="flex"
@@ -14,6 +13,7 @@ closeBtn.addEventListener("click",()=>{
 })
 
 let products = []
+let updateIdx = null;
 
 let ui = ()=>{
    productDiv.innerHTML = ""
@@ -29,7 +29,7 @@ let ui = ()=>{
                 </div>
 
                 <div class="btns" >
-                    <button class="upd">Update</button>
+                    <button onclick= "updateProduct('${e.productName}')" class="upd">Update</button>
                     <button onclick="del(${idx})" class="del">Delete</button>
                 </div>
             </div>` 
@@ -61,11 +61,14 @@ form.addEventListener("submit", (event) => {
     image,
   };
 
-  products.push(obj)
+  if(updateIdx !== null){
+    products[updateIdx] = obj
+    updateIdx = null
+  }else{
+    products.push(obj)
+  }
 
   ui();
-  console.log(products);
-  
 
   form.reset();
 
@@ -75,4 +78,16 @@ form.addEventListener("submit", (event) => {
 let del = (id)=>{
     products.splice(id,1)
     ui()
+}
+
+let updateProduct = (name)=>{
+   formDiv.style.display="flex"
+   let product = products.find((e)=> e.productName === name);
+   updateIdx = products.findIndex((e)=> e.productName === name);
+
+  form[0].value = product.productName;
+  form[1].value = product.des;
+  form[2].value = product.price;
+  form[3].value = product.image;
+
 }
