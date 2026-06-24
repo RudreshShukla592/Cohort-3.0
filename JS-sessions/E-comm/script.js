@@ -12,10 +12,8 @@ closeBtn.addEventListener("click",()=>{
     formDiv.style.display="none"
 })
 
-let products = []
+let products = JSON.parse(localStorage.getItem("products")) || [];
 let updateIdx = null;
-
-let lsD = JSON.parse(localStorage.getItem("products"))
 
 let ui = ()=>{
    productDiv.innerHTML = ""
@@ -37,6 +35,7 @@ let ui = ()=>{
             </div>` 
    })
 }
+ui()
 
 form.addEventListener("submit", (event) => {
   event.preventDefault();
@@ -81,6 +80,7 @@ form.addEventListener("submit", (event) => {
 
 let del = (id)=>{
     products.splice(id,1)
+    localStorage.setItem("products", JSON.stringify(products));
     ui()
 }
 
