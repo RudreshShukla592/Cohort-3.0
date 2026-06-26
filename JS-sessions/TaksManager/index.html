@@ -1,103 +1,110 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Task Manager</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
     <main>
-        <header>
-            <div class="head-left">
-                <h1>Task Manager</h1>
-            </div>
-            <div class="head-right">
-                <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme" title="Toggle light/dark mode">
-                <span class="theme-icon" id="theme-icon">🌙</span>
-                </button>
-            </div>      
-        </header>
+      <header>
+        <div class="head-left">
+          <h1>Task Manager</h1>
+        </div>
+        <div class="head-right">
+          <button id="theme-toggle" class="theme-toggle">
+            <span class="theme-icon">🌙</span>
+          </button>
+        </div>
+      </header>
 
-        <section class="add-task-section" >
-          <div class="form-card glass-card">
-            <h2 class="form-title">New Task</h2>
-            <div class="form-body">
-               <div class="field-group">
-                <div class="input-wrapper">
-                  <input
-                   type="text"
-                   id="task-title"
-                   class="form-input"
-                   placeholder="Task title…"
+      <section class="add-task-section">
+        <div class="form-card glass-card">
+          <h2 class="form-title">New Task</h2>
+
+          <form id="task-form" class="form-body">
+            <div class="field-group">
+              <div class="input-wrapper">
+                <input
+                  type="text"
+                  id="task-title"
+                  class="form-input"
+                  placeholder="Task title..."
                   maxlength="80"
                   autocomplete="off"
-                  aria-label="Task title"
-                  />
-                  
-                </div>
-               </div>
-              <div class="field-group field-row">
-            <div class="input-wrapper flex-1">
-              <textarea
-                id="task-desc"
-                class="form-input form-textarea"
-                placeholder="Description"
-                rows="2"
-                aria-label="Task description"
-              ></textarea>
-            </div>
-            <div class="side-fields">
-              <div class="input-wrapper">
-                <label for="task-priority" class="field-label">Category</label>
-                <select id="task-priority" class="form-input form-select" aria-label="Priority">
-                  <option value="low">Study</option>
-                  <option value="medium" selected>Work</option>
-                  <option value="high">Personal</option>
-                </select>
+                  required
+                />
               </div>
             </div>
-          </div>
-          <div class="form-actions">
-            <button id="add-task-btn" class="btn btn-primary">
-              <span class="btn-icon">+</span> Add Task
-            </button>
-          </div>
-          </div>
-         </div>
-        </section>
 
-        <section class="controls-bar">
-            <div class="control-all b">
-              <h3>All</h3>
-              <h3>0</h3>
-            </div>
-            <div class="control-active b">
-              <h3>Active</h3>
-              <h3>0</h3>
-            </div>
-            <div class="control-done b">
-              <h3>Done</h3>
-              <h3>0</h3>
-            </div>
-        </section>
+            <div class="field-group field-row">
+              <div class="input-wrapper flex-1">
+                <textarea
+                  id="task-desc"
+                  class="form-input form-textarea"
+                  placeholder="Description..."
+                  rows="2"
+                ></textarea>
+              </div>
 
-        <section class="tasks">
-            <div class="task-card">
-                <div class="task-detail">
-                    <h3>Study</h3>
-                    <p>Go and watch React Day 1 of Cohort 3.0 </p>
-                    <span class="priority">Study</span>
+              <div class="side-fields">
+                <div class="input-wrapper">
+                  <label for="task-priority" class="field-label"
+                    >Category</label
+                  >
+
+                  <select id="task-priority" class="form-input form-select">
+                    <option value="Study">Study</option>
+                    <option value="Work">Work</option>
+                    <option value="Personal">Personal</option>
+                  </select>
                 </div>
-                <div class="task-addon">
-                    <span class="complete">✅</span>
-                    <span class="edit">📝</span>
-                    <span class="delete">🗑️</span>
-                </div>
+              </div>
             </div>
-        </section>
+
+            <div class="form-actions">
+              <button type="submit" class="btn btn-primary">
+                <span class="btn-icon">+</span>
+                Add Task
+              </button>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <section class="controls-bar">
+        <div class="control-all b">
+          <h3>All</h3>
+          <h3>0</h3>
+        </div>
+        <div class="control-active b">
+          <h3>Active</h3>
+          <h3>0</h3>
+        </div>
+        <div class="control-done b">
+          <h3>Done</h3>
+          <h3>0</h3>
+        </div>
+      </section>
+
+      <section class="tasks">
+        <div class="task-card">
+          <div class="task-detail">
+            <h3>Study</h3>
+            <p>Go and watch React Day 1 of Cohort 3.0</p>
+            <span class="priority">Study</span>
+          </div>
+          <div class="task-addon">
+            <span class="complete">✅</span>
+            <span class="edit">📝</span>
+            <span class="delete">🗑️</span>
+          </div>
+        </div>
+      </section>
+
     </main>
 
     <script src="script.js"></script>
-</body>
+  </body>
 </html>
