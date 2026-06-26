@@ -15,11 +15,87 @@
             <div class="head-right">
                 <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme" title="Toggle light/dark mode">
                 <span class="theme-icon" id="theme-icon">🌙</span>
-                <span class="toggle-track">
-                <span class="toggle-thumb"></span>
-          </span>
-        </button>
+                </button>
+            </div>      
         </header>
+
+        <section class="add-task-section" >
+          <div class="form-card glass-card">
+            <h2 class="form-title">New Task</h2>
+            <div class="form-body">
+               <div class="field-group">
+                <div class="input-wrapper">
+                  <input
+                   type="text"
+                   id="task-title"
+                   class="form-input"
+                   placeholder="Task title…"
+                  maxlength="80"
+                  autocomplete="off"
+                  aria-label="Task title"
+                  />
+                  
+                </div>
+               </div>
+              <div class="field-group field-row">
+            <div class="input-wrapper flex-1">
+              <textarea
+                id="task-desc"
+                class="form-input form-textarea"
+                placeholder="Description"
+                rows="2"
+                aria-label="Task description"
+              ></textarea>
+            </div>
+            <div class="side-fields">
+              <div class="input-wrapper">
+                <label for="task-priority" class="field-label">Category</label>
+                <select id="task-priority" class="form-input form-select" aria-label="Priority">
+                  <option value="low">Study</option>
+                  <option value="medium" selected>Work</option>
+                  <option value="high">Personal</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="form-actions">
+            <button id="add-task-btn" class="btn btn-primary">
+              <span class="btn-icon">+</span> Add Task
+            </button>
+          </div>
+          </div>
+         </div>
+        </section>
+
+        <section class="controls-bar">
+            <div class="control-all b">
+              <h3>All</h3>
+              <h3>0</h3>
+            </div>
+            <div class="control-active b">
+              <h3>Active</h3>
+              <h3>0</h3>
+            </div>
+            <div class="control-done b">
+              <h3>Done</h3>
+              <h3>0</h3>
+            </div>
+        </section>
+
+        <section class="tasks">
+            <div class="task-card">
+                <div class="task-detail">
+                    <h3>Study</h3>
+                    <p>Go and watch React Day 1 of Cohort 3.0 </p>
+                    <span class="priority">Study</span>
+                </div>
+                <div class="task-addon">
+                    <span class="complete">✅</span>
+                    <span class="edit">📝</span>
+                    <span class="delete">🗑️</span>
+                </div>
+            </div>
+        </section>
     </main>
 
     <script src="script.js"></script>
