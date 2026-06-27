@@ -22,3 +22,66 @@ cross.addEventListener("click",function(){
     tl.reverse();
 })
 
+
+
+const bubbleBtn = document.querySelector(".bubble-btn");
+const captureBtn = document.querySelector(".capture-btn");
+const output = document.querySelector(".output");
+
+const grandparent = document.querySelector(".grandparent");
+const parent = document.querySelector(".parent");
+const child = document.querySelector(".child");
+
+// Remove previous highlights
+function resetHighlight() {
+    [grandparent, parent, child].forEach((el) => {
+        el.style.background = "rgba(255,255,255,.04)";
+        el.style.color = "white";
+    });
+
+    child.style.background =
+        "linear-gradient(135deg,var(--accent),var(--text-secondary))";
+}
+
+// Highlight animation
+function highlight(element, text, delay) {
+    setTimeout(() => {
+        element.style.background = "#22c55e";
+        element.style.color = "#fff";
+        output.textContent = text;
+    }, delay);
+}
+
+// --------------------
+// Event Bubbling Demo
+// --------------------
+
+bubbleBtn.addEventListener("click", () => {
+    resetHighlight();
+
+    highlight(child, "Child clicked", 0);
+    highlight(parent, "Parent receives event", 800);
+    highlight(grandparent, "Grandparent receives event", 1600);
+
+    setTimeout(() => {
+        output.textContent =
+            "Bubbling Order: Child → Parent → Grandparent";
+    }, 2400);
+});
+
+// --------------------
+// Event Capturing Demo
+// --------------------
+
+captureBtn.addEventListener("click", () => {
+    resetHighlight();
+
+    highlight(grandparent, "Grandparent captures event", 0);
+    highlight(parent, "Parent captures event", 800);
+    highlight(child, "Child receives event", 1600);
+
+    setTimeout(() => {
+        output.textContent =
+            "Capturing Order: Grandparent → Parent → Child";
+    }, 2400);
+});

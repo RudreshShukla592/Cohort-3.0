@@ -1,35 +1,70 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Event Propagation</title>
-     <link
-    href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css"
-    rel="stylesheet"
-/>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    
+    <link
+      href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
     <main>
-         <h1>Event Propagation</h1>
+      <header>
+        <h1>Event Propagation</h1>
+      </header>
+
+      <section class="event-demo">
+        <h2>Event Propagation Visualizer</h2>
+
+        <div class="controls">
+          <button class="bubble-btn">Start Bubbling</button>
+
+          <button class="capture-btn">Start Capturing</button>
+        </div>
+
+        <div class="visualizer">
+          <div class="grandparent">
+            Grandparent
+
+            <div class="parent">
+              Parent
+
+              <div class="child">Child</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="output">Click a button to visualize event flow</div>
+      </section>
     </main>
 
     <div class="ham-bug">
       <div class="nav">
-         <i id="ham-bug" class="ri-menu-3-line"></i>
+        <i id="ham-bug" class="ri-menu-3-line"></i>
       </div>
       <div id="full">
         <h4><a href="../index.html">Task Manager</a></h4>
         <h4><a href="./index.html">Event Propagation</a></h4>
         <h4><a href="../BrowserPipeline/index.html">Browser Pipeline</a></h4>
         <i class="ri-close-line"></i>
-    </div>
+      </div>
     </div>
 
-     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.7/gsap.min.js" integrity="sha512-f6bQMg6nkSRw/xfHw5BCbISe/dJjXrVGfz9BSDwhZtiErHwk7ifbmBEtF9vFW8UNIQPhV2uEFVyI/UHob9r7Cw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.7/ScrollTrigger.min.js" integrity="sha512-AcqPGqrrAEtEwe+ADO5R8RbdFi7tuU7b/A2cJJH0Im0D18NRk5p5s4B3E5PMuO81KFw0ClN7J5SHVUJz7KOb0A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.7/gsap.min.js"
+      integrity="sha512-f6bQMg6nkSRw/xfHw5BCbISe/dJjXrVGfz9BSDwhZtiErHwk7ifbmBEtF9vFW8UNIQPhV2uEFVyI/UHob9r7Cw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.7/ScrollTrigger.min.js"
+      integrity="sha512-AcqPGqrrAEtEwe+ADO5R8RbdFi7tuU7b/A2cJJH0Im0D18NRk5p5s4B3E5PMuO81KFw0ClN7J5SHVUJz7KOb0A=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
     <script src="script.js"></script>
-</body>
+  </body>
 </html>

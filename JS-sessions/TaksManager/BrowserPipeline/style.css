@@ -174,3 +174,109 @@ header h1{
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
+
+
+/* ===========================
+   Browser Pipeline
+=========================== */
+
+.render-section{
+    width: min(900px, 100%);
+    background: var(--bg-glass);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-xl);
+    backdrop-filter: blur(20px);
+    box-shadow: var(--shadow-card);
+    padding: 2rem;
+}
+
+.render-section h2{
+    text-align: center;
+    margin-bottom: 2rem;
+    font-size: 1.8rem;
+    color: var(--text-primary);
+}
+
+.pipeline{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: .8rem;
+}
+
+.step,
+.merge,
+.render-tree{
+    width: min(320px, 100%);
+    padding: 1rem 1.5rem;
+    border-radius: 14px;
+    text-align: center;
+    font-weight: 600;
+    transition: .3s ease;
+}
+
+.step{
+    background: rgba(255,255,255,.05);
+    border: 1px solid rgba(255,255,255,.08);
+}
+
+.merge{
+    background: linear-gradient(135deg,#6366f1,#8b5cf6);
+    color: white;
+}
+
+.render-tree{
+    background: linear-gradient(135deg,var(--accent),var(--text-secondary));
+    color: white;
+    font-size: 1.1rem;
+}
+
+.step:hover,
+.merge:hover,
+.render-tree:hover{
+    transform: translateY(-4px);
+    box-shadow: 0 10px 25px rgba(0,0,0,.2);
+}
+
+.arrow{
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: var(--accent);
+    user-select: none;
+}
+
+.result{
+    margin-top: 2rem;
+    text-align: center;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--accent);
+}
+
+/* Responsive */
+
+@media (max-width:768px){
+
+    header{
+        width:100%;
+    }
+
+    .render-section{
+        padding:1.5rem;
+    }
+
+    .render-section h2{
+        font-size:1.4rem;
+    }
+
+    .step,
+    .merge,
+    .render-tree{
+        width:100%;
+        font-size:.95rem;
+    }
+
+    .arrow{
+        font-size:1.5rem;
+    }
+}
