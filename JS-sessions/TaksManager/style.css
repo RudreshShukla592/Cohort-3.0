@@ -9,13 +9,13 @@
   --accent-hover:   #9475FF;
   --accent-glow:    rgba(124, 92, 252, 0.3);
 
-  --teal:           #00D4AA;
-  --teal-muted:     rgba(0, 212, 170, 0.15);
+  /* --teal:           #00D4AA;
+  --teal-muted:     rgba(0, 212, 170, 0.15); */
 
-  --danger:         #FF5272;
-  --danger-muted:   rgba(255, 82, 114, 0.15);
+  /* --danger:         #FF5272;
+  --danger-muted:   rgba(255, 82, 114, 0.15); */
 
-  --warn:           #FFB23F;
+  /* --warn:           #FFB23F; */
 
   --text-primary:   #F0F0FF;
   --text-secondary: #8892B0;
@@ -91,7 +91,7 @@ body::before {
   z-index: 0;
 }
 main{
-    min-height: 100vh;
+    height: 100vh;
     min-width: 50vw;
     padding: 24px 20px 80px;
     position: relative;
@@ -115,7 +115,7 @@ header{
   font-size: 28px;
   font-weight: 800;
   letter-spacing: -0.5px; 
-  background: linear-gradient(135deg, var(--accent), var(--teal));
+  background: linear-gradient(135deg, var(--accent), var(--text-secondary));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -220,10 +220,10 @@ header{
   line-height: 1.5;
 }
 
-[data-theme="light"] .form-date,
+/* [data-theme="light"] .form-date,
 [data-theme="light"] .form-select {
   color-scheme: light;
-}
+} */
 .form-actions {
   display: flex;
   justify-content: flex-end;
