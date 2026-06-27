@@ -67,7 +67,11 @@
    padding: 0;
    box-sizing: border-box;
 }
-html,body{
+html{
+    width: 100%;
+    height: 100%;
+}
+body{
    height: 100%;
    width: 100%;
    background-color: var(--bg-base);
@@ -91,7 +95,7 @@ body::before {
   z-index: 0;
 }
 main{
-    height: 100vh;
+     min-height: 100dvh;
     min-width: 50vw;
     padding: 24px 20px 80px;
     position: relative;
