@@ -1,9 +1,15 @@
 let toggleBtn = document.querySelector(".theme-toggle")
 let themeIcon = document.querySelector(".theme-icon")
 let html = document.querySelector("html")
+
 let form = document.querySelector("#task-form")
 let task = document.querySelector(".tasks")
 let taskCard = document.querySelector(".task-card")
+
+let all = document.querySelector(".all")
+let active =document.querySelector(".active")
+let done = document.querySelector(".done")
+
 /*
    THEME
  */
@@ -12,8 +18,10 @@ toggleBtn.addEventListener("click",()=>{
     else themeIcon.textContent = "🌙"
     
     let theme = html.getAttribute("data-theme")
-    if(theme === "dark") html.setAttribute("data-theme","light")
-    else html.setAttribute("data-theme","dark")
+    if(theme === "dark"){
+        html.setAttribute("data-theme","light")
+        // localStorage.setItem("theme",)
+    }else html.setAttribute("data-theme","dark")
 })
 
 let taskArr = []
@@ -22,19 +30,31 @@ let updateIdx = null;
 let ui = ()=>{
     task.innerHTML=""
     taskArr.forEach((e,idx)=>{
-        task.innerHTML+=` <div class="task-card">
+        task.innerHTML+=` <div class="task-card ${e.completed ? "completed" : ""}">
           <div class="task-detail">
             <h3>${e.title}</h3>
             <p>${e.des}</p>
             <span class="priority">${e.priority}</span>
           </div>
           <div class="task-addon">
-            <span class="complete">✅</span>
+            <span onclick="doneTask('${e.title}')" class="complete">✅</span>
             <span onclick="updateTask('${e.title}')" class="edit">✏️</span>
             <span onclick="delTask(${idx})" class="delete">🗑️</span>
           </div>
         </div>`
     })
+
+    /*UPDATION */
+        // all
+    all.textContent = taskArr.length
+
+       //done 
+    let completeTask = taskArr.filter((e)=> e.completed === true)
+    done.textContent = completeTask.length
+
+       // active
+    let pending = taskArr.filter((e)=> e.completed === false)
+    active.textContent = pending.length
 }
 
 form.addEventListener("submit",(e)=>{
@@ -48,13 +68,16 @@ form.addEventListener("submit",(e)=>{
         title,
         des,
         priority,
+        completed:false
     }
 
     if(updateIdx !== null){
         taskArr[updateIdx] = obj 
         updateIdx = null
+        // all.textContent+=1
     }else{
         taskArr.push(obj)
+        // all.textContent +=1
     }
     
     ui()
@@ -75,3 +98,38 @@ let updateTask = (name)=>{
    form[1].value = task.des;
    form[2].value = task.priority;
 }
+
+let doneTask = (name)=>{
+  let task = taskArr.find((e)=> e.title === name);
+
+  task.completed = !task.completed;
+
+  ui()
+}
+
+
+
+var menu = document.querySelector("#ham-bug");
+var cross = document.querySelector("#full i");
+var tl = gsap.timeline();
+tl.to("#full",{
+    right:0,
+    duration:0.5
+})
+tl.from("#full h4",{
+    x:150,
+    duration:0.5,
+    stagger:0.3,
+    opacity:0
+})
+tl.from("#full i",{
+    opacity:0
+})
+tl.pause()
+menu.addEventListener("click",function(){
+    tl.play();
+})
+cross.addEventListener("click",function(){
+    tl.reverse();
+})
+
