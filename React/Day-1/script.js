@@ -10,7 +10,8 @@ let rh2 = React.createElement(
     {className : "reactH2"},
     "I'm React h2"
 )
-
+let elemArr = [rh1,rh2]
 let rootOfReact = ReactDOM.createRoot(root)
-rootOfReact.render(rh1)
-rootOfReact.render(rh2)
+rootOfReact.render(elemArr)
+
+

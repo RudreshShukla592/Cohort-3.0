@@ -1,0 +1,124 @@
+/* ═══════════════════════════════════════════════════════════
+   FinTrack Pro — responsive.css
+   Breakpoints: desktop (>1024), tablet (768-1024), mobile (<768)
+═══════════════════════════════════════════════════════════ */
+
+/* ─── LARGE DESKTOP (>1400px) ──────────────────────────── */
+@media (min-width: 1400px) {
+  .stats-grid { grid-template-columns: repeat(4, 1fr); }
+  .dashboard-grid { grid-template-columns: 1fr 420px; }
+}
+
+/* ─── TABLET / LAPTOP (768px – 1024px) ─────────────────── */
+@media (max-width: 1024px) {
+  :root { --sidebar-w: 64px; }
+
+  .brand-name, .nav-label, .theme-label,
+  .settings-btn span:last-child, .sidebar-footer .theme-toggle span:last-child {
+    display: none;
+  }
+
+  .sidebar-header { justify-content: center; padding: 20px 10px; }
+  .brand { justify-content: center; }
+
+  .nav-item {
+    justify-content: center; padding: 12px;
+    border-radius: var(--radius-sm);
+  }
+
+  .nav-icon { margin: 0; font-size: 1.2rem; }
+
+  .sidebar-footer { align-items: center; padding: 12px 8px; }
+  .theme-toggle, .settings-btn { justify-content: center; padding: 10px; }
+
+  /* Stats: 2x2 grid */
+  .stats-grid { grid-template-columns: repeat(2, 1fr); }
+
+  /* Dashboard: single column */
+  .dashboard-grid { grid-template-columns: 1fr; }
+
+  /* Analytics: single column */
+  .analytics-grid { grid-template-columns: 1fr; }
+  .category-summary-card { grid-column: 1; }
+}
+
+/* ─── MOBILE (<768px) ───────────────────────────────────── */
+@media (max-width: 767px) {
+  /* Hide sidebar by default; show via JS toggle */
+  .sidebar {
+    transform: translateX(-100%);
+    width: 260px;
+    box-shadow: var(--shadow-lg);
+  }
+
+  .sidebar.open { transform: translateX(0); }
+
+  /* Restore full sidebar labels on mobile (it's full-width when open) */
+  .brand-name, .nav-label, .theme-label,
+  .settings-btn span:last-child { display: initial; }
+
+  .sidebar-close { display: flex; }
+  .hamburger    { display: flex; }
+
+  .sidebar-header {
+    padding: 20px 18px; justify-content: space-between;
+  }
+
+  .nav-item { justify-content: flex-start; }
+  .sidebar-footer { align-items: stretch; }
+  .theme-toggle, .settings-btn { justify-content: flex-start; }
+
+  /* Reset sidebar-w so main doesn't indent */
+  .main-wrapper { margin-left: 0; }
+
+  /* Topbar */
+  .topbar { padding: 0 16px; height: 58px; }
+  .user-name { display: none; }
+
+  /* Stats: full width stack */
+  .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .stat-value { font-size: 1.35rem; }
+
+  /* Content padding */
+  .content { padding: 16px; }
+
+  /* Dashboard grid */
+  .dashboard-grid { grid-template-columns: 1fr; gap: 14px; }
+
+  /* Filters */
+  .filters-bar { flex-direction: column; align-items: stretch; }
+  .filter-controls { flex-direction: column; }
+  .search-input { width: 100%; }
+
+  /* Analytics */
+  .analytics-grid { grid-template-columns: 1fr; }
+  .category-summary-card { grid-column: 1; }
+
+  /* Chart height */
+  .chart-wrap { height: 220px; }
+
+  /* Modal */
+  .modal-card { padding: 22px 18px; border-radius: var(--radius-lg); }
+  .form-row { grid-template-columns: 1fr; }
+
+  /* Cat bar on mobile */
+  .cat-bar-wrap { width: 80px; }
+
+  /* Toast */
+  .toast-container { bottom: 16px; right: 12px; left: 12px; }
+  .toast { min-width: unset; }
+}
+
+/* ─── VERY SMALL MOBILE (<400px) ───────────────────────── */
+@media (max-width: 400px) {
+  .stats-grid { grid-template-columns: 1fr; }
+  .type-toggle { flex-direction: column; }
+}
+
+/* ─── REDUCED MOTION ────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
