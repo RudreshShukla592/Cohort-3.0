@@ -52,9 +52,9 @@ function highlight(element, text, delay) {
     }, delay);
 }
 
-// --------------------
-// Event Bubbling Demo
-// --------------------
+
+// Event Bubbling 
+
 
 bubbleBtn.addEventListener("click", () => {
     resetHighlight();
@@ -69,9 +69,8 @@ bubbleBtn.addEventListener("click", () => {
     }, 2400);
 });
 
-// --------------------
-// Event Capturing Demo
-// --------------------
+
+// Event Capturing
 
 captureBtn.addEventListener("click", () => {
     resetHighlight();

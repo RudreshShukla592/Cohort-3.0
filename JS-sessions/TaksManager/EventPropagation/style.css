@@ -175,9 +175,9 @@ header h1{
 }
 
 
-/* ===========================
+/* 
    Event Propagation Section
-=========================== */
+*/
 
 .event-demo{
     width: min(900px, 100%);
@@ -195,8 +195,6 @@ header h1{
     margin-bottom: 2rem;
     color: var(--text-primary);
 }
-
-/* Buttons */
 
 .controls{
     display: flex;
@@ -223,7 +221,7 @@ header h1{
     box-shadow: 0 10px 25px rgba(0,0,0,.25);
 }
 
-/* Visualizer */
+
 
 .visualizer{
     display: flex;
@@ -269,7 +267,7 @@ header h1{
     color: white;
 }
 
-/* Hover */
+
 
 .grandparent:hover,
 .parent:hover,
@@ -277,7 +275,7 @@ header h1{
     transform: scale(1.03);
 }
 
-/* Output */
+
 
 .output{
     margin-top: 2rem;
@@ -291,7 +289,7 @@ header h1{
     color: var(--text-primary);
 }
 
-/* Responsive */
+
 
 @media (max-width:768px){
 

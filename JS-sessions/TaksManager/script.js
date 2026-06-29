@@ -14,8 +14,8 @@ let done = document.querySelector(".done");
    THEME
  */
 toggleBtn.addEventListener("click", () => {
-  if (themeIcon.textContent === "🌙") themeIcon.textContent = "☀️";
-  else themeIcon.textContent = "🌙";
+//   if (themeIcon.textContent === "🌙") themeIcon.textContent = "☀️";
+//   else themeIcon.textContent = "🌙";
 
   let theme = html.getAttribute("data-theme");
   if (theme === "dark") {
