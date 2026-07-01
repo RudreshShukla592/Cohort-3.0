@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<title>Aurora Glide — A Flappy Bird Reimagining</title>
+<meta name="description" content="A modern glassmorphism take on Flappy Bird, built with vanilla HTML, CSS and JavaScript." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<div id="app">
+  <div id="game-world" data-weather="day">
+
+    <!-- Animated sky -->
+    <div class="sky" aria-hidden="true">
+      <div class="aurora aurora-1"></div>
+      <div class="aurora aurora-2"></div>
+      <div class="aurora aurora-3"></div>
+      <div class="stars" id="stars"></div>
+      <div class="sun-moon" id="sunMoon"></div>
+    </div>
+
+    <!-- Parallax clouds -->
+    <div class="clouds-layer" id="cloudsLayer" aria-hidden="true"></div>
+
+    <!-- Distant mountains for depth -->
+    <div class="mountains" aria-hidden="true"></div>
+
+    <!-- Playable area -->
+    <div class="game-area" id="gameArea">
+      <div class="bird" id="bird" aria-hidden="true">
+        <span class="bird-wing"></span>
+        <span class="bird-eye"></span>
+        <span class="bird-beak"></span>
+        <span class="bird-blush"></span>
+      </div>
+
+      <div class="pipes-layer" id="pipesLayer" aria-hidden="true"></div>
+      <div class="particles-layer" id="particlesLayer" aria-hidden="true"></div>
+      <div class="confetti-layer" id="confettiLayer" aria-hidden="true"></div>
+
+      <div class="ground" id="ground" aria-hidden="true">
+        <div class="ground-strip"></div>
+      </div>
+    </div>
+
+    <!-- HUD -->
+    <div class="hud" id="hud">
+      <div class="score-pill" id="scorePill">
+        <span class="score-value" id="scoreValue">0</span>
+      </div>
+      <div class="hud-right">
+        <div class="best-pill" title="Best score">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M12 2L14.9 8.6L22 9.3L16.7 14.1L18.2 21.2L12 17.6L5.8 21.2L7.3 14.1L2 9.3L9.1 8.6L12 2Z" fill="currentColor"/></svg>
+          <span id="bestValue">0</span>
+        </div>
+        <button class="icon-btn" id="soundBtn" aria-label="Toggle sound" data-on="true">
+          <span class="icon-on">🔊</span>
+          <span class="icon-off">🔇</span>
+        </button>
+        <button class="icon-btn" id="pauseBtn" aria-label="Pause game">
+          <span class="icon-pause">❚❚</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Combo badge -->
+    <div class="combo-badge hidden" id="comboBadge">🔥 <span id="comboValue">3</span> in a row</div>
+
+    <!-- Start screen -->
+    <div class="overlay start-screen" id="startScreen">
+      <div class="glass-card intro-card">
+        <div class="brand-badge">AURORA GLIDE</div>
+        <h1>Fly through<br/>the shifting sky.</h1>
+        <p class="subtitle">Tap, click, or press <kbd>Space</kbd> to flap. Thread the gaps before the light changes.</p>
+        <button class="primary-btn" id="startBtn">
+          <span>Start Flying</span>
+        </button>
+        <div class="meta-row">
+          <div class="meta-item">
+            <span class="meta-label">Best</span>
+            <span class="meta-value" id="startBest">0</span>
+          </div>
+          <div class="meta-divider"></div>
+          <div class="meta-item controls-hint">
+            <span class="meta-label">Controls</span>
+            <span class="meta-value small">Space · ↑ · Tap</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pause screen -->
+    <div class="overlay pause-screen hidden" id="pauseScreen">
+      <div class="glass-card">
+        <h2>Paused</h2>
+        <p class="subtitle">Catch your breath. The wind will wait.</p>
+        <button class="primary-btn" id="resumeBtn"><span>Resume</span></button>
+      </div>
+    </div>
+
+    <!-- Game over screen -->
+    <div class="overlay gameover-screen hidden" id="gameOverScreen">
+      <div class="glass-card">
+        <div class="gameover-eyebrow">Run complete</div>
+        <h2>Grounded</h2>
+        <div class="score-summary">
+          <div class="score-block">
+            <span class="score-block-label">Score</span>
+            <span class="score-block-value" id="finalScore">0</span>
+          </div>
+          <div class="score-block">
+            <span class="score-block-label">Best</span>
+            <span class="score-block-value" id="finalBest">0</span>
+          </div>
+        </div>
+        <div class="new-best-badge hidden" id="newBestBadge">✨ New Best Score</div>
+        <div class="achievements-row" id="achievementsRow"></div>
+        <button class="primary-btn" id="restartBtn"><span>Play Again</span></button>
+      </div>
+    </div>
+
+    <!-- Achievement toast -->
+    <div class="achievement-toast hidden" id="achievementToast">
+      <span class="toast-icon">🏅</span>
+      <span class="toast-text" id="achievementToastText">Badge unlocked</span>
+    </div>
+
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
