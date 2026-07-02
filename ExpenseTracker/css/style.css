@@ -658,3 +658,182 @@ nav h3.active {
 
     background:rgba(37,99,235,.04);
 }
+
+
+
+/* responsive */
+
+/* ========================================= */
+/* Large Tablets */
+/* ========================================= */
+
+@media (max-width:1200px){
+
+    .summary-cards{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .analytics-section{
+        grid-template-columns:1fr;
+    }
+
+}
+
+/* ========================================= */
+/* Tablets */
+/* ========================================= */
+
+@media (max-width:992px){
+
+    :root{
+        --sidebar-width:220px;
+    }
+
+    .mid{
+        padding:25px;
+    }
+
+    .dashboard-header h1{
+        font-size:2rem;
+    }
+
+    .top{
+        padding:0 20px;
+    }
+
+}
+
+/* ========================================= */
+/* Mobile */
+/* ========================================= */
+
+@media (max-width: 768px) {
+
+    main{
+        display:flex;
+        flex-direction:column;
+    }
+
+    .sidebar{
+        width:100%;
+        height:auto;
+        position:static;
+        border-right:none;
+        border-bottom:1px solid var(--border);
+        padding:20px;
+    }
+
+    .sidebar-up{
+        width:100%;
+    }
+
+    .logo{
+        margin-bottom:20px;
+    }
+
+    nav{
+        flex-direction:row;
+        justify-content:center;
+        gap:15px;
+    }
+
+    nav h3{
+        flex:1;
+        text-align:center;
+    }
+
+    .sidebar-down{
+        margin-top:20px;
+    }
+
+    .transaction-btn{
+        width:100%;
+    }
+
+    .midbar{
+        width:100%;
+        height:auto;
+    }
+
+    .top{
+        padding:18px 20px;
+        height:auto;
+    }
+
+    .summary-cards{
+        grid-template-columns:1fr;
+    }
+
+    .analytics-section{
+        grid-template-columns:1fr;
+    }
+
+    .transaction-controls{
+        flex-direction:column;
+    }
+
+    .filter-select{
+        width:100%;
+    }
+
+    .transaction-section{
+        overflow-x:auto;
+    }
+
+    .transaction-table{
+        min-width:700px;
+    }
+
+}
+
+/* ========================================= */
+/* Small Mobiles */
+/* ========================================= */
+
+@media (max-width:480px){
+
+    .mid{
+
+        padding:16px;
+    }
+
+    .dashboard-header h1{
+
+        font-size:1.6rem;
+    }
+
+    .dashboard-header p{
+
+        font-size:.9rem;
+    }
+
+    .card{
+
+        padding:18px;
+    }
+
+    .card h2{
+
+        font-size:1.6rem;
+    }
+
+    .chart-card,
+    .preference-card,
+    .transaction-section{
+
+        padding:18px;
+    }
+
+    .transaction-header h2{
+
+        font-size:1.5rem;
+    }
+
+    .top-right button{
+
+        padding:8px 12px;
+
+        font-size:.9rem;
+    }
+
+}
