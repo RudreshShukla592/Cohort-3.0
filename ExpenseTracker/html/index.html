@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FinTrack Pro</title>
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/remixicon@4.9.0/fonts/remixicon.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <main>
+      <div class="sidebar">
+        <div class="sidebar-up">
+          <div class="logo">
+            <i class="ri-stack-fill"></i>
+          </div>
+          <nav>
+            <button class="nav-item active">
+              <i class="ri-dashboard-line"></i> Dashboard
+            </button>
+            <button class="nav-item">
+              <i class="ri-settings-2-line"></i> Settings
+            </button>
+          </nav>
+        </div>
+        <div class="sidebar-down">
+          <button class="transaction-btn">+ Add Transaction</button>
+        </div>
+      </div>
+      <div class="midbar">
+        <div class="top">
+          <div class="top-left"></div>
+          <div class="top-right">
+            <p>asd</p>
+            <button><i class="ri-logout-box-r-line"></i>Logout</button>
+          </div>
+        </div>
+        <div class="mid">
+          <div class="dashboard-header">
+            <h1>Financial Overview</h1>
+            <p>Real-time tracking application</p>
+          </div>
+
+          <div class="summary-cards">
+            <div class="card">
+              <div class="card-icon balance"><i class="ri-bank-line toggle-con"></i></div>
+
+              <p>Current Balance</p>
+
+              <h2>$0.00</h2>
+            </div>
+
+            <div class="card">
+              <div class="card-icon income">📈</div>
+
+              <p>Total Income</p>
+
+              <h2 class="income-text">$0.00</h2>
+            </div>
+
+            <div class="card">
+              <div class="card-icon expense">📉</div>
+
+              <p>Total Expense</p>
+
+              <h2 class="expense-text">$0.00</h2>
+            </div>
+
+            <div class="card">
+              <div class="card-icon transaction"> <i class="ri-currency-fill toggle-con"></i></div>
+
+              <p>Total Transactions</p>
+
+              <h2>0</h2>
+            </div>
+          </div>
+
+          <div class="analytics-section">
+            <div class="chart-card">
+              <h2>Cash Flow Analysis</h2>
+
+              <canvas id="financeChart"></canvas>
+            </div>
+
+            <div class="preference-card">
+              <h2>Preferences</h2>
+
+              <div class="theme-toggle">
+                <span>Dark Mode</span>
+
+                <label class="switch">
+                  <input type="checkbox" id="theme-toggle"/>
+                  <span class="slider"></span>
+                </label>
+              </div>
+
+              <button class="reset-btn">Reset All Data</button>
+            </div>
+          </div>
+
+          <div class="transaction-section">
+            <div class="transaction-header">
+              <h2>All Transactions</h2>
+            </div>
+
+            <div class="transaction-controls">
+              <div class="search-box">
+                <i class="ri-search-line"></i>
+                <input type="text" placeholder="Search transactions..." />
+              </div>
+
+              <select class="filter-select">
+                <option>All Types</option>
+                <option>Income</option>
+                <option>Expense</option>
+              </select>
+            </div>
+
+            <table class="transaction-table">
+              <thead>
+                <tr>
+                  <th>DATE</th>
+
+                  <th>DESCRIPTION</th>
+
+                  <th>CATEGORY</th>
+
+                  <th>AMOUNT</th>
+
+                  <th>ACTIONS</th>
+                </tr>
+              </thead>
+
+              <tbody id="transaction-body">
+                <!-- Transactions will be rendered here -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script src="../js/script.js"></script>
+  </body>
+</html>

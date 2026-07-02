@@ -8,11 +8,13 @@ const App = () => {
   
   let increase = ()=>{
     setcount(prev => prev + 1)
-    setcount(prev => prev + 1)
-    setcount(prev => prev + 1)
+  }
+  let reset = ()=>{
+    setcount(0)
   }
   let decrease = ()=>{
-    setcount(prev => prev - 1)
+    if(count === 0) return
+    else setcount(prev => prev - 1)
   }
 
   return (
@@ -20,6 +22,7 @@ const App = () => {
       <h1>count - {count}</h1> 
       <button onClick={increase}>Increment</button>
       <button onClick={decrease}>Decrement</button>
+      <button onClick={reset}>Reset</button>
       <About name="natwaaaaa2" age={19} />
     </div>
   )
