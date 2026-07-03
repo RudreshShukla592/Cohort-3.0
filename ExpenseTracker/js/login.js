@@ -11,11 +11,12 @@ form.addEventListener("submit", (e) => {
   }
 
   let savedUsers = JSON.parse(localStorage.getItem("users")) || [];
+  let userLogged
 
   let savedName = savedUsers.find((user) => user.username === username);
   if (savedName) {
     if (savedName.password === password) {
-      let userLogged = savedName;
+      userLogged = savedName;
     } else {
       alert("Wrong Password");
       form.reset();
@@ -26,6 +27,7 @@ form.addEventListener("submit", (e) => {
     form.reset();
     return;
   }
+
   localStorage.setItem("currentUser", JSON.stringify(userLogged));
   form.reset();
   location.href = "./index.html";
