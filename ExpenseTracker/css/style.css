@@ -837,3 +837,316 @@ nav h3.active {
     }
 
 }
+
+
+/* form css */
+
+/* ========================= */
+/* Transaction Modal */
+/* ========================= */
+
+.transaction-modal{
+
+    position:fixed;
+
+    inset:0;
+
+    background:rgba(0,0,0,.45);
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    z-index:9999;
+
+    backdrop-filter:blur(3px);
+
+    transition:.25s;
+}
+
+.hidden{
+
+    display:none;
+}
+
+/* ========================= */
+
+.modal{
+
+    width:430px;
+
+    background:var(--bg-card);
+
+    border-radius:18px;
+
+    padding:28px;
+
+    box-shadow:var(--shadow-lg);
+
+    animation:popup .25s ease;
+}
+
+@keyframes popup{
+
+    from{
+
+        opacity:0;
+
+        transform:scale(.92);
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:scale(1);
+    }
+
+}
+
+/* ========================= */
+
+.modal-header{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-bottom:22px;
+}
+
+.modal-header h2{
+
+    font-size:1.8rem;
+}
+
+.close-modal{
+
+    border:none;
+
+    background:none;
+
+    cursor:pointer;
+
+    font-size:1.7rem;
+
+    color:var(--text-secondary);
+}
+
+/* ========================= */
+
+.transaction-form{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:16px;
+}
+
+.transaction-form label{
+
+    font-weight:500;
+}
+
+.transaction-form input,
+.transaction-form select{
+
+    width:100%;
+
+    padding:13px 14px;
+
+    border:1px solid var(--border);
+
+    border-radius:10px;
+
+    background:var(--bg-input);
+
+    color:var(--text-primary);
+
+    outline:none;
+
+    transition:.2s;
+}
+
+.transaction-form input:focus,
+.transaction-form select:focus{
+
+    border-color:var(--blue);
+}
+
+/* ========================= */
+
+.double-input{
+
+    display:grid;
+
+    grid-template-columns:1fr 1fr;
+
+    gap:15px;
+}
+
+/* ========================= */
+
+.save-btn{
+
+    margin-top:10px;
+
+    padding:14px;
+
+    border:none;
+
+    border-radius:10px;
+
+    background:#000;
+
+    color:#fff;
+
+    font-size:1rem;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:.25s;
+}
+
+.save-btn:hover{
+
+    opacity:.9;
+}
+@media(max-width:600px){
+
+    .modal{
+
+        width:95%;
+
+        padding:22px;
+    }
+
+    .double-input{
+
+        grid-template-columns:1fr;
+    }
+
+}
+
+/* ========================= */
+/* Transaction Rows */
+/* ========================= */
+
+.transaction-table tbody tr{
+
+    transition:.2s;
+}
+
+.transaction-table tbody tr:hover{
+
+    background:rgba(37,99,235,.04);
+}
+
+/* ========================= */
+
+.transaction-table td{
+
+    padding:18px 12px;
+
+    vertical-align:middle;
+
+    border-bottom:1px solid var(--border);
+
+    color:var(--text-primary);
+}
+
+/* ========================= */
+
+.transaction-description{
+
+    font-weight:600;
+}
+
+/* ========================= */
+
+.category-tag{
+
+    display:inline-block;
+
+    padding:6px 12px;
+
+    border-radius:8px;
+
+    background:#f1f5f9;
+
+    color:#475569;
+
+    font-size:.9rem;
+
+    font-weight:500;
+}
+
+[data-theme="dark"] .category-tag{
+
+    background:#334155;
+
+    color:#e2e8f0;
+}
+
+/* ========================= */
+
+.transaction-table td.income{
+     color: var(--emerald);
+     /* background: rgba(16, 185, 129, 0.12); */
+    font-weight: 700;
+}
+
+.transaction-table td.expense{
+    color: var(--red);
+    font-weight: 700;
+     /* background: rgba(239, 68, 68, 0.12); */
+}
+.transaction-table td.income,
+.transaction-table td.expense{
+    background: none;
+}
+
+/* ========================= */
+
+.edit-btn,
+.delete-btn{
+
+    border:none;
+
+    background:none;
+
+    cursor:pointer;
+
+    font-size:1.1rem;
+
+    transition:.2s;
+
+    margin-right:10px;
+}
+
+.edit-btn{
+
+    color:#2563eb;
+}
+
+.edit-btn:hover{
+
+    transform:scale(1.15);
+}
+
+.delete-btn{
+
+    color:#dc2626;
+}
+
+.delete-btn:hover{
+
+    transform:scale(1.15);
+}
