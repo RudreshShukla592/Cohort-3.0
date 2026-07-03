@@ -38,14 +38,14 @@ let logOut = document.querySelector(".logOut-btn");
 let userLogged = JSON.parse(localStorage.getItem("currentUser"));
 if (!userLogged) {
   alert("Unauthorized access");
-  location.href = "./login.html";
+  location.href = "./index.html";
   // return
 } else {
   username.textContent = userLogged.username;
 }
 logOut.addEventListener("click", () => {
   localStorage.removeItem("currentUser");
-  location.href = "./login.html";
+  location.href = "./index.html";
 });
 
 /* add trans. btn added*/

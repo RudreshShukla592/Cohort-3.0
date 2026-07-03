@@ -30,5 +30,5 @@ form.addEventListener("submit", (e) => {
 
   localStorage.setItem("currentUser", JSON.stringify(userLogged));
   form.reset();
-  location.href = "./index.html";
+  location.href = "./dashboard.html";
 });
