@@ -2,6 +2,16 @@
 let themeSlider = document.querySelector("#theme-toggle");
 let html = document.querySelector("html");
 
+let balanceData = document.querySelector(".current");
+let incomeData = document.querySelector(".income-data");
+let expenseData = document.querySelector(".expense-data");
+let transactionData = document.querySelector(".transaction-data");
+
+let searchInput = document.querySelector(".search-input");
+let filterSelect = document.querySelector(".filter-select");
+
+let ctx = document.querySelector("#financeChart");
+
 themeSlider.addEventListener("change", () => {
   if (themeSlider.checked) {
     html.setAttribute("data-theme", "dark");
@@ -24,41 +34,102 @@ if (savedTheme) {
 
 /* Route Protection and Logout logic*/
 let username = document.querySelector(".username");
-let logOut = document.querySelector(".logOut-btn")
-let userLogged = JSON.parse(localStorage.getItem("currentUser"))
-if(!userLogged){
-  alert("Unauthorized access")
+let logOut = document.querySelector(".logOut-btn");
+let userLogged = JSON.parse(localStorage.getItem("currentUser"));
+if (!userLogged) {
+  alert("Unauthorized access");
   location.href = "./login.html";
   // return
+} else {
+  username.textContent = userLogged.username;
 }
-else{
-  username.textContent = userLogged.username
-}
-logOut.addEventListener("click",()=>{
-   localStorage.removeItem("currentUser")
-   location.href = "./login.html";
-})
+logOut.addEventListener("click", () => {
+  localStorage.removeItem("currentUser");
+  location.href = "./login.html";
+});
 
 /* add trans. btn added*/
-let transactionBtn = document.querySelector(".transaction-btn")
-let transactionModal = document.querySelector(".transaction-modal")
-let cross = document.querySelector(".cross")
-transactionBtn.addEventListener("click",()=>{
-  transactionModal.classList.remove("hidden")
-})
-cross.addEventListener("click",()=>{
-  transactionModal.classList.add("hidden")
-})
+let transactionBtn = document.querySelector(".transaction-btn");
+let transactionModal = document.querySelector(".transaction-modal");
+let cross = document.querySelector(".cross");
+transactionBtn.addEventListener("click", () => {
+  transactionModal.classList.remove("hidden");
+});
+cross.addEventListener("click", () => {
+  transactionModal.classList.add("hidden");
+});
 
+let transactionForm = document.querySelector(".transaction-form");
+let transactionBody = document.querySelector("#transaction-body");
 
-let transactionForm = document.querySelector(".transaction-form")
-let transactionBody = document.querySelector("#transaction-body")
+const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+const storageKey = `transactions_${currentUser.username}`;
 
-let transactions = JSON.parse(localStorage.getItem("transactions")) || []
-let ui = ()=>{
-  transactionBody.innerHTML = ""
-  transactions.forEach((e,idx)=>{
-    transactionBody.innerHTML+= `<tr>
+let transactions = JSON.parse(localStorage.getItem(storageKey)) || [];
+
+const financeChart = new Chart(ctx, {
+  type: "bar",
+
+  data: {
+    labels: ["Income", "Expense"],
+
+    datasets: [
+      {
+        label: "Cash Flow",
+
+        data: [0, 0],
+
+        backgroundColor: ["#10b981", "#ef4444"],
+
+        borderRadius: 8,
+
+        borderWidth: 0,
+      },
+    ],
+  },
+
+  options: {
+    responsive: true,
+
+    maintainAspectRatio: false,
+
+    plugins: {
+      legend: {
+        display: true,
+      },
+    },
+
+    scales: {
+      y: {
+        beginAtZero: true,
+      },
+    },
+  },
+});
+
+searchInput.addEventListener("input", (e) => {
+    let data = e.target.value.toLowerCase()
+    let filterData = transactions.filter((e)=> e.des.toLowerCase().includes(data))
+    ui(filterData)
+});
+
+filterSelect.addEventListener("change", (e) => {
+    let data = e.target.value.toLowerCase().trim();
+
+    if (data === "alltypes") {
+        ui(transactions);
+        return;
+    }
+
+    let filterData = transactions.filter((e) => e.type === data);
+
+    ui(filterData);
+});
+
+let ui = (arr) => {
+  transactionBody.innerHTML = "";
+  arr.forEach((e, idx) => {
+    transactionBody.innerHTML += `<tr>
                   <td>${e.date}</td>
 
                   <td class="transaction-description">${e.des}</td>
@@ -70,73 +141,97 @@ let ui = ()=>{
                   <td class="${e.type === "income" ? "income" : "expense"}">${e.type === "income" ? "+" : "-"} $${e.amount}</td>
 
                   <td>
-                    <button onclick="update('${idx}')" class="edit-btn">
+                    <button onclick="update(${e.id})" class="edit-btn">
                       <i class="ri-pencil-fill"></i>
                     </button>
 
-                    <button onclick="del(${idx})" class="delete-btn">
+                    <button onclick="del(${e.id})" class="delete-btn">
                       <i  class="ri-delete-bin-6-fill"></i>
                     </button>
                   </td>
-                </tr>`
-  })
-}
-ui()
+                </tr>`;
+  });
 
-transactionForm.addEventListener("submit",(e)=>{
-  e.preventDefault()
-  let type = e.target[0].value
-  let des = e.target[1].value
-  let amount = e.target[2].value
-  let date = e.target[3].value
-  let category = e.target[4].value
+  transactionData.textContent = transactions.length;
 
-  let obj={
+  const incomeArr = transactions.filter((e) => e.type === "income");
+  const incomeTotal = incomeArr.reduce(
+    (acc, val) => acc + Number(val.amount),
+    0,
+  );
+
+  const expenseArr = transactions.filter((e) => e.type === "expense");
+  const expenseTotal = expenseArr.reduce(
+    (acc, val) => acc + Number(val.amount),
+    0,
+  );
+
+  incomeData.textContent = incomeTotal;
+  expenseData.textContent = expenseTotal;
+  balanceData.textContent = incomeTotal - expenseTotal;
+
+  financeChart.data.datasets[0].data = [incomeTotal, expenseTotal];
+
+  financeChart.update();
+};
+ui(transactions);
+
+transactionForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+  let type = e.target[0].value;
+  let des = e.target[1].value;
+  let amount = e.target[2].value;
+  let date = e.target[3].value;
+  let category = e.target[4].value;
+
+  let obj = {
+    id: Date.now(),
     type,
     des,
     amount,
     date,
-    category
-  }
+    category,
+  };
 
-  if(updateIdx!== null){
-      transactions[updateIdx] =  obj
-      updateIdx = null
-      localStorage.setItem("transactions", JSON.stringify(transactions))
-  }else{
-     transactions.unshift(obj)
-     localStorage.setItem("transactions", JSON.stringify(transactions))
+  if (updateIdx !== null) {
+    transactions[updateIdx] = obj;
+    updateIdx = null;
+    localStorage.setItem(storageKey, JSON.stringify(transactions));
+  } else {
+    transactions.unshift(obj);
+    localStorage.setItem(storageKey, JSON.stringify(transactions));
   }
-  ui()
-   
-  transactionForm.reset()
-  transactionModal.classList.add("hidden")
-})
+  ui(transactions);
 
-let del = (id)=>{
-    transactions.splice(id,1)
-    localStorage.setItem("transactions", JSON.stringify(transactions))
-    ui()
-}
+  transactionForm.reset();
+  transactionModal.classList.add("hidden");
+});
+
+let del = (id) => {
+  let delTransaction = transactions.findIndex((e)=> e.id === id)
+  transactions.splice(delTransaction, 1);
+  localStorage.setItem(storageKey, JSON.stringify(transactions));
+ ui(transactions);
+};
 
 let updateIdx = null;
-let update = (idx)=>{
-  transactionModal.classList.remove("hidden")
-  updateIdx = idx;
-  let currentTransaction = transactions[idx];
+let update = (id) => {
+  transactionModal.classList.remove("hidden");
+  updateIdx = transactions.findIndex((e) => e.id === id);
+  let currentTransaction = transactions[updateIdx];
 
-  transactionForm[0].value = currentTransaction.type
-  transactionForm[1].value = currentTransaction.des
-  transactionForm[2].value = currentTransaction.amount
-  transactionForm[3].value = currentTransaction.date
-  transactionForm[4].value = currentTransaction.category
-}
+  transactionForm[0].value = currentTransaction.type;
+  transactionForm[1].value = currentTransaction.des;
+  transactionForm[2].value = currentTransaction.amount;
+  transactionForm[3].value = currentTransaction.date;
+  transactionForm[4].value = currentTransaction.category;
+};
 
 // reset btn
 
-let resetBtn = document.querySelector(".reset-btn")
-resetBtn.addEventListener("click",()=>{
-  transactions.length = 0
-  localStorage.setItem("transactions", JSON.stringify(transactions))
-  ui()
-})
+let resetBtn = document.querySelector(".reset-btn");
+resetBtn.addEventListener("click", () => {
+  transactions.length = 0;
+  localStorage.setItem(storageKey, JSON.stringify(transactions));
+  ui(transactions);
+});

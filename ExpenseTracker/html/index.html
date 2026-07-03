@@ -58,7 +58,7 @@
 
               <p>Current Balance</p>
 
-              <h2>$0.00</h2>
+              <h2 class="current">$0.00</h2>
             </div>
 
             <div class="card">
@@ -66,7 +66,7 @@
 
               <p>Total Income</p>
 
-              <h2 class="income-text">$0.00</h2>
+              <h2 class="income-text income-data">$0.00</h2>
             </div>
 
             <div class="card">
@@ -74,7 +74,7 @@
 
               <p>Total Expense</p>
 
-              <h2 class="expense-text">$0.00</h2>
+              <h2 class="expense-text expense-data">$0.00</h2>
             </div>
 
             <div class="card">
@@ -84,7 +84,7 @@
 
               <p>Total Transactions</p>
 
-              <h2>0</h2>
+              <h2 class="transaction-data">0</h2>
             </div>
           </div>
 
@@ -92,7 +92,9 @@
             <div class="chart-card">
               <h2>Cash Flow Analysis</h2>
 
-              <canvas id="financeChart"></canvas>
+              <div class="chart-container">
+                <canvas id="financeChart"></canvas>
+              </div>
             </div>
 
             <div class="preference-card">
@@ -119,11 +121,11 @@
             <div class="transaction-controls">
               <div class="search-box">
                 <i class="ri-search-line"></i>
-                <input type="text" placeholder="Search transactions..." />
+                <input type="text" class="search-input" placeholder="Search transactions..." />
               </div>
 
               <select class="filter-select">
-                <option>All Types</option>
+                <option value="alltypes">All Types</option>
                 <option>Income</option>
                 <option>Expense</option>
               </select>
