@@ -121,7 +121,11 @@
             <div class="transaction-controls">
               <div class="search-box">
                 <i class="ri-search-line"></i>
-                <input type="text" class="search-input" placeholder="Search transactions..." />
+                <input
+                  type="text"
+                  class="search-input"
+                  placeholder="Search transactions..."
+                />
               </div>
 
               <select class="filter-select">
@@ -130,47 +134,27 @@
                 <option>Expense</option>
               </select>
             </div>
+            <div class="table-wrapper">
+              <table class="transaction-table">
+                <thead>
+                  <tr>
+                    <th>DATE</th>
 
-            <table class="transaction-table">
-              <thead>
-                <tr>
-                  <th>DATE</th>
+                    <th>DESCRIPTION</th>
 
-                  <th>DESCRIPTION</th>
+                    <th>CATEGORY</th>
 
-                  <th>CATEGORY</th>
+                    <th>AMOUNT</th>
 
-                  <th>AMOUNT</th>
+                    <th>ACTIONS</th>
+                  </tr>
+                </thead>
 
-                  <th>ACTIONS</th>
-                </tr>
-              </thead>
-
-              <tbody id="transaction-body">
-                <!-- Transactions will be rendered here -->
-                <!-- <tr>
-                  <td>2026-07-03</td>
-
-                  <td class="transaction-description">sXdcv</td>
-
-                  <td>
-                    <span class="category-tag"> Petrol & Auto </span>
-                  </td>
-
-                  <td class="income">+$234.00</td>
-
-                  <td>
-                    <button class="edit-btn">
-                      <i class="ri-pencil-fill"></i>
-                    </button>
-
-                    <button onclick="" class="delete-btn">
-                      <i class="ri-delete-bin-6-fill"></i>
-                    </button>
-                  </td>
-                </tr> -->
-              </tbody>
-            </table>
+                <tbody id="transaction-body">
+                  <!-- Transactions will be rendered here -->
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>

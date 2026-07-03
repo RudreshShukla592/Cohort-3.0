@@ -776,9 +776,10 @@ nav h3.active {
         width:100%;
     }
 
-    .transaction-section{
-        overflow-x:auto;
-    }
+    .table-wrapper{
+    width:100%;
+    overflow-x:auto;
+}
 
     .transaction-table{
         min-width:700px;
