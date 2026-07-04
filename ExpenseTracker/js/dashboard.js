@@ -12,6 +12,23 @@ let filterSelect = document.querySelector(".filter-select");
 
 let ctx = document.querySelector("#financeChart");
 
+// setting & dashboard toggle
+let settings = document.querySelector(".settings")
+let dashboard = document.querySelector(".mid")
+
+let dashboardBtn = document.querySelector("#dashboard-btn")
+let settingsBtn = document.querySelector("#settings-btn")
+
+dashboardBtn.addEventListener("click",()=>{
+   dashboard.classList.remove("hidden")
+   settings.classList.add("hidden")
+})
+settingsBtn.addEventListener("click",()=>{
+  settings.classList.remove("hidden")
+  dashboard.classList.add("hidden")
+})
+
+
 themeSlider.addEventListener("change", () => {
   if (themeSlider.checked) {
     html.setAttribute("data-theme", "dark");
@@ -235,3 +252,18 @@ resetBtn.addEventListener("click", () => {
   localStorage.setItem(storageKey, JSON.stringify(transactions));
   ui(transactions);
 });
+
+
+let settingsForm = document.querySelector(".settings-form")
+let profileNameSettings = document.querySelector(".profile-name")
+profileNameSettings.value= currentUser.username
+settingsForm.addEventListener("submit",(e)=>{
+  e.preventDefault()
+  let newUser = e.target[0].value.trim()
+  let newCurrency = e.target[1].value
+  
+  currentUser.username = newUser
+  currentUser.currency = newCurrency;
+
+  localStorage.setItem("currentUser", JSON.stringify(currentUser));
+})
