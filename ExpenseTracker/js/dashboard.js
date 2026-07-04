@@ -13,21 +13,20 @@ let filterSelect = document.querySelector(".filter-select");
 let ctx = document.querySelector("#financeChart");
 
 // setting & dashboard toggle
-let settings = document.querySelector(".settings")
-let dashboard = document.querySelector(".mid")
+let settings = document.querySelector(".settings");
+let dashboard = document.querySelector(".mid");
 
-let dashboardBtn = document.querySelector("#dashboard-btn")
-let settingsBtn = document.querySelector("#settings-btn")
+let dashboardBtn = document.querySelector("#dashboard-btn");
+let settingsBtn = document.querySelector("#settings-btn");
 
-dashboardBtn.addEventListener("click",()=>{
-   dashboard.classList.remove("hidden")
-   settings.classList.add("hidden")
-})
-settingsBtn.addEventListener("click",()=>{
-  settings.classList.remove("hidden")
-  dashboard.classList.add("hidden")
-})
-
+dashboardBtn.addEventListener("click", () => {
+  dashboard.classList.remove("hidden");
+  settings.classList.add("hidden");
+});
+settingsBtn.addEventListener("click", () => {
+  settings.classList.remove("hidden");
+  dashboard.classList.add("hidden");
+});
 
 themeSlider.addEventListener("change", () => {
   if (themeSlider.checked) {
@@ -125,22 +124,24 @@ const financeChart = new Chart(ctx, {
 });
 
 searchInput.addEventListener("input", (e) => {
-    let data = e.target.value.toLowerCase()
-    let filterData = transactions.filter((e)=> e.des.toLowerCase().includes(data))
-    ui(filterData)
+  let data = e.target.value.toLowerCase();
+  let filterData = transactions.filter((e) =>
+    e.des.toLowerCase().includes(data),
+  );
+  ui(filterData);
 });
 
 filterSelect.addEventListener("change", (e) => {
-    let data = e.target.value.toLowerCase().trim();
+  let data = e.target.value.toLowerCase().trim();
 
-    if (data === "alltypes") {
-        ui(transactions);
-        return;
-    }
+  if (data === "alltypes") {
+    ui(transactions);
+    return;
+  }
 
-    let filterData = transactions.filter((e) => e.type === data);
+  let filterData = transactions.filter((e) => e.type === data);
 
-    ui(filterData);
+  ui(filterData);
 });
 
 let ui = (arr) => {
@@ -155,7 +156,7 @@ let ui = (arr) => {
                     <span class="category-tag">${e.category}</span>
                   </td>
 
-                  <td class="${e.type === "income" ? "income" : "expense"}">${e.type === "income" ? "+" : "-"} $${e.amount}</td>
+                  <td class="${e.type === "income" ? "income" : "expense"}">${e.type === "income" ? "+" : "-"} ${currentUser.currency || "$"}${e.amount}</td>
 
                   <td>
                     <button onclick="update(${e.id})" class="edit-btn">
@@ -183,9 +184,9 @@ let ui = (arr) => {
     0,
   );
 
-  incomeData.textContent = incomeTotal;
-  expenseData.textContent = expenseTotal;
-  balanceData.textContent = incomeTotal - expenseTotal;
+  incomeData.textContent = `${currentUser.currency || "$"}${incomeTotal}`;
+  expenseData.textContent = `${currentUser.currency || "$"}${expenseTotal}`;
+  balanceData.textContent = `${currentUser.currency || "$"}${incomeTotal - expenseTotal}`;
 
   financeChart.data.datasets[0].data = [incomeTotal, expenseTotal];
 
@@ -225,10 +226,10 @@ transactionForm.addEventListener("submit", (e) => {
 });
 
 let del = (id) => {
-  let delTransaction = transactions.findIndex((e)=> e.id === id)
+  let delTransaction = transactions.findIndex((e) => e.id === id);
   transactions.splice(delTransaction, 1);
   localStorage.setItem(storageKey, JSON.stringify(transactions));
- ui(transactions);
+  ui(transactions);
 };
 
 let updateIdx = null;
@@ -253,17 +254,48 @@ resetBtn.addEventListener("click", () => {
   ui(transactions);
 });
 
+// settings logic
+let settingsForm = document.querySelector(".settings-form");
+let profileNameSettings = document.querySelector(".profile-name");
+let currencySelect = document.querySelector(".currency-select");
 
-let settingsForm = document.querySelector(".settings-form")
-let profileNameSettings = document.querySelector(".profile-name")
-profileNameSettings.value= currentUser.username
-settingsForm.addEventListener("submit",(e)=>{
-  e.preventDefault()
-  let newUser = e.target[0].value.trim()
-  let newCurrency = e.target[1].value
-  
-  currentUser.username = newUser
+profileNameSettings.value = currentUser.username;
+currencySelect.value = currentUser.currency || "$";
+
+settingsForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+  let newUser = e.target[0].value.trim();
+  let newCurrency = e.target[1].value;
+
+  let oldUsername = currentUser.username;
+
+  currentUser.username = newUser;
   currentUser.currency = newCurrency;
 
   localStorage.setItem("currentUser", JSON.stringify(currentUser));
-})
+
+  if(oldUsername !== newUser){
+    const oldStorageKey = `transactions_${oldUsername}`;
+    const newStorageKey = `transactions_${newUser}`;
+
+    const oldTransactions = JSON.parse(localStorage.getItem(oldStorageKey)) || [];
+
+    localStorage.setItem(newStorageKey, JSON.stringify(oldTransactions));
+    localStorage.removeItem(oldStorageKey)
+  }
+
+  let savedUsers = JSON.parse(localStorage.getItem("users")) || [];
+  let idx = savedUsers.findIndex((e) => e.username === oldUsername);
+  if(idx !== -1) {
+    savedUsers[idx].username = newUser;
+    savedUsers[idx].currency = newCurrency;
+
+    localStorage.setItem("users", JSON.stringify(savedUsers));
+  }
+
+  username.textContent = newUser;
+
+  alert("Profile updated successfully!");
+
+  ui(transactions);
+});
