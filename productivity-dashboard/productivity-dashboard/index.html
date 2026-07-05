@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aura — Productivity Dashboard</title>
+
+<!-- Anti-flash: apply saved theme BEFORE first paint -->
+<script>
+  (function () {
+    var saved = localStorage.getItem('theme');
+    document.documentElement.setAttribute('data-theme', saved === 'light' ? 'light' : 'dark');
+  })();
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Dynamic background layer sits behind everything -->
+  <div class="bg-layer" id="bgLayer"></div>
+  <div class="bg-noise"></div>
+
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-dot"></span>
+      <span class="brand-name">Aura</span>
+    </div>
+
+    <div class="topbar-center">
+      <time id="liveClock" class="live-clock">--:--:--</time>
+      <span id="liveDate" class="live-date">Loading date…</span>
+    </div>
+
+    <div class="topbar-right">
+      <button id="shortcutsBtn" class="icon-btn" aria-label="Keyboard shortcuts" data-tooltip="Shortcuts (?)">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M6 9h.01M10 9h.01M14 9h.01M18 9h.01M6 13h12" stroke-linecap="round"/></svg>
+      </button>
+      <button id="themeToggle" class="icon-btn" aria-label="Toggle theme" data-tooltip="Toggle theme">
+        <svg class="icon-sun" viewBox="0 0 24 24" width="19" height="19"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M1 12h2M21 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
+        <svg class="icon-moon" viewBox="0 0 24 24" width="19" height="19"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" fill="currentColor"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- ============ DASHBOARD (home) VIEW ============ -->
+  <main id="dashboardView" class="dashboard">
+    <div class="dashboard-intro">
+      <h1 id="greeting">Good evening, let's get things done.</h1>
+      <p>Pick a tool below to get started.</p>
+    </div>
+
+    <div class="card-grid">
+      <button class="feature-card" data-feature="todo">
+        <span class="card-icon">✅</span>
+        <h3>Todo List</h3>
+        <p>Capture and organize your tasks</p>
+      </button>
+
+      <button class="feature-card" data-feature="planner">
+        <span class="card-icon">🗓️</span>
+        <h3>Daily Planner</h3>
+        <p>Plan your day, hour by hour</p>
+      </button>
+
+      <button class="feature-card" data-feature="goals">
+        <span class="card-icon">🎯</span>
+        <h3>Daily Goals</h3>
+        <p>Track today's key wins</p>
+      </button>
+
+      <button class="feature-card" data-feature="timer">
+        <span class="card-icon">⏱️</span>
+        <h3>Pomodoro Timer</h3>
+        <p>Focus in structured sprints</p>
+      </button>
+
+      <button class="feature-card" data-feature="quote">
+        <span class="card-icon">💡</span>
+        <h3>Motivation</h3>
+        <p>A spark of inspiration</p>
+      </button>
+
+      <button class="feature-card" data-feature="weather">
+        <span class="card-icon">⛅</span>
+        <h3>Weather</h3>
+        <p>Check today's conditions</p>
+      </button>
+    </div>
+  </main>
+
+  <!-- ============ FULL-SCREEN FEATURE VIEW ============ -->
+  <section id="featureView" class="feature-view" hidden>
+    <button id="backBtn" class="back-btn">
+      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Back to dashboard
+    </button>
+
+    <div id="featureContent" class="feature-content">
+
+      <!-- ---------- TODO PANEL ---------- -->
+      <div class="feature-panel" data-panel="todo" hidden>
+        <div class="panel-header">
+          <h2>Todo List</h2>
+          <span class="panel-sub" id="todoCount">0 tasks</span>
+        </div>
+
+        <form id="todoForm" class="input-row">
+          <input type="text" id="todoInput" placeholder="What needs to get done?" autocomplete="off" maxlength="120">
+          <button type="submit" class="btn-primary">Add Task</button>
+        </form>
+
+        <ul id="todoList" class="item-list"></ul>
+        <p id="todoEmpty" class="empty-state" hidden>No tasks yet — add your first one above.</p>
+      </div>
+
+      <!-- ---------- PLANNER PANEL ---------- -->
+      <div class="feature-panel" data-panel="planner" hidden>
+        <div class="panel-header">
+          <h2>Daily Planner</h2>
+          <span class="panel-sub">Plan hour by hour</span>
+        </div>
+        <div id="plannerList" class="planner-list"></div>
+      </div>
+
+      <!-- ---------- GOALS PANEL ---------- -->
+      <div class="feature-panel" data-panel="goals" hidden>
+        <div class="panel-header">
+          <h2>Daily Goals</h2>
+          <span class="panel-sub" id="goalsProgressText">0 of 0 completed</span>
+        </div>
+
+        <div class="progress-track">
+          <div class="progress-fill" id="goalsProgressFill"></div>
+        </div>
+
+        <form id="goalsForm" class="input-row">
+          <input type="text" id="goalsInput" placeholder="Add a goal for today…" autocomplete="off" maxlength="100">
+          <button type="submit" class="btn-primary">Add Goal</button>
+        </form>
+
+        <ul id="goalsList" class="item-list"></ul>
+        <p id="goalsEmpty" class="empty-state" hidden>No goals yet — what do you want to win today?</p>
+      </div>
+
+      <!-- ---------- POMODORO PANEL ---------- -->
+      <div class="feature-panel" data-panel="timer" hidden>
+        <div class="panel-header">
+          <h2>Pomodoro Timer</h2>
+          <span class="panel-sub" id="timerSessionLabel">Work Session</span>
+        </div>
+
+        <div class="timer-wrap">
+          <svg class="timer-ring" viewBox="0 0 220 220">
+            <circle class="ring-track" cx="110" cy="110" r="100"></circle>
+            <circle class="ring-progress" id="ringProgress" cx="110" cy="110" r="100"></circle>
+          </svg>
+          <div class="timer-display" id="timerDisplay">25:00</div>
+        </div>
+
+        <div class="timer-controls">
+          <button id="timerStart" class="btn-primary">Start</button>
+          <button id="timerPause" class="btn-secondary" disabled>Pause</button>
+          <button id="timerReset" class="btn-secondary">Reset</button>
+        </div>
+
+        <div class="timer-modes">
+          <button class="mode-btn active" data-mode="work" data-minutes="25">Work · 25m</button>
+          <button class="mode-btn" data-mode="short" data-minutes="5">Short Break · 5m</button>
+          <button class="mode-btn" data-mode="long" data-minutes="15">Long Break · 15m</button>
+        </div>
+      </div>
+
+      <!-- ---------- QUOTE PANEL ---------- -->
+      <div class="feature-panel" data-panel="quote" hidden>
+        <div class="panel-header">
+          <h2>Motivation</h2>
+          <span class="panel-sub">Fresh inspiration, on demand</span>
+        </div>
+
+        <div class="quote-card" id="quoteCard">
+          <p class="quote-text" id="quoteText">Loading a spark of inspiration…</p>
+          <p class="quote-author" id="quoteAuthor"></p>
+        </div>
+
+        <button id="newQuoteBtn" class="btn-primary">New Quote</button>
+      </div>
+
+      <!-- ---------- WEATHER PANEL ---------- -->
+      <div class="feature-panel" data-panel="weather" hidden>
+        <div class="panel-header">
+          <h2>Weather</h2>
+          <span class="panel-sub" id="weatherLocation">Locating…</span>
+        </div>
+
+        <div class="weather-card" id="weatherCard">
+          <div class="weather-main">
+            <span class="weather-icon" id="weatherIcon">⛅</span>
+            <span class="weather-temp" id="weatherTemp">--°</span>
+          </div>
+          <p class="weather-condition" id="weatherCondition">Fetching weather…</p>
+
+          <div class="weather-details">
+            <div class="weather-stat">
+              <span class="stat-label">Humidity</span>
+              <span class="stat-value" id="weatherHumidity">--%</span>
+            </div>
+            <div class="weather-stat">
+              <span class="stat-label">Wind</span>
+              <span class="stat-value" id="weatherWind">-- km/h</span>
+            </div>
+            <div class="weather-stat">
+              <span class="stat-label">Feels like</span>
+              <span class="stat-value" id="weatherFeels">--°</span>
+            </div>
+          </div>
+        </div>
+        <button id="retryWeatherBtn" class="btn-secondary" hidden>Retry</button>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Toast notification container -->
+  <div id="toastContainer" class="toast-container" aria-live="polite"></div>
+
+  <!-- Confetti layer -->
+  <div id="confettiLayer" class="confetti-layer"></div>
+
+  <!-- Keyboard shortcuts modal -->
+  <!-- <div id="shortcutsModal" class="modal-backdrop" hidden>
+    <div class="modal-card">
+      <h3>Keyboard Shortcuts</h3>
+      <ul class="shortcuts-list">
+        <li><kbd>1</kbd>–<kbd>6</kbd><span>Open a feature</span></li>
+        <li><kbd>Esc</kbd><span>Back to dashboard</span></li>
+        <li><kbd>T</kbd><span>Toggle theme</span></li>
+        <li><kbd>?</kbd><span>Show this panel</span></li>
+      </ul>
+      <button id="closeShortcuts" class="btn-secondary">Close</button>
+    </div>
+  </div> -->
+
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>
