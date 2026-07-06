@@ -32,10 +32,10 @@
         <span class="brand-name">Productivity Dashboard</span>
       </div>
 
-      <!-- <div class="topbar-center">
+      <div class="topbar-center">
         <time id="liveClock" class="live-clock">--:--:--</time>
         <span id="liveDate" class="live-date">Loading date…</span>
-      </div> -->
+      </div>
 
       <button
         class="theme-toggle"
@@ -61,7 +61,6 @@
       </button>
     </header>
 
-    
     <main id="dashboardView" class="dashboard">
       <section class="page home">
         <div class="dashboard-intro">
@@ -203,12 +202,45 @@
             <i class="ri-arrow-left-line"></i> Back to Dashboard
           </button>
         </div>
+        <div class="timer-container">
+          <div class="timer-header">
+            <h2>Pomodoro Timer</h2>
+
+            <span class="timer-status"> Focus Time </span>
+          </div>
+
+          <div class="timer-display">
+            <h1 id="timer">25:00</h1>
+          </div>
+
+          <div class="timer-controls">
+            <button id="startBtn" class="timer-btn primary">Start</button>
+
+            <button id="pauseBtn" class="timer-btn">Pause</button>
+
+            <button id="resetBtn" class="timer-btn">Reset</button>
+          </div>
+        </div>
       </section>
 
       <section class="page quote hidden">
         <div class="backwards">
           <button class="backArrow" data-feature="quote">
             <i class="ri-arrow-left-line"></i> Back to Dashboard
+          </button>
+        </div>
+        <div class="quote-container">
+          <h2>Quote of the Day</h2>
+
+          <div class="quote-card">
+            <p id="quoteText">Loading inspiration...</p>
+
+            <span id="quoteAuthor"> — </span>
+          </div>
+
+          <button id="newQuoteBtn" class="quote-btn">
+            <i class="ri-refresh-line"></i>
+            New Quote
           </button>
         </div>
       </section>
@@ -220,7 +252,6 @@
           </button>
         </div>
       </section>
-
     </main>
 
     <script type="module" src="./js/main.js"></script>

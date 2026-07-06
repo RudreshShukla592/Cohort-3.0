@@ -1,6 +1,10 @@
 import initTodo from "./todo.js";
 import initPlanner from "./planner.js";
 import initGoal from "./goal.js";
+import initTimer from "./timer.js";
+import initQuote from "./quote.js";
+import initClock from "./clock.js";
+import initWeather from "./weather.js";
 
 let themeBtn = document.querySelector(".theme-toggle");
 let html = document.querySelector("html");
@@ -60,3 +64,7 @@ backArrow.forEach((btns) => {
 initTodo();
 initPlanner();
 initGoal();
+initTimer();
+initQuote();
+initClock();
+initWeather();

@@ -847,3 +847,232 @@ html[data-theme="dark"] .icon-moon {
     padding: 14px;
   }
 }
+/*==========================
+    POMODORO
+==========================*/
+
+.timer {
+  max-width: 900px;
+  margin: auto;
+  padding: 20px;
+}
+
+.timer-container {
+  margin-top: 20px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.timer-header {
+  width: 100%;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  margin-bottom: 60px;
+}
+
+.timer-header h2 {
+  font-family: var(--font-display);
+
+  font-size: 2rem;
+}
+
+.timer-status {
+  color: var(--text-secondary);
+
+  font-size: 1rem;
+}
+
+.timer-display {
+  width: 260px;
+  height: 260px;
+
+  border-radius: 50%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background: var(--bg-elevated);
+
+  border: 1px solid var(--border-glass);
+
+  box-shadow: var(--shadow-glass);
+
+  margin-bottom: 50px;
+}
+
+.timer-display h1 {
+  font-size: 4rem;
+
+  font-family: var(--font-display);
+
+  letter-spacing: 2px;
+}
+
+.timer-controls {
+  display: flex;
+
+  gap: 18px;
+}
+
+.timer-btn {
+  padding: 14px 28px;
+
+  border-radius: 14px;
+
+  background: var(--bg-elevated);
+
+  border: 1px solid var(--border-glass);
+
+  color: var(--text-primary);
+
+  transition: 0.25s;
+}
+
+.timer-btn:hover {
+  transform: translateY(-3px);
+  color: var(--text-primary);
+  background: var(--bg-elevated-hover);
+}
+
+.primary {
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+
+  color: white;
+}
+@media (max-width: 768px) {
+  .timer {
+    padding: 16px;
+  }
+
+  .timer-header {
+    flex-direction: column;
+
+    align-items: flex-start;
+
+    gap: 8px;
+
+    margin-bottom: 40px;
+  }
+
+  .timer-display {
+    width: 200px;
+    height: 200px;
+  }
+
+  .timer-display h1 {
+    font-size: 3rem;
+  }
+
+  .timer-controls {
+    width: 100%;
+
+    flex-direction: column;
+  }
+
+  .timer-btn {
+    width: 100%;
+  }
+}
+
+/*==========================
+    QUOTE
+==========================*/
+
+.quote {
+  max-width: 900px;
+  margin: auto;
+  padding: 20px;
+}
+
+.quote-container {
+  margin-top: 20px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.quote-container h2 {
+  font-family: var(--font-display);
+
+  font-size: 2rem;
+
+  margin-bottom: 40px;
+}
+
+.quote-card {
+  width: 100%;
+
+  max-width: 700px;
+
+  padding: 40px;
+
+  border-radius: 22px;
+
+  background: var(--bg-elevated);
+
+  border: 1px solid var(--border-glass);
+
+  box-shadow: var(--shadow-glass);
+
+  text-align: center;
+}
+
+#quoteText {
+  font-size: 1.35rem;
+
+  line-height: 1.8;
+
+  margin-bottom: 24px;
+}
+
+#quoteAuthor {
+  color: var(--text-secondary);
+
+  font-size: 1rem;
+
+  font-style: italic;
+}
+
+.quote-btn {
+  margin-top: 30px;
+
+  padding: 14px 26px;
+
+  border-radius: 14px;
+
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+
+  color: white;
+
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
+
+  transition: 0.25s;
+}
+
+.quote-btn:hover {
+  transform: translateY(-3px);
+}
+
+@media (max-width: 768px) {
+  .quote {
+    padding: 16px;
+  }
+
+  .quote-card {
+    padding: 24px;
+  }
+
+  #quoteText {
+    font-size: 1.1rem;
+  }
+}
