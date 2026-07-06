@@ -773,7 +773,6 @@ html[data-theme="dark"] .icon-moon {
 
 .goal-item.completed .goal-complete {
   background: var(--accent);
-
   border-color: var(--accent);
 }
 
