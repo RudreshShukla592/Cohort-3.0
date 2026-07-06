@@ -1076,3 +1076,153 @@ html[data-theme="dark"] .icon-moon {
     font-size: 1.1rem;
   }
 }
+
+/*==========================
+        WEATHER
+==========================*/
+
+.weather {
+  max-width: 900px;
+  margin: auto;
+  padding: 20px;
+}
+
+.weather-container {
+  margin-top: 20px;
+}
+
+.weather-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  margin-bottom: 30px;
+}
+
+.weather-header h2 {
+  font-size: 2rem;
+  font-family: var(--font-display);
+}
+
+.weather-header span {
+  color: var(--text-secondary);
+}
+
+.weather-card {
+  padding: 32px;
+
+  border-radius: 24px;
+
+  background: var(--bg-elevated);
+
+  border: 1px solid var(--border-glass);
+
+  box-shadow: var(--shadow-glass);
+}
+
+.weather-top {
+  display: flex;
+
+  align-items: center;
+
+  gap: 22px;
+
+  margin-bottom: 32px;
+}
+
+.weather-icon {
+  font-size: 4rem;
+}
+
+#temperature {
+  font-size: 4rem;
+
+  font-family: var(--font-display);
+}
+
+#weatherCondition {
+  margin-top: 8px;
+
+  color: var(--text-secondary);
+
+  font-size: 1.2rem;
+}
+
+.weather-info {
+  display: grid;
+
+  grid-template-columns: repeat(3, 1fr);
+
+  gap: 18px;
+}
+
+.info-box {
+  background: var(--bg-elevated-hover);
+
+  border-radius: 16px;
+
+  padding: 18px;
+
+  text-align: center;
+}
+
+.info-box span {
+  display: block;
+
+  font-size: 0.9rem;
+
+  color: var(--text-secondary);
+
+  margin-bottom: 8px;
+}
+
+.info-box strong {
+  font-size: 1.5rem;
+}
+@media (max-width: 768px) {
+  .weather {
+    padding: 16px;
+  }
+
+  .weather-header {
+    flex-direction: column;
+
+    align-items: flex-start;
+
+    gap: 8px;
+  }
+
+  .weather-top {
+    flex-direction: column;
+
+    align-items: flex-start;
+  }
+
+  .weather-info {
+    grid-template-columns: 1fr;
+  }
+
+  #temperature {
+    font-size: 3rem;
+  }
+}
+.weather-card.evening{
+  background-image: url("https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=1632&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
+  background-size: cover;
+
+}
+.weather-card.afternoon{
+  background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQJnZBl4VDkSSNo0LKLgGH8z27js-xoMxLN7Lp1xzXGNg&s=10");
+  background-size: cover;
+
+}
+.weather-card.evening{
+  background-image: url("https://plus.unsplash.com/premium_photo-1673697239909-e11521d1ba94?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8ZXZlbmluZ3xlbnwwfHwwfHx8MA%3D%3D");
+  background-size: cover;
+
+}
+.weather-card.night{
+  background-image: url("https://images.unsplash.com/photo-1534447677768-be436bb09401?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8bmlnaHR8ZW58MHx8MHx8fDA%3D");
+  background-size: cover;
+
+}
