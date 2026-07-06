@@ -5,6 +5,7 @@ function initWeather() {
   let wind = document.querySelector("#wind");
   let feelsLike = document.querySelector("#feelsLike");
   let weatherCondition = document.querySelector("#weatherCondition");
+  let weatherIcon = document.querySelector(".weather-icon") 
   let bgLayer = document.querySelector(".weather-card");
 
   const weatherCodes = {
@@ -37,7 +38,8 @@ function initWeather() {
       feelsLike.textContent = `${data.current.apparent_temperature}°C`;
       weatherCondition.textContent =
         weatherCodes[data.current.weather_code] || "Unknown";
-    } catch (error) {
+      
+      } catch (error) {
       console.error(error);
       weatherCondition.textContent = "Failed to load weather";
     }
