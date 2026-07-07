@@ -2,7 +2,11 @@ import React, { useState } from "react";
 
 const Web = () => {
 
-    const [name, setName] = useState("")
+    const [formData, setFormData] = useState({})
+
+    let handelChange = (e)=> {
+        setFormData({...formData,[e.target.name]:e.target.value})
+      }
 
   return (
 
@@ -10,11 +14,17 @@ const Web = () => {
       <input 
       type="text" placeholder="Name...." 
       className="border-2" 
-      onChange={(e)=> {
-        setName(e.target.value)
-      }}
+      onChange={handelChange}
+      name="name"
       />
-      <h1>name {name}</h1>
+      <input type="text" placeholder="email"
+       className="border-2" 
+       onChange={handelChange}
+       name="email"
+      />
+
+      <h1>name {formData.name}</h1>
+      <h1>email {formData.email}</h1>
     </div>
   );
 };
