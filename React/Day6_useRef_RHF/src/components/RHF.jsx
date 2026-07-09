@@ -9,9 +9,14 @@ const RHF = () => {
     formState: { errors },
   } = useForm();
 
+  let formSubmit = (data)=>{
+    console.log(data)
+    reset()
+  }
+
   return (
     <div className="bg-white w-80 rounded-2xl p-5">
-      <form onSubmit={ handleSubmit((data)=> console.log(data))} className="flex flex-col gap-4">
+      <form onSubmit={ handleSubmit(formSubmit)} className="flex flex-col gap-4">
         <input
           className="p-2 border border-gray-400 rounded"
           type="text"
