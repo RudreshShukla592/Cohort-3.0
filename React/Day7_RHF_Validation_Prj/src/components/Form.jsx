@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 
-const Form = ({setUsers,setToggle}) => {
+const Form = ({setUsers,setToggle,users,update}) => {
 
     
 
@@ -11,12 +11,15 @@ const Form = ({setUsers,setToggle}) => {
     handleSubmit,
     formState: { errors },
   } = useForm({
-    mode:"onChange"
+    mode:"onChange",
+    defaultValues:update ? update : "" 
   });
 
   let formData = (data) => {
     console.log(data);
-    setUsers(prev=>[...prev,data])
+    let arr = [...users,data]
+    setUsers(arr)
+    localStorage.setItem("users",JSON.stringify(arr)) 
     reset();
     setToggle(prev => !prev)
   };
@@ -54,7 +57,7 @@ const Form = ({setUsers,setToggle}) => {
                     value:/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
                     message:"Enter Valid Email"
                 }
-            })}
+            })} 
           />
             {errors.Email && <p className="text-red-700">{errors.Email.message}</p>}
           <input
