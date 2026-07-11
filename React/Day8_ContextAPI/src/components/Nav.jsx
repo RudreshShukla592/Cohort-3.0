@@ -1,16 +1,27 @@
-import React from 'react'
+import React from "react";
+import funny from "./funny.png";
 
-const Nav = () => {
+const Nav = ({ setIsCartOpen }) => {
   return (
     <div className="p-6 rounded-2xl bg-black flex items-center justify-between">
-        <div>logo</div>
-        <div className=" flex gap-6 font-semibold">
-            <p>Home</p>
-            <p>Cart</p>
-        </div>
-        <button>LogIn</button>
+      <div>
+        <img
+          className="w-50 h-16 rounded-full object-cover border-2 shadow-lg shadow-orange-500/30 hover:scale-105 transition-all duration-300 cursor-pointer"
+          src={funny}
+          alt="Loading..."
+        />
+      </div>
+      <div className=" flex gap-10 font-semibold">
+        <p className="cursor-pointer" onClick={() => setIsCartOpen(true)}>
+          Home
+        </p>
+        <p className="cursor-pointer" onClick={() => setIsCartOpen(false)}>
+          Cart
+        </p>
+      </div>
+      <button>LogIn</button>
     </div>
-  )
-}
+  );
+};
 
-export default Nav
+export default Nav;
