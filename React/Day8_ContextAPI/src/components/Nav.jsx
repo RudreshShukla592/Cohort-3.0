@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
 import funny from "./funny.png";
+import { MyShop } from "../context/MyWebsite";
 
-const Nav = ({ setIsCartOpen }) => {
+const Nav = () => {
+  let {setIsCartOpen} = useContext(MyShop)
+
   return (
     <div className="p-6 rounded-2xl bg-black flex items-center justify-between">
       <div>

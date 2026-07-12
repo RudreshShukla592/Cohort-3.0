@@ -1,6 +1,9 @@
-import React from "react";
+import React, { useContext } from "react";
+import { MyShop } from "../context/MyWebsite";
 
-const ProductCard = ({ product,setCardItems }) => {
+const ProductCard = ({ product }) => {
+  let {setCardItems} =useContext(MyShop)
+  
   return (
     <div className="bg-gray-900 rounded-2xl overflow-hidden border border-gray-700 hover:border-indigo-500 hover:-translate-y-1 transition-all duration-300 shadow-lg">
       <div className="h-60 bg-gray-600 flex items-center justify-center p-4">
