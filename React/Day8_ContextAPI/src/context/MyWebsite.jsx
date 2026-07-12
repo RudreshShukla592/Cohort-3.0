@@ -7,8 +7,8 @@ export const MyShopContextProvider = ({ children }) => {
   const [cardItems, setCardItems] = useState([]);
 
   return (
-    <MyShop value={{ isCartOpen, setIsCartOpen, cardItems, setCardItems }}>
+    <MyShop.Provider value={{ isCartOpen, setIsCartOpen, cardItems, setCardItems }}>
       {children}
-    </MyShop>
+    </MyShop.Provider>
   );
 };
