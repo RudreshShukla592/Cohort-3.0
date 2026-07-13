@@ -106,7 +106,7 @@ const obj1 = { a: 1, b: 2 }
 const obj2 = { c: 3, d: 4 }
 const obj3 = {...obj1, ...obj2}
 const obj4={...obj3}
-console.log(obj3);
+// console.log(obj3);
 
 const marks = {
   Anubhav: 95,
@@ -119,7 +119,7 @@ let highMarks = Object.values(marks).reduce((max,val)=>{
     return max
 },0)
 let topper= Object.keys(marks).find((key)=>marks[key] === highMarks)
-console.log(topper);
+// console.log(topper);
 
 const user1 = {
   name: "Anubhav",
@@ -128,9 +128,9 @@ const user1 = {
     pincode: 462001
   }
 }
-console.log(user.name);
-console.log(user.address.city);
-console.log(user.address.pincode);
+// console.log(user.name);
+// console.log(user.address.city);
+// console.log(user.address.pincode);
 
 let stu={
     name:'Aryan',
@@ -139,7 +139,7 @@ let stu={
         return this.marks > 40 ? 'Pass' : 'Fail';
     }
 }
-console.log(stu.getResult());
+// console.log(stu.getResult());
 
 // Lexical scope
 
@@ -182,3 +182,41 @@ stu1.getInfo.apply(stu3,["basti","UP"])
 let out= stu1.getInfo.bind(stu2,"sydney","AU")
 out()
 
+/* 
+   Promises
+            */
+console.log("Promisess!!!!!!!!!!!!!!!!!!!!!11");
+console.log("Promisess!!!!!!!!!!!!!!!!!!!!!11");
+console.log("Promisess!!!!!!!!!!!!!!!!!!!!!11");
+
+function orderFood(){
+    let myOrder = new Promise((resolve,reject)=>{
+        console.log("Order is comming...🍎");
+
+        let orderStatus = false;
+
+        setTimeout(()=>{
+            if(orderStatus){
+               console.log("On the way..🚙");
+               resolve()
+            }else{
+              console.log("order cancled..❌");
+              reject()
+            }
+        },3000)
+        
+    })
+
+    myOrder.then(()=>{
+        
+        console.log("Make a payment..💸");
+    })
+    .catch(()=>{
+      
+        console.log("Complain right now..😡");
+    })
+    .finally(()=>{
+        console.log("Order Process Completed");
+    })
+}
+orderFood()
