@@ -7,19 +7,19 @@ import { MyShop } from "./context/Mycontext";
 const App = () => {
   let { toggle } = useContext(MyShop);
   return (
-    <div className="p-3 h-screen bg-gray-800 text-white flex flex-col gap-5">
+    <div className="p-5 bg-gray-800 text-white flex flex-col gap-5">
       <Nav />
 
       {toggle ? (
-        <div>
+        <div className="min-h-screen bg-gray-800 flex items-start justify-center pt-20 px-4">
           <TodoForm />
         </div>
       ) : (
-        <div>
+        <div className="min-h-screen bg-gray-800 px-4">
           <TodoList />
         </div>
       )}
-      
+
     </div>
   );
 };
