@@ -12,6 +12,7 @@ const TodoForm = () => {
   let handleSubmit = (e) => {
     e.preventDefault();
     if (!formData.title.trim()) return;
+
     if (updateTask) {
       let updateArr = task.map((item) => {
         return item.id === updateTask.id
@@ -26,6 +27,7 @@ const TodoForm = () => {
       setTask(arr);
       localStorage.setItem("tasks", JSON.stringify(arr));
     }
+    
     setFormData({
       title: "",
     });
