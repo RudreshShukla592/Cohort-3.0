@@ -1,14 +1,13 @@
 import React, { useContext } from "react";
 import { MyStore } from "../context/MyContext";
 
-const ProductCard = ({ product}) => {
+const ProductCard = ({ product, isInCart }) => {
+  let { setCartItems } = useContext(MyStore);
 
-  let { setCartItems } = useContext(MyStore)
-
-  const addToCart =() => {
-    setCartItems((prev) => [...prev, product])
-    alert(`"${product.title}" added into Cart`)
-  }
+  const addToCart = () => {
+    setCartItems((prev) => [...prev, product]);
+    alert(`"${product.title}" added into Cart`);
+  };
 
   return (
     <div className="bg-gray-900 rounded-2xl overflow-hidden border border-gray-700 hover:border-indigo-500 hover:-translate-y-1 transition-all duration-300 shadow-lg">
@@ -40,12 +39,26 @@ const ProductCard = ({ product}) => {
         <div className="flex flex-col gap-4 mt-2">
           <p className="text-3xl font-bold text-green-400">${product.price}</p>
 
-          <button
-            onClick={addToCart}
-            className="w-full bg-indigo-600 hover:bg-indigo-500 active:scale-95 cursor-pointer text-white font-semibold py-3 rounded-xl transition-all duration-200 shadow-md hover:shadow-indigo-500/30"
-          >
-            🛒 Add to Cart
-          </button>
+          {isInCart ? (
+            <div className="w-full flex items-center justify-between bg-indigo-600 rounded-xl overflow-hidden shadow-md">
+              <button className="w-14 py-3 text-2xl font-bold hover:bg-indigo-700 transition cursor-pointer">
+                -
+              </button>
+
+              <span className="text-lg font-semibold">1</span>
+
+              <button className="w-14 py-3 text-2xl font-bold hover:bg-indigo-700 transition cursor-pointer">
+                +
+              </button>
+            </div>
+          ) : (
+            <button
+              onClick={addToCart}
+              className="w-full bg-indigo-600 hover:bg-indigo-500 active:scale-95 cursor-pointer text-white font-semibold py-3 rounded-xl transition-all duration-200 shadow-md hover:shadow-indigo-500/30"
+            >
+              🛒 Add to Cart
+            </button>
+          )}
         </div>
       </div>
     </div>

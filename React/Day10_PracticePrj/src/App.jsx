@@ -8,7 +8,7 @@ import { MyStore } from "./context/MyContext";
 const App = () => {
   const [productsData, setproductsData] = useState([]);
 
-  let {isCartOpen} = useContext(MyStore)
+  let {isCartOpen, cartItems} = useContext(MyStore)
 
   const getproductsData = async () => {
     try {
@@ -18,6 +18,7 @@ const App = () => {
       console.log(error);
     }
   };
+  
   useEffect(() => {
     getproductsData();
   }, []);
@@ -33,7 +34,10 @@ const App = () => {
       ) : (
         <div className="grid grid-cols-5  gap-4">
           {productsData.map((elem) => {
-            return <ProductCard key={elem.id} product={elem}  />;
+
+            let isInCart = cartItems.find((val)=> val.id === elem.id)
+
+            return <ProductCard key={elem.id} product={elem}  isInCart={isInCart}/>;
           })}
         </div>
       )}
