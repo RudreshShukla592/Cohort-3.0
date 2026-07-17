@@ -1,10 +1,17 @@
-import React from 'react'
+import React from "react";
+import Nav from "./component/Nav";
+import AppRoute from "./routes/AppRoute";
 
 const App = () => {
-
   return (
-    <div>App</div>
-  )
-}
+    <div className="min-h-screen bg-gray-950 text-white">
+      {/* Navbar */}
+      <Nav />
 
-export default App
+      {/* Sections */}
+      <AppRoute />
+    </div>
+  );
+};
+
+export default App;
