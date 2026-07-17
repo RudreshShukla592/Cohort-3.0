@@ -2,10 +2,11 @@ import React, { useContext } from "react";
 import { MyStore } from "../context/MyContext";
 
 const ProductCard = ({ product, isInCart }) => {
-  let { setCartItems } = useContext(MyStore);
+
+  let { setCartItems, incrementQuantity, decrementQuantity, removeFromCart  } = useContext(MyStore);
 
   const addToCart = () => {
-    setCartItems((prev) => [...prev, product]);
+    setCartItems((prev) => [...prev, {...product, quantity: 1}]);
     alert(`"${product.title}" added into Cart`);
   };
 
@@ -41,13 +42,16 @@ const ProductCard = ({ product, isInCart }) => {
 
           {isInCart ? (
             <div className="w-full flex items-center justify-between bg-indigo-600 rounded-xl overflow-hidden shadow-md">
-              <button className="w-14 py-3 text-2xl font-bold hover:bg-indigo-700 transition cursor-pointer">
+              <button onClick={()=>{
+                if(isInCart.quantity < 2 ) removeFromCart(product.id)
+                decrementQuantity (product.id)
+              }} className="w-14 py-3 text-2xl font-bold hover:bg-indigo-700 transition cursor-pointer">
                 -
               </button>
 
-              <span className="text-lg font-semibold">1</span>
+              <span className="text-lg font-semibold">{ isInCart.quantity}</span>
 
-              <button className="w-14 py-3 text-2xl font-bold hover:bg-indigo-700 transition cursor-pointer">
+              <button onClick={()=> incrementQuantity(product.id)} className="w-14 py-3 text-2xl font-bold hover:bg-indigo-700 transition cursor-pointer">
                 +
               </button>
             </div>
