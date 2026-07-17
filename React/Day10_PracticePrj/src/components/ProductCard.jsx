@@ -12,7 +12,7 @@ const ProductCard = ({ product, isInCart }) => {
 
   return (
     <div className="bg-gray-900 rounded-2xl overflow-hidden border border-gray-700 hover:border-indigo-500 hover:-translate-y-1 transition-all duration-300 shadow-lg">
-      <div className="h-60 bg-gray-600 flex items-center justify-center p-4">
+      <div className="h-52 sm:h-56 lg:h-60 bg-gray-600 flex items-center justify-center p-4">
         <img
           src={product.image}
           alt={product.title}
@@ -38,20 +38,20 @@ const ProductCard = ({ product, isInCart }) => {
         </div>
 
         <div className="flex flex-col gap-4 mt-2">
-          <p className="text-3xl font-bold text-green-400">${product.price}</p>
+          <p className="text-2xl md:text-3xl font-bold text-green-400">${product.price}</p>
 
           {isInCart ? (
             <div className="w-full flex items-center justify-between bg-indigo-600 rounded-xl overflow-hidden shadow-md">
               <button onClick={()=>{
                 if(isInCart.quantity < 2 ) removeFromCart(product.id)
                 decrementQuantity (product.id)
-              }} className="w-14 py-3 text-2xl font-bold hover:bg-indigo-700 transition cursor-pointer">
+              }} className="w-12 sm:w-14 py-3 text-2xl font-bold hover:bg-indigo-700 transition cursor-pointer">
                 -
               </button>
 
               <span className="text-lg font-semibold">{ isInCart.quantity}</span>
 
-              <button onClick={()=> incrementQuantity(product.id)} className="w-14 py-3 text-2xl font-bold hover:bg-indigo-700 transition cursor-pointer">
+              <button onClick={()=> incrementQuantity(product.id)} className="w-12 sm:w-14 py-3 text-2xl font-bold hover:bg-indigo-700 transition cursor-pointer">
                 +
               </button>
             </div>

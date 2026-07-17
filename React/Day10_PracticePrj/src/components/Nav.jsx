@@ -6,18 +6,18 @@ const Nav = () => {
   let { setIsCartOpen, isCartOpen } = useContext(MyStore);
 
   return (
-    <nav className="bg-gray-900 rounded-2xl px-8 py-4 flex items-center justify-between border border-gray-700 shadow-lg">
+   <nav className="bg-gray-900 rounded-2xl px-4 md:px-8 py-4 flex flex-col md:flex-row items-center justify-between gap-5 border border-gray-700 shadow-lg">
       {/* Logo */}
       <div>
         <img
-          className="w-52 h-16 rounded-full object-cover border-2 border-orange-400 shadow-lg shadow-orange-500/30 hover:scale-105 transition-all duration-300 cursor-pointer"
+          className="w-40 sm:w-48 md:w-52 h-14 md:h-16 rounded-full object-cover border-2 border-orange-400 shadow-lg shadow-orange-500/30 hover:scale-105 transition-all duration-300 cursor-pointer"
           src={funny}
           alt="Logo"
         />
       </div>
 
       {/* Navigation */}
-      <div className="flex items-center gap-4 bg-gray-800 p-2 rounded-full border border-gray-700">
+      <div className="flex flex-wrap justify-center items-center gap-4 bg-gray-800 p-2 rounded-full border border-gray-700">
         <button
           onClick={() => setIsCartOpen(false)}
           className={`flex items-center gap-2 px-6 py-2 rounded-full transition-all duration-300 font-semibold cursor-pointer
@@ -44,12 +44,12 @@ const Nav = () => {
       </div>
 
       {/* Login */}
-      <button className="bg-indigo-600 hover:bg-indigo-500 px-6 py-2 rounded-xl font-semibold transition shadow-md hover:shadow-indigo-500/40">
+      <button className="w-full md:w-auto bg-indigo-600 hover:bg-indigo-500 px-6 py-2 rounded-xl font-semibold transition shadow-md hover:shadow-indigo-500/40">
         Login
       </button>
     </nav>
   );
-  
+
 };
 
 export default Nav;
