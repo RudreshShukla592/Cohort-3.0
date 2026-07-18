@@ -354,5 +354,7 @@ async function getDataFromGivenApi() {
     let data = await request.json()
     console.log(data.name);
 }
-getDataFromGivenApi()
+// getDataFromGivenApi()
+
+
 
