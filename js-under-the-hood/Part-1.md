@@ -287,5 +287,126 @@ let b = 10;
 > Hoisting is not JavaScript moving your code.
 > It's the result of the Memory Creation Phase, where memory is allocated before the Code Execution Phase begins.
 
+# Call Stack
 
+JavaScript can execute only one piece of code at a time. So whenever a function is called, JavaScript needs a way to remember where it currently is and which function should execute next. This is exactly what the **Call Stack** does.
+
+## What is a Call Stack?
+- The Call Stack is a data structure that tracks the execution of functions and keeps track of which function is currently running.
+- It is a mechanism used by the JavaScript engine.
+- It works on LIFO — Last In, First Out principle.
+
+## Why Do We Need a Call Stack?
+- Without the call stack, JavaScript would quickly break down for the following critical reasons:
+1. Tracking where JavaScript currently is.
+2. Executing functions in the correct order.
+
+## How Does the Call Stack Work?
+The Call Stack operates on a Last-In, First-Out (LIFO) principle. Think of it like a stack of books—the last book you put on top is the first one you must take off.
+
+1. **Push**
+   - When you call (invoke) a function => it gets added (pushed) to the top of the stack.
+
+2. **Pop**
+   - When a function returns / finishes => JavaScript removes (pops) it off the top of the stack.
+
+## Call Stack Example
+```js
+function one() {
+    console.log("One");
+}
+
+function two() {
+    one();
+    console.log("Two");
+}
+
+function three() {
+    two();
+    console.log("Three");
+}
+
+three();
+```
+
+**Step-by-step stack movement:**
+
+| Step | Action | Stack (top → bottom) |
+|------|--------|----------------------|
+| 1 | **three()** called | three → GEC |
+| 2 | **two()** called inside three | two → three → GEC |
+| 3 | **one()** called inside two | one → two → three → GEC |
+| 4 | **one()** finishes → prints | (pops one) two → three → GEC |
+| 5 | **two()** finishes → prints | (pops two) three → GEC |
+| 6 | **three()** finishes → prints | (pops three) GEC |
+
+ **Visualization**
+1. Initial Call Stack    
+┌──────────────┐
+│     GEC      │
+└──────────────┘
+
+2. **three()** called
+┌──────────────┐
+│    three()   │
+├──────────────┤
+│    GEC       │
+└──────────────┘
+
+3. **two()** called
+┌──────────────┐
+│    two()     │
+├──────────────┤
+│    three()   │
+├──────────────┤
+│    GEC       │
+└──────────────┘
+
+4. **one()** called
+┌──────────────┐
+│    one()     │
+├──────────────┤
+│    two()     │
+├──────────────┤
+│   three()    │
+└──────────────┘
+│     GEC      │
+└──────────────┘
+
+5. **one()** finishes
+┌──────────────┐
+│    two()     │
+├──────────────┤
+│    three()   │
+├──────────────┤
+│    GEC       │
+└──────────────┘
+
+6. **two()** finishes
+┌──────────────┐
+│    three()   │
+├──────────────┤
+│    GEC       │
+└──────────────┘
+
+7. **three()** finishes
+┌──────────────┐
+│     GEC      │
+└──────────────┘
+
+- **Output order:**
+  - One
+  - Two
+  - Three
+
+## Stack Overflow
+- Since memory is finite, the Call Stack has a size limit.
+- If functions keep getting pushed without ever popping (usually infinite recursion), the stack runs out of space and the engine throws:
+```js
+function loop() {
+  loop(); // calls itself forever, never returns
+}
+loop(); // ❌ RangeError: Maximum call stack size exceeded
+```
+- Every recursive function must have a base case that stops the recursion, otherwise → stack overflow.
 
