@@ -70,17 +70,102 @@ Now that we know who executes our code and how the engine processes it, let's lo
 
 # Execution Context
 
-## What is an Execution Context?
+Whenever JavaScript executes a program, it always runs inside an execution context.
 
-2. Why Do We Need an Execution Context?
+## What is an Execution Context(EC)?
+- An Execution Context is the **environment** in which a piece of JavaScript code is evaluated and executed. 
+- Think of it as a sealed container that holds everything the code needs to run: its variables, functions, and the value of **this**.
 
-3. Types of Execution Context
-   • Global Execution Context (GEC)
-   • Function Execution Context (FEC)
+┌──────────────────────┐
+│   JavaScript Code    │
+└──────────┬───────────┘
+           │
+           ▼
+┌──────────────────────┐
+│ Execution Context    │
+├──────────────────────┤
+│ • Variables          │
+│ • Functions          │
+│ • Memory             │
+│ • this               │
+└──────────────────────┘
 
-4. Phases of an Execution Context
-   • Memory Creation Phase
-   • Code Execution Phase
+## Why Do We Need an Execution Context(EC)?
+- Let's take an example:-
 
-5. Transition
-   "Since memory is created before code executes, this leads us to one of JavaScript's most misunderstood concepts: Hoisting."
+```js
+let greet = "Hello";
+console.log(greet);
+```
+- We know that our code does not run as-is. The JavaScript Engine parses the code and then creates an execution context. The Execution context(EC) is necessary because it allocates memory for variables and functions before the code starts executing.
+- So, in this example, the code isn't executed immediately. Before JavaScript starts running each line, the execution context first allocates memory for variables and functions.
+- But how does JavaScript allocate memory before executing the code? Let's understand that by looking at the two phases of an execution context.
+
+But before that comes the **types** of Execution Context
+
+## Types of Execution Context
+1. **Global Execution Context (GEC)**
+  - Whenever we execute JavaScript code, it creates a GEC. 
+  - A JavaScript program has only **one** Global Execution Context (GEC).
+  - It is also knows as the **Base Execution Context**.
+
+2. **Function Execution Context (FEC)**
+  - When we invoke(call) a function, a Function Execution Context gets created.
+  - Each function call gets its own private context with its own variables.
+  - When the function finishes, its FEC is destroyed. 
+  - A Function Execution Context is created during the **Code Execution Phase** whenever a function is called.
+
+## Phases of an Execution Context
+This is one of the most important concepts in the whole topic. Every EC is built in two phases:
+
+1. **Phase 1 — Memory Creation Phase**
+Before any line runs, JS scans the code and sets up memory:
+   - If there are any **variables** declared in the code, the memory gets allocated for the variable. The variables are set to **undefined** in this phase.
+   - If there is a **function** declaration in the code, it gets placed directly into the memory as-is. 
+   - Also in this phase two special values become available:
+     1. The global object(**window** in browsers).
+     2. The global **this** value. 
+
+2. **Phase 2 — Code Execution Phase**
+The code execution starts in this phase.
+  - Here, the real values are assigned to the global variables which waere initially set **undefined** in Phase 1.
+  - If there is a function call in the code then it creates a Function Execution Context in this phase.
+  - JavaScript waits until that function finishes executing before continuing with the remaining code.
+
+## Examples 
+```js
+let username = "Vivek";
+
+function greet() {
+    let message = "Hello";
+    console.log(message);
+}
+
+greet();
+
+console.log(username);
+```
+- Now here's what happens:
+ 1. **Memory Creation Phase**
+    - **usersname** => **undefined**
+    - **greet** => full function stored.
+    - **this** => set to **windos** object.
+ 
+ 2. **Code Execution Phase**
+    - **username** becomes **Vivek**
+    - Then **greet()** is called => a new Function Execution Context is created
+        - The new **Function Execution Context** has it's own Memory Creation & Code Execution Phase:
+           1. **Memory Creation Phase**
+                - **message** => **undefined**
+
+           2. **Code Execution Phase**     
+              - **Hello** gets print.
+
+    - The FEC gets destroyed.
+    - **Vivek** gets print.
+
+- Final Outpur: 
+   **Hello** 
+   **Vivek**
+
+> Since memory is created before code executes, this leads us to one of JavaScript's most misunderstood concepts: Hoisting.
