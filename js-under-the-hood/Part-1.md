@@ -199,19 +199,19 @@ console.log(username);
 # Hoisting
 
 ## What is Hoisting?
-- Hoisting is JS's behaviour of **appearing** to move declarations of functions, variables to the top of their **scope**. 
+- Hoisting is JS's behaviour of **appearing** to move declarations of functions and variables to the top of their **scope**. 
 - Important: nothing physically moves — this is just the **Creation Phase** allocating memory before the code runs.
 
 ## Why Does Hoisting Happen?
-- In the Execution Context the memory is created before code executes, this leads to Hoisting.
-- Let's take an example
+- In the Execution Context, memory is created before code executes. This leads to Hoisting.
+- Let's take an example.
 ```js
 console.log(name);
 var name = "Vivek";
 ```
 
-- The answer for above code is **undefined**. But why? Suppose we use similar code in some other programming language. In that case, we may get an error saying the variable name is not declared, as we are trying to access it well before that.
-- Let's make **Global Execution Context** for the example which will give us more clarity:
+- The output of above code is **undefined**. But why? Suppose we use similar code in some other programming language. In that case, we may get an error saying the variable name is not declared, as we are trying to access it well before that.
+- Let's visualize the **Global Execution Context** for the example which will give us more clarity:
   1. **Memory Creation Phase**
     - **name** => **undefined** 
   
@@ -219,7 +219,7 @@ var name = "Vivek";
     - **console.log(name)** => prints **undefined**
     - **name** => **Vivek**
 
-- See what happend here in the **Code Execution Phase** the console.log() prints name before it can even be assigned to its real value.
+- See what happened here in the **Code Execution Phase** the console.log() prints the value of `name` before it can even be assigned to its real value.
 
 ## Hoisting with var
 - **var** declarations are hoisted and set to **undefined**.
@@ -233,8 +233,8 @@ console.log(a); // 5
 
 ## Hoisting with let & const
 - **let** and **const** are hoisted too — but they are not initialized.
-- From the start of the scope until the line they're declared on, they sit in the **Temporal Dead Zone (TDZ)**.
-- So accessing them before throws an error.
+- From the start of their scope until the line where they are declared, they sit in the **Temporal Dead Zone (TDZ)**.
+- So, accessing them before their declaration throws a **ReferenceError**.
 
 ```js
 console.log(a); // ❌ ReferenceError: Cannot access 'a' before initialization
@@ -250,7 +250,7 @@ let b = 10;
 - It is a specific region of a block scope where a variable exists but is completely inaccessible before its actual declaration line.
 - Attempting to access, read, or write to a variable while it is trapped in the TDZ will immediately throw a **ReferenceError**.
 
-- For this example the **Global Execution Context** is visualized below with the **Temporal Dead Zone (TDZ)**.
+- For this example, the **Global Execution Context (GEC)** is visualized below, showing the **Temporal Dead Zone (TDZ)**.
 ```js
 console.log(b); // ❌ ReferenceError: Cannot access 'b' before initialization
 let b = 10;
@@ -272,7 +272,7 @@ let b = 10;
 │  console.log(b);                                             │
 │  ▲                                                           │
 │  │                                                           │
-│  │  ❌ Temporal Dead Zone (TDZ)                                 
+│  │  ❌ Temporal Dead Zone (TDZ)                              │   
 │  │  Cannot access 'b' before initialization                  │
 │  │                                                           │
 │  let b = 10;   ← TDZ ends here                               │
@@ -282,8 +282,10 @@ let b = 10;
 └──────────────────────────────────────────────────────────────┘
 ```
 
-## Function Declaration vs Function Expression
-
+> 💡 Remember
+>
+> Hoisting is not JavaScript moving your code.
+> It's the result of the Memory Creation Phase, where memory is allocated before the Code Execution Phase begins.
 
 
 
