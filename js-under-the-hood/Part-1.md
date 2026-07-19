@@ -425,8 +425,8 @@ loop(); // ❌ RangeError: Maximum call stack size exceeded
 ```
 - Every recursive function must have a base case that stops the recursion, otherwise → stack overflow.
 
-## Putting It All Together
-- Now rather than introducing any new concept lets solve and example for better clarity.
+# Putting It All Together
+- Now rather than introducing any new concept Let's solve an example for better clarity.
 
 **1. Code**
 ```js
@@ -441,7 +441,7 @@ greet();
 console.log(username);
 ```
 
-**2. Overall Journey**
+**2. Execution Flow**
 ```
 JavaScript Source Code
           │
@@ -490,21 +490,19 @@ JavaScript Source Code
 
 **3. Global Execution Context**
 ```
-┌────────────────────────────────────────────┐ 
+┌────────────────────────────────────────────┐
 │ Global Execution Context                   │
 ├────────────────────────────────────────────┤
 │ Memory Creation Phase                      │
-│────────────────────────────────────────────│
-│ username  →  undefined                     │
-│ greet     →  Full Function Stored          │
-│ this      →  window                        │
-└────────────────────────────────────────────┘
-│                                            │
+├────────────────────────────────────────────┤
+│ username → undefined                       │
+│ greet    → Entire Function Stored          │
+│ this     → window                          │
 ├────────────────────────────────────────────┤
 │ Code Execution Phase                       │
-│────────────────────────────────────────────│
+├────────────────────────────────────────────┤
 │ username = "Vivek"                         │
-│ greet()  ← Function Called                 │
+│ greet() ← Function Called                  │
 │ console.log(username)                      │
 └────────────────────────────────────────────┘
 ```
@@ -533,8 +531,12 @@ JavaScript Source Code
 
 **5. Final Output**
 
-  - Hello
-  - Vivek
+```
+Console
+
+Hello
+Vivek
+```
 
 ## Final Summary (End the article with this)
 
