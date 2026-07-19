@@ -7,7 +7,7 @@ import Product from "../page/Product";
 
 const AppRoute = () => {
   return (
-    <main className="max-w-6xl mx-auto px-6 py-12 space-y-24">
+    <main className="max-w-8xl mx-auto px-6 py-12 space-y-24">
       <Routes>
         <Route path="/" element={<Home/>} />
         <Route path="/about" element={<About />} />
