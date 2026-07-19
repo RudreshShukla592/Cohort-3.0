@@ -126,15 +126,15 @@ This is one of the most important concepts in the whole topic. Every EC is built
 
 1. **Phase 1 — Memory Creation Phase**
 Before any line runs, JS scans the code and sets up memory:
-   - If there are any **variables** declared in the code, memory is allocated for the variable. The variables are set to `undefined` in this phase.
-   - If there is a `function` declaration in the code, the entire function is stored in memory as-is. 
+   - If there are any **variables** declared in the code, memory is allocated for the variable. The variables are set to **undefined** in this phase.
+   - If there is a **function** declaration in the code, the entire function is stored in memory as-is. 
    - Also, in this phase, two special values become available:
      1. The global object (`window` in browsers).
      2. The global `this` value. 
 
 2. **Phase 2 — Code Execution Phase**
 The code execution starts in this phase.
-  - Here, the real values are assigned to the global variables which were initially set `undefined` in Phase 1.
+  - Here, the real values are assigned to the global variables which were initially set **undefined** in Phase 1.
   - If there is a function call in the code, then it creates a Function Execution Context in this phase.
   - JavaScript waits until that function finishes executing before continuing with the remaining code.
 
@@ -153,16 +153,16 @@ console.log(username);
 ```
 - Now here's what happens:
  1. **Memory Creation Phase**
-    - **username** => `undefined`
-    - **greet** => full function stored.
+    - `username` => **undefined**
+    - `greet` => full function stored.
     - `this` => set to `window` object.
  
  2. **Code Execution Phase**
-    - **username** becomes **Vivek**
-    - Then **greet()** is called => a new Function Execution Context is created
+    - `username` becomes **Vivek**
+    - Then `greet()` is called => a new Function Execution Context is created
         - The new **Function Execution Context** has its own Memory Creation & Code Execution Phase:
            1. **Memory Creation Phase**
-                - **message** => **undefined**
+                - `message` => **undefined**
 
            2. **Code Execution Phase**     
               - **Hello** gets printed.
@@ -215,16 +215,16 @@ var name = "Vivek";
 - The output of above code is **undefined**. But why? Suppose we use similar code in some other programming language. In that case, we may get an error saying the variable name is not declared, as we are trying to access it well before that.
 - Let's visualize the **Global Execution Context** for the example which will give us more clarity:
   1. **Memory Creation Phase**
-    - **name** => **undefined** 
+    - `name` => **undefined** 
   
   2. **Code Execution Phase**
-    - **console.log(name)** => prints **undefined**
-    - **name** => **Vivek**
+    - `console.log(name)` => prints **undefined**
+    - `name` => **Vivek**
 
 - See what happened here in the **Code Execution Phase** the console.log() prints the value of `name` before it can even be assigned to its real value.
 
 ### Hoisting with var
-- **var** declarations are hoisted and set to **undefined**.
+- `var` declarations are hoisted and set to **undefined**.
 - So you can access them before the line they're written on — you just get **undefined**, not an error.
 
 ```js
@@ -234,7 +234,7 @@ console.log(a); // 5
 ```
 
 ### Hoisting with let & const
-- **let** and **const** are hoisted too — but they are not initialized.
+- `let` and `const` are hoisted too — but they are not initialized.
 - From the start of their scope until the line where they are declared, they sit in the **Temporal Dead Zone (TDZ)**.
 - So, accessing them before their declaration throws a **ReferenceError**.
 
@@ -335,12 +335,12 @@ three();
 
 | Step | Action | Stack (top → bottom) |
 |------|--------|----------------------|
-| 1 | **three()** called | three → GEC |
-| 2 | **two()** called inside three | two → three → GEC |
-| 3 | **one()** called inside two | one → two → three → GEC |
-| 4 | **one()** finishes → prints | (pops one) two → three → GEC |
-| 5 | **two()** finishes → prints | (pops two) three → GEC |
-| 6 | **three()** finishes → prints | (pops three) GEC |
+| 1 | `three()` called | three → GEC |
+| 2 | `two()` called inside three | two → three → GEC |
+| 3 | `one()` called inside two | one → two → three → GEC |
+| 4 | `one()` finishes → prints | (pops one) two → three → GEC |
+| 5 | `two()` finishes → prints | (pops two) three → GEC |
+| 6 | `three()` finishes → prints | (pops three) GEC |
 
 **Visualization**
 
