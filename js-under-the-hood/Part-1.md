@@ -153,16 +153,16 @@ console.log(username);
 ```
 - Now here's what happens:
  1. **Memory Creation Phase**
-    - **username** => `undefined`
-    - **greet** => full function stored.
+    - `username` => `undefined`
+    - `greet` => full function stored.
     - `this` => set to `window` object.
  
  2. **Code Execution Phase**
-    - **username** becomes **Vivek**
-    - Then **greet()** is called => a new Function Execution Context is created
+    - `username` becomes **Vivek**
+    - Then `greet()` is called => a new Function Execution Context is created
         - The new **Function Execution Context** has its own Memory Creation & Code Execution Phase:
            1. **Memory Creation Phase**
-                - **message** => **undefined**
+                - `message` => `undefined`
 
            2. **Code Execution Phase**     
               - **Hello** gets printed.
@@ -212,20 +212,20 @@ console.log(name);
 var name = "Vivek";
 ```
 
-- The output of above code is **undefined**. But why? Suppose we use similar code in some other programming language. In that case, we may get an error saying the variable name is not declared, as we are trying to access it well before that.
+- The output of above code is `undefined`. But why? Suppose we use similar code in some other programming language. In that case, we may get an error saying the variable name is not declared, as we are trying to access it well before that.
 - Let's visualize the **Global Execution Context** for the example which will give us more clarity:
   1. **Memory Creation Phase**
-    - **name** => **undefined** 
+    - `name` => `undefined` 
   
   2. **Code Execution Phase**
-    - **console.log(name)** => prints **undefined**
-    - **name** => **Vivek**
+    - `console.log(name)` => prints `undefined`
+    - `name` => **Vivek**
 
 - See what happened here in the **Code Execution Phase** the console.log() prints the value of `name` before it can even be assigned to its real value.
 
 ### Hoisting with var
-- **var** declarations are hoisted and set to **undefined**.
-- So you can access them before the line they're written on — you just get **undefined**, not an error.
+- `var` declarations are hoisted and set to `undefined`.
+- So you can access them before the line they're written on — you just get `undefined`, not an error.
 
 ```js
 console.log(a); // undefined  (not an error!)
@@ -234,9 +234,9 @@ console.log(a); // 5
 ```
 
 ### Hoisting with let & const
-- **let** and **const** are hoisted too — but they are not initialized.
+- `let` and `const` are hoisted too — but they are not initialized.
 - From the start of their scope until the line where they are declared, they sit in the **Temporal Dead Zone (TDZ)**.
-- So, accessing them before their declaration throws a **ReferenceError**.
+- So, accessing them before their declaration throws a `ReferenceError`.
 
 ```js
 console.log(a); // ❌ ReferenceError: Cannot access 'a' before initialization
@@ -250,7 +250,7 @@ let b = 10;
 
 ### Temporal Dead Zone (TDZ)
 - It is a specific region of a block scope where a variable exists but is completely inaccessible before its actual declaration line.
-- Attempting to access, read, or write to a variable while it is trapped in the TDZ will immediately throw a **ReferenceError**.
+- Attempting to access, read, or write to a variable while it is trapped in the TDZ will immediately throw a `ReferenceError`.
 
 - For this example, the **Global Execution Context (GEC)** is visualized below, showing the **Temporal Dead Zone (TDZ)**.
 ```js
@@ -335,12 +335,12 @@ three();
 
 | Step | Action | Stack (top → bottom) |
 |------|--------|----------------------|
-| 1 | **three()** called | three → GEC |
-| 2 | **two()** called inside three | two → three → GEC |
-| 3 | **one()** called inside two | one → two → three → GEC |
-| 4 | **one()** finishes → prints | (pops one) two → three → GEC |
-| 5 | **two()** finishes → prints | (pops two) three → GEC |
-| 6 | **three()** finishes → prints | (pops three) GEC |
+| 1 | `three()` called | three → GEC |
+| 2 | `two()` called inside three | two → three → GEC |
+| 3 | `one()` called inside two | one → two → three → GEC |
+| 4 | `one()` finishes → prints | (pops one) two → three → GEC |
+| 5 | `two()` finishes → prints | (pops two) three → GEC |
+| 6 | `three()` finishes → prints | (pops three) GEC |
 
 **Visualization**
 
