@@ -195,3 +195,95 @@ console.log(username);
 ```
 
 **Since memory is created before code executes, this leads us to one of JavaScript's most misunderstood concepts: Hoisting.**
+
+# Hoisting
+
+## What is Hoisting?
+- Hoisting is JS's behaviour of **appearing** to move declarations of functions, variables to the top of their **scope**. 
+- Important: nothing physically moves — this is just the **Creation Phase** allocating memory before the code runs.
+
+## Why Does Hoisting Happen?
+- In the Execution Context the memory is created before code executes, this leads to Hoisting.
+- Let's take an example
+```js
+console.log(name);
+var name = "Vivek";
+```
+
+- The answer for above code is **undefined**. But why? Suppose we use similar code in some other programming language. In that case, we may get an error saying the variable name is not declared, as we are trying to access it well before that.
+- Let's make **Global Execution Context** for the example which will give us more clarity:
+  1. **Memory Creation Phase**
+    - **name** => **undefined** 
+  
+  2. **Code Execution Phase**
+    - **console.log(name)** => prints **undefined**
+    - **name** => **Vivek**
+
+- See what happend here in the **Code Execution Phase** the console.log() prints name before it can even be assigned to its real value.
+
+## Hoisting with var
+- **var** declarations are hoisted and set to **undefined**.
+- So you can access them before the line they're written on — you just get **undefined**, not an error.
+
+```js
+console.log(a); // undefined  (not an error!)
+var a = 5;
+console.log(a); // 5
+```
+
+## Hoisting with let & const
+- **let** and **const** are hoisted too — but they are not initialized.
+- From the start of the scope until the line they're declared on, they sit in the **Temporal Dead Zone (TDZ)**.
+- So accessing them before throws an error.
+
+```js
+console.log(a); // ❌ ReferenceError: Cannot access 'a' before initialization
+const a = 5;
+
+// OR
+
+console.log(b); // ❌ ReferenceError: Cannot access 'b' before initialization
+let b = 10;
+```
+
+## Temporal Dead Zone (TDZ)
+- It is a specific region of a block scope where a variable exists but is completely inaccessible before its actual declaration line.
+- Attempting to access, read, or write to a variable while it is trapped in the TDZ will immediately throw a **ReferenceError**.
+
+- For this example the **Global Execution Context** is visualized below with the **Temporal Dead Zone (TDZ)**.
+```js
+console.log(b); // ❌ ReferenceError: Cannot access 'b' before initialization
+let b = 10;
+```
+
+```
+┌──────────────────────────────────────────────────────────────┐
+│          Global Execution Context (GEC)                      │
+├──────────────────────────────────────────────────────────────┤
+│                                                              │
+│   Memory Creation Phase                                      │
+│  ───────────────────────────────────────────────             │
+│  b  →  <uninitialized>   ← NOT undefined                     │
+│                                                              │
+├──────────────────────────────────────────────────────────────┤
+│                                                              │
+│   Code Execution Phase                                       │
+│  ───────────────────────────────────────────────             |                                                  
+│  console.log(b);                                             │
+│  ▲                                                           │
+│  │                                                           │
+│  │  ❌ Temporal Dead Zone (TDZ)                                 
+│  │  Cannot access 'b' before initialization                  │
+│  │                                                           │
+│  let b = 10;   ← TDZ ends here                               │
+│                                                              │
+│  b = 10                                                      │
+│                                                              │
+└──────────────────────────────────────────────────────────────┘
+```
+
+## Function Declaration vs Function Expression
+
+
+
+
