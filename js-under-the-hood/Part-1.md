@@ -173,24 +173,25 @@ console.log(username);
    - Vivek
 
 ```
-Global Execution Context (GEC)
-│
-├── Memory Creation Phase
-│
-└── Code Execution Phase
-         │
-         ▼
-   greet() is called
-         │
-         ▼
-Function Execution Context (FEC)
-│
-├── Memory Creation Phase
-│
-└── Code Execution Phase
-         │
-         ▼
-Return to GEC
+┌──────────────────────────────────┐
+│ Global Execution Context (GEC)   │
+├──────────────────────────────────┤
+│ • Memory Creation Phase          │
+│ • Code Execution Phase           │
+└───────────────┬──────────────────┘
+                │
+                │ greet()
+                ▼
+┌──────────────────────────────────┐
+│ Function Execution Context (FEC) │
+├──────────────────────────────────┤
+│ • Memory Creation Phase          │
+│ • Code Execution Phase           │
+└───────────────┬──────────────────┘
+                │
+                │ Function ends
+                ▼
+        Return to the GEC
 ```
 
 **Since memory is created before code executes, this leads us to one of JavaScript's most misunderstood concepts: Hoisting.**
