@@ -340,59 +340,74 @@ three();
 | 5 | **two()** finishes → prints | (pops two) three → GEC |
 | 6 | **three()** finishes → prints | (pops three) GEC |
 
- **Visualization**
-1. Initial Call Stack    
+**Visualization**
+
+**1. Initial Call Stack**
+```
 ┌──────────────┐
 │     GEC      │
 └──────────────┘
+```
 
-2. **three()** called
+**2. `three()` called**
+```
 ┌──────────────┐
 │    three()   │
 ├──────────────┤
-│    GEC       │
+│     GEC      │
 └──────────────┘
+```
 
-3. **two()** called
+**3. `two()` called**
+```
 ┌──────────────┐
 │    two()     │
 ├──────────────┤
 │    three()   │
 ├──────────────┤
-│    GEC       │
+│     GEC      │
 └──────────────┘
+```
 
-4. **one()** called
+**4. `one()` called**
+```
 ┌──────────────┐
 │    one()     │
 ├──────────────┤
 │    two()     │
 ├──────────────┤
-│   three()    │
-└──────────────┘
+│    three()   │
+├──────────────┤
 │     GEC      │
 └──────────────┘
+```
 
-5. **one()** finishes
+**5. `one()` finishes**
+```
 ┌──────────────┐
 │    two()     │
 ├──────────────┤
 │    three()   │
 ├──────────────┤
-│    GEC       │
+│     GEC      │
 └──────────────┘
+```
 
-6. **two()** finishes
+**6. `two()` finishes**
+```
 ┌──────────────┐
 │    three()   │
 ├──────────────┤
-│    GEC       │
+│     GEC      │
 └──────────────┘
+```
 
-7. **three()** finishes
+**7. `three()` finishes**
+```
 ┌──────────────┐
 │     GEC      │
 └──────────────┘
+```
 
 - **Output order:**
   - One
@@ -410,3 +425,121 @@ loop(); // ❌ RangeError: Maximum call stack size exceeded
 ```
 - Every recursive function must have a base case that stops the recursion, otherwise → stack overflow.
 
+## Putting It All Together
+- Now rather than introducing any new concept lets solve and example for better clarity.
+
+**1. Code**
+```js
+let username = "Vivek";
+
+function greet() {
+    console.log("Hello");
+}
+
+greet();
+
+console.log(username);
+```
+
+**2. Overall Journey**
+```
+JavaScript Source Code
+          │
+          ▼
+┌──────────────────────┐
+│ JavaScript Engine    │
+└──────────┬───────────┘
+           │
+           ▼
+┌──────────────────────┐
+│ Global Execution     │
+│ Context Created      │
+└──────────┬───────────┘
+           │
+           ▼
+┌──────────────────────┐
+│ Memory Creation      │
+│ Phase                │
+└──────────┬───────────┘
+           │
+           ▼
+┌──────────────────────┐
+│ Code Execution       │
+│ Phase                │
+└──────────┬───────────┘
+           │
+           ▼
+┌──────────────────────┐
+│ Function Call        │
+│ greet()              │
+└──────────┬───────────┘
+           │
+           ▼
+┌──────────────────────┐
+│ Function Execution   │
+│ Context              │
+└──────────┬───────────┘
+           │
+           ▼
+┌──────────────────────┐
+│ Console Output       │
+│ Hello                │
+│ Vivek                │
+└──────────────────────┘
+```
+
+**3. Global Execution Context**
+```
+┌────────────────────────────────────────────┐ 
+│ Global Execution Context                   │
+├────────────────────────────────────────────┤
+│ Memory Creation Phase                      │
+│────────────────────────────────────────────│
+│ username  →  undefined                     │
+│ greet     →  Full Function Stored          │
+│ this      →  window                        │
+└────────────────────────────────────────────┘
+│                                            │
+├────────────────────────────────────────────┤
+│ Code Execution Phase                       │
+│────────────────────────────────────────────│
+│ username = "Vivek"                         │
+│ greet()  ← Function Called                 │
+│ console.log(username)                      │
+└────────────────────────────────────────────┘
+```
+
+**4. Call Stack**
+**1. Initial Call Stack**
+```
+┌──────────────┐
+│     GEC      │
+└──────────────┘
+```
+**2. `greet()` called**
+```
+┌──────────────┐
+│   greet()    │
+├──────────────┤
+│     GEC      │
+└──────────────┘
+```
+**3. `greet()` finishes**
+```
+┌──────────────┐
+│     GEC      │
+└──────────────┘
+```
+
+**5. Final Output**
+
+  - Hello
+  - Vivek
+
+## Final Summary (End the article with this)
+
+- In this article, we followed the complete journey of a JavaScript program—from understanding what JavaScript is, to learning how the JavaScript Engine processes code, how an Execution Context is created, why Hoisting occurs, and finally how the Call Stack manages function execution.
+
+- These concepts form the foundation of JavaScript. Once they become clear, understanding advanced topics like Closures, the Event Loop, Promises, and Async/Await becomes much easier.
+
+- In the next part of this series, we'll dive deeper into how JavaScript handles asynchronous operations and explore the Event Loop in detail.
