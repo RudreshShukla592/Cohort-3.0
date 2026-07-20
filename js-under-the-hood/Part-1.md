@@ -160,11 +160,12 @@ console.log(username);
  2. **Code Execution Phase**
     - `username` becomes **Vivek**
     - Then `greet()` is called => a new Function Execution Context is created
-        - The new **Function Execution Context** has its own Memory Creation & Code Execution Phase:
+       
            1. **Memory Creation Phase**
                 - `message` => `undefined`
 
-           2. **Code Execution Phase**     
+            2. **Code Execution Phase**
+              - `message` becomes **Hello**     
               - **Hello** gets printed.
 
     - The FEC gets destroyed.
