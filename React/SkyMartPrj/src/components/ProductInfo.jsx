@@ -7,13 +7,16 @@ import {
   RotateCcw,
   ChevronLeft,
   ChevronRight,
+  Minus, Plus
 } from "lucide-react";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router";
+import { MyShop } from "../context/MyContext";
 
-
-const ProductInfo = ({ singleProductData, id }) => {
+const ProductInfo = ({ singleProductData, id, isInCart }) => {
   let navigate = useNavigate();
+  let { setCartItems, incrementQuantity, decrementQuantity, removeFromCart } =
+    useContext(MyShop);
 
   const currentId = Number(id);
 
@@ -29,11 +32,9 @@ const ProductInfo = ({ singleProductData, id }) => {
     }
   };
 
-   const [likedProduct, setLikedProduct] = useState(false);
+  const [likedProduct, setLikedProduct] = useState(false);
 
   return (
-
-
     <section className="grid gap-12 lg:grid-cols-2">
       {/* Image */}
 
@@ -79,10 +80,40 @@ const ProductInfo = ({ singleProductData, id }) => {
         </p>
 
         <div className="mt-10 flex gap-4">
-          <button className="flex flex-1 items-center justify-center gap-3 rounded-2xl bg-lime-400 py-4 text-lg font-semibold text-black transition hover:scale-[1.02]">
-            <ShoppingCart size={20} />
-            Add To Cart
-          </button>
+          {isInCart ? (
+            <div className="flex flex-1 items-center justify-center rounded-2xl border border-zinc-700">
+              <button
+                onClick={() => {
+                  if (isInCart.quantity < 2) removeFromCart(isInCart.id);
+                  decrementQuantity(isInCart.id);
+                }}
+                className="px-6 py-4 text-white transition hover:text-lime-400"
+              >
+                 <Minus size={18} />
+              </button>
+
+              <span className="px-8 text-lg font-semibold">
+                {isInCart.quantity}
+              </span>
+
+              <button onClick={() => incrementQuantity(isInCart.id)} className="px-6 py-4 text-white transition hover:text-lime-400">
+                <Plus size={18} />
+              </button>
+            </div>
+          ) : (
+            <button
+              onClick={() =>
+                setCartItems((prev) => [
+                  ...prev,
+                  { ...singleProductData, quantity: 1 },
+                ])
+              }
+              className="flex flex-1 items-center justify-center gap-3 rounded-2xl bg-lime-400 py-4 text-lg font-semibold text-black transition hover:scale-[1.02]"
+            >
+              <ShoppingCart size={20} />
+              Add To Cart
+            </button>
+          )}
 
           <button
             onClick={() => setLikedProduct((prev) => !prev)}

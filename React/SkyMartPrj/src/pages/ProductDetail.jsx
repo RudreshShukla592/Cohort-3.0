@@ -37,13 +37,14 @@ const Cart = () => {
     window.scrollTo(0, 0);
   }, [id]);
 
+   let isInCart = cartItems.find((items)=> items.id === singleProductData.id)
 
     return (
     <div className="min-h-screen bg-[#0d0d0d] text-white">
       <Navbar />
 
       <main className="mx-auto flex w-full max-w-7xl flex-col gap-14 px-4 py-8 sm:px-6 lg:px-8">
-        <ProductInfo id={id}  singleProductData={singleProductData} />
+        <ProductInfo id={id} isInCart={isInCart}  singleProductData={singleProductData} />
 
         <RelatedProducts products={relatedProducts} />
       </main>

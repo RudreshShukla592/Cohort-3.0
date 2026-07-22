@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Footer from '../components/Footer'
 import Navbar from '../components/Navbar'
 import AboutHero from "../components/AboutHero";
@@ -7,6 +7,9 @@ import AboutStory from "../components/AboutStory";
 import AboutCTA from "../components/AboutCTA";
 
 const Shop = () => {
+  useEffect(()=>{
+     window.scrollTo(0, 0);
+  },[])
   return (
     <div className="min-h-screen bg-[#0d0d0d] text-white">
       <Navbar />

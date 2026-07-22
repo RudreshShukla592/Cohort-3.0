@@ -1,6 +1,17 @@
 import { Package, TrendingUp, Star, Tags } from "lucide-react";
+import { useContext } from "react";
+import { MyShop } from "../context/MyContext";
 
 const StatsSection = () => {
+  let {cartItems} = useContext(MyShop)
+
+  const totalCartValue = cartItems
+  .reduce((acc, item) => acc + item.price * item.quantity, 0)
+  .toFixed(2);
+
+   const totalCartItem = cartItems
+    .reduce((acc, item) => acc +  item.quantity, 0)
+
   return (
     <section className="mx-auto mt-8 max-w-7xl">
       <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
@@ -12,7 +23,7 @@ const StatsSection = () => {
           </div>
 
           <div>
-            <h2 className="text-4xl font-bold text-white">0</h2>
+            <h2 className="text-4xl font-bold text-white">{totalCartItem}</h2>
             <p className="text-zinc-400">Cart Items</p>
             <span className="text-sm text-zinc-600">In your bag</span>
           </div>
@@ -26,7 +37,7 @@ const StatsSection = () => {
           </div>
 
           <div>
-            <h2 className="text-4xl font-bold text-white">$0.00</h2>
+            <h2 className="text-4xl font-bold text-white">${totalCartValue}</h2>
             <p className="text-zinc-400">Cart Value</p>
             <span className="text-sm text-zinc-600">Ready to checkout</span>
           </div>
@@ -40,7 +51,7 @@ const StatsSection = () => {
           </div>
 
           <div>
-            <h2 className="text-4xl font-bold text-white">5</h2>
+            <h2 className="text-4xl font-bold text-white">4</h2>
             <p className="text-zinc-400">Top Products</p>
             <span className="text-sm text-zinc-600">Highly rated</span>
           </div>

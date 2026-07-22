@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import axios from "axios";
 
 export const MyShop = createContext();
@@ -50,9 +50,38 @@ export const CreateContext = ({ children }) => {
     setCartItems(filterProduct);
   };
 
-  const clearCart = ()=>{
-    setCartItems([])
-  }
+  const clearCart = () => {
+    setCartItems([]);
+  };
+
+  const [orderPlaced, setOrderPlaced] = useState(false);
+
+  const [cartLoaded, setCartLoaded] = useState(false);
+  
+  //  Save effect
+  useEffect(() => {
+    if (!currentUser || !cartLoaded) return;
+
+    localStorage.setItem(
+      `cart_${currentUser.email}`,
+      JSON.stringify(cartItems),
+    );
+  }, [cartItems, currentUser, cartLoaded]);
+
+  // Load effect
+  useEffect(() => {
+    if (!currentUser) {
+      setCartItems([]);
+      setCartLoaded(false);
+      return;
+    }
+
+    const savedCart =
+      JSON.parse(localStorage.getItem(`cart_${currentUser.email}`)) || [];
+
+    setCartItems(savedCart);
+    setCartLoaded(true);
+  }, [currentUser]);
 
   return (
     <MyShop.Provider
@@ -75,7 +104,9 @@ export const CreateContext = ({ children }) => {
         incrementQuantity,
         decrementQuantity,
         removeFromCart,
-        clearCart 
+        clearCart,
+        orderPlaced,
+        setOrderPlaced,
       }}
     >
       {children}
