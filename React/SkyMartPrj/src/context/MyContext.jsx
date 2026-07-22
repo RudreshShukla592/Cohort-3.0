@@ -1,9 +1,11 @@
-import { createContext } from "react";
+import { createContext, useState } from "react";
 
 export const MyShop = createContext();
 
 export const CreateContext = ({ children }) => {
 
-
-  return <MyShop.Provider value={}>{children}</MyShop.Provider>;
+  const [users, setUsers] = useState(JSON.parse(localStorage.getItem("users")) || [])
+  const [currentUser, setCurrentUser] = useState( JSON.parse(localStorage.getItem("currentUser")) || null)
+ 
+  return <MyShop.Provider value={{users, setUsers, currentUser, setCurrentUser}}>{children}</MyShop.Provider>;
 };

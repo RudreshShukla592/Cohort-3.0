@@ -1,16 +1,8 @@
 import React from 'react'
-import Login from './pages/Login'
-import Register from './pages/Register'
-import Home from './pages/Home'
+import AppRoute from './routes/AppRoute'
 
 const App = () => {
-  return (
-    <div>
-      {/* <Login/> */}
-      {/* <Register/> */}
-      <Home/>
-    </div>
-  )
+  return  <AppRoute/>
 }
 
 export default App
