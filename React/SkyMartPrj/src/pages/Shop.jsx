@@ -1,26 +1,14 @@
 import React, { useContext, useEffect } from "react";
-import axios from "axios";
 
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import ProductCard from "../components/ProductCard";
 import { MyShop } from "../context/MyContext";
 
-
 import ShopFilter from "../components/ShopFilter";
 
 const Shop = () => {
-  const { productsData, setproductsData,  setAllProducts, } = useContext(MyShop);
-
-  const getproductsData = async () => {
-    try {
-      const res = await axios.get("https://dummyjson.com/products?limit=50");
-      setAllProducts(res.data.products);
-      setproductsData(res.data.products);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  const { productsData, getproductsData, cartItems } = useContext(MyShop);
 
   useEffect(() => {
     getproductsData();
@@ -47,14 +35,23 @@ const Shop = () => {
 
         {/* Search & Filter */}
 
-         <ShopFilter />
+        <ShopFilter />
 
         {/* Products */}
 
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {productsData.map((product) => (
-            <ProductCard key={product.id} product={product} />
-          ))}
+          {productsData.map((product) => {
+            
+            const isInCart = cartItems.find((item) => item.id === product.id);
+
+            return (
+              <ProductCard
+                key={product.id}
+                product={product}
+                isInCart={isInCart}
+              />
+            );
+          })}
         </div>
       </main>
 

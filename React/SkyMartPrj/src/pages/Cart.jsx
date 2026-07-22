@@ -1,19 +1,131 @@
-import React from 'react'
-import Navbar from '../components/Navbar'
-import Footer from '../components/Footer'
+import { Minus, Plus, Trash2, ShoppingBag } from "lucide-react";
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
+import { useContext } from "react";
+import { MyShop } from "../context/MyContext";
 
 const Cart = () => {
+  let { cartItems, removeFromCart, incrementQuantity, decrementQuantity, clearCart  } =
+    useContext(MyShop);
+
   return (
     <div className="min-h-screen bg-[#0d0d0d] text-white">
       <Navbar />
 
-      <main className="mx-auto flex w-full max-w-7xl flex-col gap-14 px-4 py-8 sm:px-6 lg:px-8">
-        <h1>Cart page</h1>
+      <main className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
+        <h1 className="mb-10 text-4xl font-bold">
+          Shopping <span className="text-lime-400">Cart</span>
+        </h1>
+
+        <div className="grid gap-8 lg:grid-cols-[2fr_1fr]">
+          {/* Cart Items */}
+
+          <div className="space-y-6">
+            {cartItems.map((item) => (
+              <div
+                key={item.id}
+                className="flex flex-col gap-5 rounded-3xl border border-zinc-800 bg-[#151515] p-5 sm:flex-row sm:items-center"
+              >
+                <div className="flex h-36 w-full items-center justify-center rounded-2xl bg-white p-4 sm:w-36">
+                  <img
+                    src={item.thumbnail}
+                    alt={item.title}
+                    className="max-h-full object-contain"
+                  />
+                </div>
+
+                <div className="flex flex-1 flex-col justify-between">
+                  <div>
+                    <h2 className="text-xl font-semibold">{item.title}</h2>
+
+                    <p className="mt-2 text-2xl font-bold text-lime-400">
+                      ${item.price}
+                    </p>
+                  </div>
+
+                  <div className="mt-5 flex flex-wrap items-center justify-between gap-4">
+                    <div className="flex items-center rounded-xl border border-zinc-700">
+                      <button
+                        onClick={() => {
+                          if (item.quantity < 2) removeFromCart(item.id);
+                          decrementQuantity(item.id);
+                        }}
+                        className="p-3 hover:text-lime-400"
+                      >
+                        <Minus size={18} />
+                      </button>
+
+                      <span className="px-5 font-semibold">
+                        {item.quantity}
+                      </span>
+
+                      <button
+                        onClick={() => incrementQuantity(item.id)}
+                        className="p-3 hover:text-lime-400"
+                      >
+                        <Plus size={18} />
+                      </button>
+                    </div>
+
+                    <button
+                      onClick={() => removeFromCart(item.id)}
+                      className="rounded-xl border border-red-500/40 p-3 text-red-400 transition hover:bg-red-500/10"
+                    >
+                      <Trash2 size={18} />
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Summary */}
+
+          <div className="sticky top-28 h-fit rounded-3xl border border-zinc-800 bg-[#151515] p-7">
+            <div className="mb-6 flex items-center gap-3">
+              <ShoppingBag className="text-lime-400" />
+
+              <h2 className="text-2xl font-bold">Order Summary</h2>
+            </div>
+
+            <div className="space-y-4">
+              <div className="flex justify-between text-zinc-400">
+                <span>Items</span>
+
+                <span>3</span>
+              </div>
+
+              <div className="flex justify-between text-zinc-400">
+                <span>Shipping</span>
+
+                <span>Free</span>
+              </div>
+
+              <div className="border-t border-zinc-700 pt-5">
+                <div className="flex justify-between">
+                  <span className="text-xl font-semibold">Total</span>
+
+                  <span className="text-3xl font-bold text-lime-400">
+                    $247.00
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <button className="mt-8 w-full rounded-2xl bg-lime-400 py-4 text-lg font-bold text-black transition hover:scale-[1.02] active:scale-95">
+              Place Order
+            </button>
+
+            <button onClick={clearCart } className="mt-4 w-full rounded-2xl border border-red-500 py-4 font-semibold text-red-400 transition hover:bg-red-500/10">
+              Clear Cart
+            </button>
+          </div>
+        </div>
       </main>
 
       <Footer />
     </div>
-  )
-}
+  );
+};
 
-export default Cart
+export default Cart;
