@@ -7,6 +7,7 @@ import {
   Gem,
   ArrowRight,
 } from "lucide-react";
+import { useNavigate } from "react-router";
 
 const categories = [
   {
@@ -60,6 +61,10 @@ const categories = [
 ];
 
 const CategorySection = () => {
+
+
+  let navigate = useNavigate()
+
   return (
     <section className="mx-auto mt-14 max-w-7xl px-6">
       {/* Heading */}
@@ -73,7 +78,7 @@ const CategorySection = () => {
           </p>
         </div>
 
-        <button className="hidden items-center gap-2 font-medium text-lime-400 transition hover:gap-3 md:flex">
+        <button onClick={() => navigate("/shop")} className="hidden items-center gap-2 font-medium text-lime-400 transition hover:gap-3 md:flex">
           View All
           <ArrowRight size={18} />
         </button>

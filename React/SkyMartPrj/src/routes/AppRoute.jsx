@@ -1,17 +1,52 @@
-import React from 'react'
+import React from "react";
 import { Routes, Route } from "react-router";
-import Login from '../pages/Login';
-import Register from '../pages/Register';
-import Home from '../pages/Home'
+import Login from "../pages/Login";
+import Register from "../pages/Register";
+import Home from "../pages/Home";
+import ProtectedRoute from "./ProtectedRoute";
+import Cart from "../pages/Cart";
+import Shop from "../pages/Shop";
+import About from "../pages/About"
 
 const AppRoute = () => {
   return (
     <Routes>
-       <Route path="/login" element={<Login/>} />
-       <Route path="/register" element={<Register/>} />   
-       <Route path="/home" element={<Home/>} />   
+      <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
+      <Route
+        path="/home"
+        element={
+          <ProtectedRoute>
+            <Home />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/shop"
+        element={
+          <ProtectedRoute>
+            <Shop />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/cart"
+        element={
+          <ProtectedRoute>
+            <Cart />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/about"
+        element={
+          <ProtectedRoute>
+            <About />
+          </ProtectedRoute>
+        }
+      />
     </Routes>
-  )
-}
+  );
+};
 
-export default AppRoute
+export default AppRoute;

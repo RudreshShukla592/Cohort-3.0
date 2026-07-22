@@ -1,8 +1,21 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { ShoppingCart, LogOut, User, Zap, Menu, X } from "lucide-react";
+import { useNavigate } from "react-router";
+import { MyShop } from "../context/MyContext";
 
 const Navbar = () => {
+
+  let navigate = useNavigate()
+
   const [menuOpen, setMenuOpen] = useState(false);
+
+  let { currentUser, setCurrentUser } = useContext(MyShop)
+
+  let logOutLogic = ()=>{
+    localStorage.removeItem("currentUser");
+    setCurrentUser(null)
+    navigate("/login")
+  }
 
   return (
     <>
@@ -23,15 +36,15 @@ const Navbar = () => {
           {/* Nav Links */}
 
           <ul className="hidden items-center gap-10 font-medium md:flex">
-            <li className="cursor-pointer text-lime-400 transition hover:text-lime-300">
+            <li  onClick={() => navigate("/home")} className="cursor-pointer text-zinc-400 transition hover:text-white">
               Home
             </li>
 
-            <li className="cursor-pointer text-zinc-400 transition hover:text-white">
+            <li  onClick={() => navigate("/shop")} className="cursor-pointer text-zinc-400 transition hover:text-white">
               Shop
             </li>
 
-            <li className="cursor-pointer text-zinc-400 transition hover:text-white">
+            <li  onClick={() => navigate("/about")} className="cursor-pointer text-zinc-400 transition hover:text-white">
               About
             </li>
           </ul>
@@ -41,17 +54,17 @@ const Navbar = () => {
           <div className="flex items-center gap-3">
             <div className="hidden items-center gap-2 rounded-xl border border-zinc-700 bg-[#151515] px-4 py-2 md:flex">
               <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-lime-400 font-semibold text-black">
-                A
+                { currentUser.fullName[0].toUpperCase() }
               </div>
 
-              <span className="text-sm text-white">Aryan Shukla</span>
+              <span className="text-sm text-white">{ currentUser.fullName}</span>
             </div>
 
-            <button className="rounded-xl border border-zinc-700 p-3 text-white transition hover:border-lime-400 hover:text-lime-400">
+            <button onClick={() => navigate("/cart")} className="rounded-xl border border-zinc-700 p-3 text-white transition hover:border-lime-400 hover:text-lime-400">
               <ShoppingCart size={20} />
             </button>
 
-            <button className="rounded-xl border border-zinc-700 p-3 text-white transition hover:border-red-500 hover:text-red-500">
+            <button onClick={logOutLogic} className="rounded-xl border border-zinc-700 p-3 text-white transition hover:border-red-500 hover:text-red-500">
               <LogOut size={20} />
             </button>
 
@@ -72,15 +85,15 @@ const Navbar = () => {
           }`}
         >
           <ul className="flex flex-col px-8 py-5">
-            <li className="rounded-xl px-4 py-3 text-lime-400 hover:bg-zinc-800">
+            <li onClick={() => navigate("/home")}  className="rounded-xl px-4 py-3 text-lime-400 hover:bg-zinc-800">
               Home
             </li>
 
-            <li className="mt-2 rounded-xl px-4 py-3 text-zinc-300 hover:bg-zinc-800 hover:text-white">
+            <li onClick={() => navigate("/shop")} className="mt-2 rounded-xl px-4 py-3 text-zinc-300 hover:bg-zinc-800 hover:text-white">
               Shop
             </li>
 
-            <li className="mt-2 rounded-xl px-4 py-3 text-zinc-300 hover:bg-zinc-800 hover:text-white">
+            <li onClick={() => navigate("/about")} className="mt-2 rounded-xl px-4 py-3 text-zinc-300 hover:bg-zinc-800 hover:text-white">
               About
             </li>
           </ul>
