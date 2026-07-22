@@ -6,7 +6,8 @@ import Home from "../pages/Home";
 import ProtectedRoute from "./ProtectedRoute";
 import Cart from "../pages/Cart";
 import Shop from "../pages/Shop";
-import About from "../pages/About"
+import About from "../pages/About";
+import ProductDetail from "../pages/ProductDetail";
 
 const AppRoute = () => {
   return (
@@ -42,6 +43,14 @@ const AppRoute = () => {
         element={
           <ProtectedRoute>
             <About />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/detail/:id"
+        element={
+          <ProtectedRoute>
+            <ProductDetail />
           </ProtectedRoute>
         }
       />

@@ -1,69 +1,86 @@
 import {
-  Laptop,
-  Shirt,
-  Sofa,
-  House,
-  Dumbbell,
-  Gem,
+  Sparkles,
+  Flower2,
+  Armchair,
+  ShoppingBasket,
+  Home,
+  UtensilsCrossed,
   ArrowRight,
 } from "lucide-react";
+import { useContext } from "react";
 import { useNavigate } from "react-router";
+import { MyShop } from "../context/MyContext";
 
 const categories = [
   {
-    title: "Electronics",
-    items: 17,
-    icon: Laptop,
-    color: "text-blue-400",
-    bg: "bg-blue-500/10",
-    border: "group-hover:border-blue-500",
-  },
-  {
-    title: "Fashion",
-    items: 12,
-    icon: Shirt,
+    title: "Beauty",
+    value: "beauty",
+    items: 5,
+    icon: Sparkles,
     color: "text-pink-400",
     bg: "bg-pink-500/10",
     border: "group-hover:border-pink-500",
   },
   {
+    title: "Fragrances",
+    value: "fragrances",
+    items: 5,
+    icon: Flower2,
+    color: "text-violet-400",
+    bg: "bg-violet-500/10",
+    border: "group-hover:border-violet-500",
+  },
+  {
     title: "Furniture",
-    items: 9,
-    icon: Sofa,
+    value: "furniture",
+    items: 5,
+    icon: Armchair,
     color: "text-orange-400",
     bg: "bg-orange-500/10",
     border: "group-hover:border-orange-500",
   },
   {
-    title: "Home",
-    items: 14,
-    icon: House,
+    title: "Groceries",
+    value: "groceries",
+    items: 27,
+    icon: ShoppingBasket,
     color: "text-green-400",
     bg: "bg-green-500/10",
     border: "group-hover:border-green-500",
   },
   {
-    title: "Sports",
-    items: 8,
-    icon: Dumbbell,
-    color: "text-red-400",
-    bg: "bg-red-500/10",
-    border: "group-hover:border-red-500",
+    title: "Home Decoration",
+    value: "home-decoration",
+    items: 5,
+    icon: Home,
+    color: "text-sky-400",
+    bg: "bg-sky-500/10",
+    border: "group-hover:border-sky-500",
   },
   {
-    title: "Accessories",
-    items: 6,
-    icon: Gem,
-    color: "text-violet-400",
-    bg: "bg-violet-500/10",
-    border: "group-hover:border-violet-500",
+    title: "Kitchen Accessories",
+    value: "kitchen-accessories",
+    items: 3,
+    icon: UtensilsCrossed,
+    color: "text-yellow-400",
+    bg: "bg-yellow-500/10",
+    border: "group-hover:border-yellow-500",
   },
 ];
 
 const CategorySection = () => {
+  let { allProducts, setproductsData, setSelectedCategory } = useContext(MyShop);
 
+  let navigate = useNavigate();
 
-  let navigate = useNavigate()
+  let categorySelectionToggle = (title) => {
+    let filtered = allProducts;
+    filtered = filtered.filter((product) => product.category === title);
+
+    setproductsData(filtered);
+    setSelectedCategory(title);
+    navigate("/shop");
+  };
 
   return (
     <section className="mx-auto mt-14 max-w-7xl px-6">
@@ -78,7 +95,10 @@ const CategorySection = () => {
           </p>
         </div>
 
-        <button onClick={() => navigate("/shop")} className="hidden items-center gap-2 font-medium text-lime-400 transition hover:gap-3 md:flex">
+        <button
+          onClick={() => navigate("/shop")}
+          className="hidden items-center gap-2 font-medium text-lime-400 transition hover:gap-3 md:flex"
+        >
           View All
           <ArrowRight size={18} />
         </button>
@@ -92,6 +112,7 @@ const CategorySection = () => {
 
           return (
             <div
+              onClick={() => categorySelectionToggle(category.value)}
               key={index}
               className={`group cursor-pointer rounded-3xl border border-zinc-800 bg-[#151515] p-8 transition-all duration-300 hover:-translate-y-2 ${category.border}`}
             >

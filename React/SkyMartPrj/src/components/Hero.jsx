@@ -2,7 +2,7 @@ import { Zap } from "lucide-react";
 
 const Hero = () => {
   return (
-    <section className="hidden md:flex flex-col justify-between border-r border-zinc-700 p-12">
+    <section className="hidden md:flex flex-col  justify-between border-r border-zinc-700 p-12">
       {/* Logo */}
 
       <div className="flex items-center gap-3">
