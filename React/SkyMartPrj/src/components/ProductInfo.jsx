@@ -7,7 +7,9 @@ import {
   RotateCcw,
   ChevronLeft,
   ChevronRight,
-  Minus, Plus
+  Minus,
+  Plus,
+  
 } from "lucide-react";
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router";
@@ -36,7 +38,8 @@ const ProductInfo = ({ singleProductData, id, isInCart }) => {
 
   return (
     <section className="grid gap-12 lg:grid-cols-2">
-      {/* Image */}
+    
+   {/* Image */}
 
       <div className="overflow-hidden rounded-3xl bg-white p-10">
         <img
@@ -89,14 +92,17 @@ const ProductInfo = ({ singleProductData, id, isInCart }) => {
                 }}
                 className="px-6 py-4 text-white transition hover:text-lime-400"
               >
-                 <Minus size={18} />
+                <Minus size={18} />
               </button>
 
               <span className="px-8 text-lg font-semibold">
                 {isInCart.quantity}
               </span>
 
-              <button onClick={() => incrementQuantity(isInCart.id)} className="px-6 py-4 text-white transition hover:text-lime-400">
+              <button
+                onClick={() => incrementQuantity(isInCart.id)}
+                className="px-6 py-4 text-white transition hover:text-lime-400"
+              >
                 <Plus size={18} />
               </button>
             </div>

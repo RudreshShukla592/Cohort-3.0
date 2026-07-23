@@ -8,12 +8,12 @@ const ProductCard = ({ product, isInCart }) => {
   let navigate = useNavigate();
 
   return (
-    <div className="group overflow-hidden rounded-2xl border border-zinc-800 bg-[#151515] transition-all duration-300 hover:-translate-y-1 hover:border-lime-400 hover:shadow-[0_0_25px_rgba(163,230,53,0.08)]">
+    <div className="group overflow-hidden  rounded-2xl border border-zinc-800 bg-[#151515] transition-all duration-300 hover:-translate-y-1 hover:border-lime-400 hover:shadow-[0_0_25px_rgba(163,230,53,0.08)]">
       {/* Image */}
 
       <div
         onClick={() => navigate(`/detail/${product.id}`)}
-        className="relative flex h-64 items-center justify-center overflow-hidden bg-white p-6"
+        className="relative cursor-pointer flex h-64 items-center justify-center overflow-hidden bg-white p-6"
       >
         <span className="absolute left-4 top-4 z-10 rounded-full bg-black/80 px-3 py-1 text-xs font-medium capitalize text-white backdrop-blur">
           {product.category}

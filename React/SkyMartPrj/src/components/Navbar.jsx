@@ -16,6 +16,9 @@ const Navbar = () => {
     navigate("/login");
   };
 
+  const totalCartItem = cartItems
+    .reduce((acc, item) => acc +  item.quantity, 0)
+
   return (
     <>
       <nav className="sticky top-0 z-50 border-b border-zinc-800 bg-[#0d0d0d]/90 backdrop-blur">
@@ -75,7 +78,9 @@ const Navbar = () => {
               <ShoppingCart size={20} />
 
               {cartItems.length > 0 && (
-                <span className="absolute right-0 top-0 h-3 w-3 rounded-full border-2 border-[#0d0d0d] bg-yellow-400" />
+                <span className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-yellow-400 text-[10px] font-bold text-black">
+                  {totalCartItem>9 ? "9+" : totalCartItem}
+                </span>
               )}
             </button>
 

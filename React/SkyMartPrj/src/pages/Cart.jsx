@@ -1,4 +1,4 @@
-import { Minus, Plus, Trash2, ShoppingBag } from "lucide-react";
+import { Minus, Plus, Trash2, ShoppingBag, PackageOpen } from "lucide-react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import { useContext } from "react";
@@ -51,8 +51,28 @@ const Cart = () => {
           {/* Cart Items */}
 
           {cartItems.length === 0 ? (
-            <div className="flex justify-center items-center h-95">
-              <h2 className="text-2xl text-gray-400">Your cart is empty.</h2>
+            <div className="flex flex-col items-center justify-center h-[60vh] text-center">
+              <PackageOpen
+                size={80}
+                strokeWidth={1.5}
+                className="mb-5 text-gray-500"
+                opacity={0.5}
+              />
+
+              <h2 className="text-3xl font-semibold text-white">
+                Your cart is empty
+              </h2>
+
+              <p className="mt-2 text-gray-400">
+                Looks like you haven't added anything yet.
+              </p>
+
+              <button
+                onClick={() => navigate("/shop")}
+                className="mt-8 rounded-xl bg-lime-400 px-6 py-3 font-semibold text-black transition-all duration-200 hover:scale-105 hover: bg-lime-400 active:scale-95"
+              >
+                Browse Products
+              </button>
             </div>
           ) : (
             <div className="space-y-6">
