@@ -1,5 +1,5 @@
 import React from "react";
-import { Routes, Route } from "react-router";
+import { Routes, Route, Navigate } from "react-router";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
 import Home from "../pages/Home";
@@ -12,6 +12,7 @@ import ProductDetail from "../pages/ProductDetail";
 const AppRoute = () => {
   return (
     <Routes>
+      <Route path="/" element={<Navigate to="/login" replace />} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
       <Route

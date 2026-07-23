@@ -1,7 +1,7 @@
 import { Minus, Plus, Trash2, ShoppingBag, PackageOpen } from "lucide-react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { MyShop } from "../context/MyContext";
 import { useNavigate } from "react-router";
 import OrderSuccess from "../components/OrderSuccess";
@@ -29,6 +29,10 @@ const Cart = () => {
       navigate("/home"); // optional
     }, 2000);
   };
+
+   useEffect(()=>{
+       window.scrollTo(0, 0);
+    },[])
 
   const totalCartValue = cartItems
     .reduce((acc, item) => acc + item.price * item.quantity, 0)
@@ -94,7 +98,7 @@ const Cart = () => {
                       <h2 className="text-xl font-semibold">{item.title}</h2>
 
                       <p className="mt-2 text-2xl font-bold text-lime-400">
-                        ${item.price}
+                        ${(item.price * item.quantity).toFixed(2)}
                       </p>
                     </div>
 
