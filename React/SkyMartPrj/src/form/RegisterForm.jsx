@@ -31,7 +31,7 @@ const RegisterForm = () => {
     const { confirmPassword, ...userData } = data;
     let arr = [...users, userData];
     setUsers(arr);
-    console.log(arr);
+   
     localStorage.setItem("users", JSON.stringify(arr));
     reset();
     navigate("/login");
