@@ -25,8 +25,6 @@ export const studentSlice = createSlice({
     setEditingStudent: (state, action) => {
       state.editingStudent = action.payload;
     },
-
-    
   },
 });
 

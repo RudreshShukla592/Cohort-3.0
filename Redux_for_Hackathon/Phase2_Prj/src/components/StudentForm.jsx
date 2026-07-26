@@ -61,7 +61,7 @@ const StudentForm = () => {
         </h2>
       </div>
 
-      <form onSubmit={handleSubmit(formHandle)} className="space-y-5">
+      <form autoComplete="off" onSubmit={handleSubmit(formHandle)} className="space-y-5">
         {/* Full Name */}
         <div>
           <label className="block text-sm font-medium text-slate-600 mb-2">
@@ -70,6 +70,7 @@ const StudentForm = () => {
 
           <input
             type="text"
+            autoComplete="off"
             placeholder="Enter student's full name"
             className="w-full rounded-xl border border-slate-300 px-4 py-3 outline-none focus:border-teal-600 focus:ring-2 focus:ring-teal-100 transition"
             {...register("name", {
@@ -90,6 +91,7 @@ const StudentForm = () => {
 
           <input
             type="email"
+            autoComplete="new-email"
             placeholder="Enter email address"
             className="w-full rounded-xl border border-slate-300 px-4 py-3 outline-none focus:border-teal-600 focus:ring-2 focus:ring-teal-100 transition"
             {...register("email", {
@@ -111,6 +113,7 @@ const StudentForm = () => {
 
             <input
               type="number"
+              autoComplete="off"
               placeholder="Age"
               className="w-full rounded-xl border border-slate-300 px-4 py-3 outline-none focus:border-teal-600 focus:ring-2 focus:ring-teal-100 transition"
               {...register("age", {
@@ -151,6 +154,7 @@ const StudentForm = () => {
 
           <input
             type="tel"
+            autoComplete="add-number"
             placeholder="+91 XXXXX XXXXX"
             className="w-full rounded-xl border border-slate-300 px-4 py-3 outline-none focus:border-teal-600 focus:ring-2 focus:ring-teal-100 transition"
             {...register("phone")}
