@@ -1,42 +1,13 @@
-import React, { useContext } from "react";
-import {useNavigate} from 'react-router'
-import { useForm } from "react-hook-form";
-import { MyShop } from "../context/MyContext";
+import React from "react";
+
+import { useAuth } from "../hooks/useAuth";
 
 const Login = () => {
-   
-  let { setLoggedUser, registerUser} = useContext(MyShop)
+  let { navigate, register, handleSubmit, errors, loginFormData } = useAuth();
 
-    let navigate = useNavigate()
-
-    let {
-        register,
-        handleSubmit,
-        reset,
-        formState: { errors },
-      } = useForm({
-         mode: "onChange",
-      });
-    
-   let formData = (data)=>{
-      let user = registerUser.find((user)=> user.email === data.email && user.password === data.password)
-
-      if(!user){
-        alert("user not found or invalid credentials")
-        reset()
-        return
-      }
-      
-      setLoggedUser(user)
-       localStorage.setItem("loggedUserr", JSON.stringify(user));
-       alert("user loggedIn")
-      navigate("/main")  
-     reset()
-  }
   return (
     <div className="min-h-screen bg-gray-900 flex items-center justify-center px-4">
       <div className="w-full max-w-md bg-gray-800 rounded-2xl shadow-xl border border-gray-700 p-8">
-
         <h1 className="text-3xl font-bold text-center text-white">
           Welcome Back 👋
         </h1>
@@ -45,12 +16,12 @@ const Login = () => {
           Login to continue shopping
         </p>
 
-        <form onSubmit={handleSubmit(formData)} className="mt-8 flex flex-col gap-5">
-
+        <form
+          onSubmit={handleSubmit(loginFormData)}
+          className="mt-8 flex flex-col gap-5"
+        >
           <div>
-            <label className="block text-gray-300 mb-2">
-              Email
-            </label>
+            <label className="block text-gray-300 mb-2">Email</label>
 
             <input
               type="email"
@@ -65,13 +36,11 @@ const Login = () => {
               })}
             />
           </div>
-            {errors.email && (
-              <p className="text-red-700">{errors.email.message}</p>
-            )}
+          {errors.email && (
+            <p className="text-red-700">{errors.email.message}</p>
+          )}
           <div>
-            <label className="block text-gray-300 mb-2">
-              Password
-            </label>
+            <label className="block text-gray-300 mb-2">Password</label>
 
             <input
               type="password"
@@ -88,24 +57,23 @@ const Login = () => {
               })}
             />
           </div>
-           {errors.password && (
-              <p className="text-red-700">{errors.password.message}</p>
-            )}
-          <button
-            className="mt-3 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3 rounded-xl transition"
-          >
+          {errors.password && (
+            <p className="text-red-700">{errors.password.message}</p>
+          )}
+          <button className="mt-3 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3 rounded-xl transition">
             Login
           </button>
-
         </form>
 
         <p className="text-center text-gray-400 mt-6">
           Don't have an account?{" "}
-          <span onClick={()=> navigate("/register")} className="text-indigo-400 hover:text-indigo-300 cursor-pointer font-semibold">
+          <span
+            onClick={() => navigate("/register")}
+            className="text-indigo-400 hover:text-indigo-300 cursor-pointer font-semibold"
+          >
             Register Here
           </span>
         </p>
-
       </div>
     </div>
   );

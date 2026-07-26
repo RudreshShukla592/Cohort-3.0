@@ -1,8 +1,9 @@
-import React from "react";
-import { NavLink, useLocation } from "react-router";
+import React, { useContext } from "react";
+import { Navigate, NavLink, useNavigate } from "react-router";
+import { MyShop } from "../context/MyContext";
 
 const Navbar = () => {
-  let data = useLocation();
+  let { setLoggedUser } = useContext(MyShop);
 
   return (
     <div className="border-r border-gray-500 flex flex-col justify-between p-3">
@@ -44,7 +45,14 @@ const Navbar = () => {
         </div>
       </div>
 
-      <button className="py-3 bg-red-500 text-white rounded-xl cursor-pointer">
+      <button
+        onClick={() => {
+          localStorage.removeItem("loggedUserr");
+
+          setLoggedUser(null);
+        }}
+        className="py-3 bg-red-500 text-white rounded-xl cursor-pointer"
+      >
         Logout
       </button>
     </div>

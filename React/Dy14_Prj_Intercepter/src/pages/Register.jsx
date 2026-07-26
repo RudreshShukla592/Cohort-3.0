@@ -1,30 +1,11 @@
-import React, { useContext } from "react";
-import { useNavigate } from "react-router";
-import { useForm } from "react-hook-form";
-import { MyShop } from "../context/MyContext";
+import React from "react";
+import { useAuth } from "../hooks/useAuth";
 
 const Register = () => {
-  let navigate = useNavigate();
-  let {registerUser,setRegisterUser}= useContext(MyShop)
+  let { navigate, register, handleSubmit, errors, registerFormData } =
+    useAuth();
 
-  let {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm({
-     mode: "onChange",
-  });
-
-  let formData = (data)=>{
-     let arr = [...registerUser,data]
-     setRegisterUser(arr)
-     alert("Registration done")
-     localStorage.setItem("registerUser", JSON.stringify(arr));
-     navigate("/main")  
-     reset()
-  }
-  
+    
   return (
     <div className="min-h-screen bg-gray-900 flex items-center justify-center px-4">
       <div className="w-full max-w-md bg-gray-800 rounded-2xl shadow-xl border border-gray-700 p-8">
@@ -36,7 +17,10 @@ const Register = () => {
           Join us and start shopping today
         </p>
 
-        <form onSubmit={handleSubmit(formData)} className="mt-8 flex flex-col gap-5">
+        <form
+          onSubmit={handleSubmit(registerFormData)}
+          className="mt-8 flex flex-col gap-5"
+        >
           <div>
             <label className="block text-gray-300 mb-2">Name</label>
 
@@ -49,9 +33,7 @@ const Register = () => {
               })}
             />
           </div>
-          {errors.name && (
-              <p className="text-red-700">{errors.name.message}</p>
-            )}
+          {errors.name && <p className="text-red-700">{errors.name.message}</p>}
           <div>
             <label className="block text-gray-300 mb-2">Email</label>
 
@@ -68,9 +50,9 @@ const Register = () => {
               })}
             />
           </div>
-           {errors.email && (
-              <p className="text-red-700">{errors.email.message}</p>
-            )}
+          {errors.email && (
+            <p className="text-red-700">{errors.email.message}</p>
+          )}
           <div>
             <label className="block text-gray-300 mb-2">Password</label>
 
@@ -90,8 +72,8 @@ const Register = () => {
             />
           </div>
           {errors.password && (
-              <p className="text-red-700">{errors.password.message}</p>
-            )}
+            <p className="text-red-700">{errors.password.message}</p>
+          )}
           <button className="mt-3 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3 rounded-xl transition">
             Register
           </button>

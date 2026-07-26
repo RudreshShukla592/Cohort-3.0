@@ -29,15 +29,17 @@ const StudentForm = () => {
       const updatedStudent = {
         // this contains all the data of old student with key-value pair
         ...editingStudent,
-        // this only changes the values of the key which needs update 
+        // this only changes the values of the key which needs update
         ...data,
       };
       dispatch(updateStudent(updatedStudent));
+
       dispatch(setEditingStudent(null));
     } else {
       let student = { id: crypto.randomUUID(), ...data };
       dispatch(addStudent(student));
     }
+
     reset();
   };
 
@@ -48,6 +50,14 @@ const StudentForm = () => {
   useEffect(() => {
     if (editingStudent) {
       reset(editingStudent);
+    } else {
+      reset({
+        name: "",
+        email: "",
+        age: "",
+        course: "Computer Science",
+        phone: "",
+      });
     }
   }, [editingStudent, reset]);
 
@@ -61,7 +71,11 @@ const StudentForm = () => {
         </h2>
       </div>
 
-      <form autoComplete="off" onSubmit={handleSubmit(formHandle)} className="space-y-5">
+      <form
+        autoComplete="off"
+        onSubmit={handleSubmit(formHandle)}
+        className="space-y-5"
+      >
         {/* Full Name */}
         <div>
           <label className="block text-sm font-medium text-slate-600 mb-2">
