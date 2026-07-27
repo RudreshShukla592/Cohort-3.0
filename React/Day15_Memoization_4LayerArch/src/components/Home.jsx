@@ -1,14 +1,13 @@
-import React, { useState } from 'react'
+import React from 'react'
 
-const Home = () => {
+const Home = ({ greet}) => {
   console.log("Home rendering.....");
     
-  const [count, setCount] = useState(5)
+ 
   return (
     <div>
          <h1>Home part below</h1>
-       <h1>{count}</h1>
-      <button onClick={()=> setCount(count+1)}>Increment from 5</button>
+       
      
     </div>
   )
