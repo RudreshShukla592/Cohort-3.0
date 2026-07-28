@@ -4,6 +4,9 @@ import axios from "axios";
 const App = () => {
   const [productsData, setproductsData] = useState([]);
   const [searchData, setsearchData] = useState(null);
+  const [scrollY, setScrollY] = useState(null);
+
+  let throttle = false;
 
   let getProductData = async () => {
     try {
@@ -14,17 +17,40 @@ const App = () => {
     }
   };
 
-  let filteredData = ()=>{
-    let res = productsData.filter((val)=>{
-      return val.title.toLowerCase().includes(searchData.toLowerCase())
-    })
-    setproductsData(res)
-  }
+  let filteredData = () => {
+    let res = productsData.filter((val) => {
+      return val.title.toLowerCase().includes(searchData.toLowerCase());
+    });
+    setproductsData(res);
+  };
 
-  useEffect(()=>{
-    if(!searchData) return
-    filteredData()
-  },[searchData])
+  // Debouncing
+  useEffect(() => {
+    if (!searchData) return;
+
+    let timeoutVar = setTimeout(() => {
+      filteredData();
+    }, 700);
+
+    return () => clearTimeout(timeoutVar);
+  }, [searchData]);
+
+  // throttling
+  useEffect(() => {
+    let handleScroll = () => {
+      if (throttle) return;
+
+      throttle = true;
+      console.log("scroll triggered...");
+      setScrollY(window.scrollY);
+
+      setTimeout(() => {
+        throttle = false;
+      }, 2000);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+  }, []);
 
   useEffect(() => {
     getProductData();
@@ -36,10 +62,9 @@ const App = () => {
 
       <input
         type="text"
-        value={searchData}
         onChange={(e) => setsearchData(e.target.value)}
         placeholder="search products..."
-        style={{padding:"10px 30px"}}
+        style={{ padding: "10px 30px" }}
       />
 
       {productsData.map((val) => {
