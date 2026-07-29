@@ -5,11 +5,26 @@ import Favourites from "../pages/Favourites";
 import ArtistDashboard from "../pages/ArtistDashboard";
 import Register from "../pages/Register";
 import Login from "../pages/Login";
+import AuthLayout from "../../../Dy13_AuthPractice/src/layout/AuthLayout";
 
 const Router = () => {
   let router = createBrowserRouter([
     {
       path: "/",
+      element: <AuthLayout />,
+      children: [
+        {
+          path: "",
+          element: <Login />,
+        },
+        {
+          path: "register",
+          element: <Register />,
+        },
+      ],
+    },
+    {
+      path: "/main",
       element: <MainLayout />,
       children: [
         {
@@ -19,14 +34,6 @@ const Router = () => {
         {
           path: "favourites",
           element: <Favourites />,
-        },
-        {
-          path: "login",
-          element: <Login />,
-        },
-        {
-          path: "register",
-          element: <Register />,
         },
         {
           path: "artistdashboard",
