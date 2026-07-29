@@ -26,7 +26,7 @@ const Cart = () => {
     setTimeout(() => {
       clearCart();
       setOrderPlaced(false);
-      navigate("/home"); // optional
+      navigate("/home"); 
     }, 2000);
   };
 

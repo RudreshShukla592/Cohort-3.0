@@ -1,13 +1,30 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import CartContent from "./CartContent";
 import { MyShop } from "../context/RecipeContext";
+import { CheckCircle2 } from "lucide-react";
 
 function CartDrawer({ isOpen, onClose }) {
   if (!isOpen) {
     return null;
   }
 
-  let {cartItems} = useContext(MyShop)
+  let { cartItems, clearCart } = useContext(MyShop);
+  const [orderedPlaced, setOrderedPlaced] = useState(false);
+
+  let checkout = () => {
+    if (cartItems.length === 0) return;
+
+    setOrderedPlaced(true);
+
+    setTimeout(() => {
+      clearCart();
+      setOrderedPlaced(false);
+    }, 2000);
+  };
+
+  let totalPrice = cartItems
+    .reduce((acc, val) => acc + Number(val.price) * val.quantity, 0)
+    .toFixed(2);
 
   return (
     <div className="fixed inset-0 z-50">
@@ -36,15 +53,29 @@ function CartDrawer({ isOpen, onClose }) {
 
         {/* Cart Items */}
 
-        <div className="flex-1 space-y-5 overflow-y-auto p-5">
-          {/* Cart Item */}
-          
-          {
-            cartItems.map((recipe)=>{
-              return <CartContent recipe={recipe}/>
-            })
-          }
-         
+        <div className="flex-1 overflow-y-auto p-5">
+          {orderedPlaced ? (
+            <div className="flex h-full flex-col items-center justify-center text-center">
+              <CheckCircle2
+                size={80}
+                className="text-green-500 animate-bounce"
+              />
+
+              <h2 className="mt-6 text-2xl font-bold text-gray-800">
+                Order Placed!
+              </h2>
+
+              <p className="mt-2 text-gray-500">
+                Your delicious food recipies are here. 🍽️
+              </p>
+            </div>
+          ) : (
+            <div className="space-y-5">
+              {cartItems.map((recipe) => (
+                <CartContent key={recipe.id} recipe={recipe} />
+              ))}
+            </div>
+          )}
         </div>
 
         {/* Footer */}
@@ -53,10 +84,11 @@ function CartDrawer({ isOpen, onClose }) {
           <div className="mb-4 flex justify-between text-lg">
             <span>Total</span>
 
-            <span className="font-bold text-orange-500">$64</span>
+            <span className="font-bold text-orange-500">${totalPrice}</span>
           </div>
 
           <button
+            onClick={checkout}
             className="w-full rounded-lg bg-orange-500 py-3 text-white transition hover:bg-orange-600"
             type="button"
           >

@@ -1,9 +1,9 @@
 import { useContext } from "react";
 import { MyShop } from "../context/RecipeContext";
+import { Minus, Plus } from "lucide-react";
 
-function RecipeCard({ recipe }) {
-
-  let {setcartItems} = useContext(MyShop)
+function RecipeCard({ recipe, isInCart }) {
+  let { setcartItems, addItem, minusItem, removeFromCart } = useContext(MyShop);
 
   return (
     <div className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition duration-300">
@@ -47,9 +47,37 @@ function RecipeCard({ recipe }) {
             <p className="text-sm text-gray-500">⏱ {recipe.prepTime}</p>
           </div>
 
-          <button onClick={()=> setcartItems(prev => [...prev,recipe])} className="bg-orange-500 hover:bg-orange-600 text-white px-5 py-2 rounded-lg transition">
-            Add To Cart
-          </button>
+          {isInCart ? (
+            <div className="flex items-center gap-3 bg-orange-500 rounded-lg px-2 py-1">
+              <button
+                onClick={() => {
+                  if (recipe.quantity < 2) removeFromCart(recipe.id);
+                  minusItem(recipe.id);
+                }}
+                className="p-1 rounded-md hover:bg-orange-600 transition"
+              >
+                <Minus size={18} className="text-white" />
+              </button>
+
+              <span className="text-white font-semibold text-lg">
+                {isInCart.quantity}
+              </span>
+
+              <button
+                onClick={() => addItem(isInCart.id)}
+                className="p-1 rounded-md hover:bg-orange-600 transition"
+              >
+                <Plus size={18} className="text-white" />
+              </button>
+            </div>
+          ) : (
+            <button
+              onClick={() => setcartItems((prev) => [...prev, recipe])}
+              className="bg-orange-500 hover:bg-orange-600 text-white px-5 py-2 rounded-lg transition font-medium"
+            >
+              Add To Cart
+            </button>
+          )}
         </div>
       </div>
     </div>

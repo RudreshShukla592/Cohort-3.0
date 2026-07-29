@@ -1,12 +1,30 @@
 import { ShoppingCart, Search } from "lucide-react";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { MyShop } from "../context/RecipeContext";
 
 function Navbar({ onCartClick }) {
+  let { cartItems, allRecipes, setRecipesArr } = useContext(MyShop);
 
+  const totalCartItem = cartItems.reduce((acc, item) => acc + item.quantity, 0);
 
+  const [searchData, setSearchData] = useState("");
 
-  
+  const searchFilter = () => {
+    if (!searchData.trim()) {
+      setRecipesArr(allRecipes);
+      return;
+    }
+
+    const filteredRecipes = allRecipes.filter((recipe) =>
+      recipe.recipeName.toLowerCase().includes(searchData.toLowerCase()),
+    );
+    
+    setRecipesArr(filteredRecipes);
+  };
+
+  useEffect(() => {
+    searchFilter();
+  }, [searchData]);
 
   return (
     <nav className="sticky top-0 z-50 bg-white shadow-sm border-b">
@@ -27,9 +45,11 @@ function Navbar({ onCartClick }) {
             />
 
             <input
+              value={searchData}
               type="text"
               placeholder="Search recipes..."
               className="w-full pl-12 pr-4 py-3 rounded-full border focus:outline-none focus:ring-2 focus:ring-orange-500"
+              onChange={(e) => setSearchData(e.target.value)}
             />
           </div>
         </div>
@@ -45,7 +65,7 @@ function Navbar({ onCartClick }) {
             />
 
             <span className="absolute -top-2 -right-2 bg-orange-500 text-white h-5 w-5 rounded-full flex items-center justify-center text-xs">
-              3
+              {totalCartItem > 9 ? "9+" : totalCartItem}
             </span>
           </button>
 

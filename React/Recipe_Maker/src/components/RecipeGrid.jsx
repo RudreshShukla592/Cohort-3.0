@@ -5,7 +5,7 @@ import { MyShop } from "../context/RecipeContext";
 
 function RecipeGrid() {
 
-  let {recipesArr} = useContext(MyShop)
+  let {recipesArr,cartItems} = useContext(MyShop)
 
   return (
     <section className="w-full lg:w-[65%]">
@@ -30,10 +30,15 @@ function RecipeGrid() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 
-        {recipesArr.map((recipe) => (
+        {
+        recipesArr.map((recipe) => (
+
+         
+
           <RecipeCard
             key={recipe.id}
             recipe={recipe}
+            isInCart={cartItems.find((item)=> item.id === recipe.id)}
           />
         ))}
 

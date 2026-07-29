@@ -1,6 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
+import { MyShop } from "../context/RecipeContext";
 
 const CartContent = ({recipe}) => {
+
+  let {addItem , minusItem, removeFromCart} = useContext(MyShop)
+
   return (
     <div className="flex gap-4">
       <img
@@ -22,18 +26,21 @@ const CartContent = ({recipe}) => {
 
         <div className="mt-3 flex items-center justify-between">
           <div className="flex items-center rounded-lg border">
-            <button className="px-3 py-1" type="button">
+            <button onClick={()=>{
+              if(recipe.quantity < 2) removeFromCart(recipe.id)
+              minusItem(recipe.id)
+            }} className="px-3 py-1" type="button">
               -
             </button>
 
             <span className="px-4">{recipe.quantity}</span>
 
-            <button className="px-3 py-1" type="button">
+            <button  onClick={() => addItem(recipe.id)} className="px-3 py-1" type="button">
               +
             </button>
           </div>
 
-          <button className="text-red-500" type="button">
+          <button  onClick={() => removeFromCart(recipe.id)} className="text-red-500" type="button">
             Remove
           </button>
         </div>
