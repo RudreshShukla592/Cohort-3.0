@@ -3,8 +3,7 @@ import { useForm } from "react-hook-form";
 import { MyShop } from "../context/RecipeContext";
 
 function RecipeForm() {
-
-  let { setRecipesArr} = useContext(MyShop)
+  let { setRecipesArr } = useContext(MyShop);
 
   let {
     register,
@@ -16,7 +15,10 @@ function RecipeForm() {
   });
 
   let handleFormData = (data) => {
-    setRecipesArr(prev => [...prev,{...data,quantity:1}])
+    setRecipesArr((prev) => [
+      ...prev,
+      { ...data, quantity: 1, id: crypto.randomUUID() },
+    ]);
     reset();
   };
 
