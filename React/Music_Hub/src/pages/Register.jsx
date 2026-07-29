@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   User,
   AtSign,
@@ -15,20 +15,43 @@ import {
 } from "lucide-react";
 import { useNavigate } from "react-router";
 import { useForm } from "react-hook-form";
+import { AuthShop } from "../context/AuthContext";
 
 const Register = () => {
+  let { users, setUsers } = useContext(AuthShop);
+
   const navigate = useNavigate();
 
   const [role, setRole] = useState("listener");
   const [showPassword, setShowPassword] = useState(false);
+  const [emailToggle, setEmailToggle] = useState(false);
 
   let {
-      register,
-      handleSubmit,
-      reset,
-      formState: { errors },
-    } = useForm();
-  
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm();
+
+  let formHandle = (data) => {
+    const existingUser = users.find((user) => user.email === data.email);
+    if (existingUser) {
+      setEmailToggle(true);
+      return;
+    }
+
+    const newUser = {
+      ...data,
+      role, // "listener" or "artist"
+      id: crypto.randomUUID(),
+    };
+
+    let arr = [...users, newUser];
+    setUsers(arr);
+    localStorage.setItem("users", JSON.stringify(arr));
+    reset();
+    navigate("/");
+  };
 
   return (
     <div className="min-h-screen bg-[#0f0b18] flex items-center justify-center px-4 relative overflow-hidden">
@@ -50,12 +73,16 @@ const Register = () => {
 
         {/* Card */}
         <div className="bg-[#181818]/90 border border-white/5 rounded-2xl p-7 shadow-2xl backdrop-blur-lg">
-          <form className="space-y-4">
+          <form onSubmit={handleSubmit(formHandle)} className="space-y-4">
             {/* Role Selection */}
             <div className="grid grid-cols-2 gap-4">
               <button
                 type="button"
-                onClick={() => setRole("listener")}
+                onClick={() => {
+                  reset();
+                  setRole("listener");
+                  setEmailToggle(false)
+                }}
                 className={`rounded-xl py-6 flex flex-col items-center gap-2 transition ${
                   role === "listener"
                     ? "border border-violet-500 bg-violet-500/10 text-violet-300 shadow-lg shadow-violet-600/20"
@@ -70,7 +97,11 @@ const Register = () => {
 
               <button
                 type="button"
-                onClick={() => setRole("artist")}
+                onClick={() => {
+                  reset();
+                  setRole("artist");
+                  setEmailToggle(false)
+                }}
                 className={`rounded-xl py-6 flex flex-col items-center gap-2 transition ${
                   role === "artist"
                     ? "border border-violet-500 bg-violet-500/10 text-violet-300 shadow-lg shadow-violet-600/20"
@@ -84,6 +115,14 @@ const Register = () => {
               </button>
             </div>
 
+            {emailToggle && (
+              <div className="mb-6 mt-3 rounded-xl border border-red-500/30 bg-red-500/10 px-4 py-3">
+                <p className="text-sm font-medium text-red-400">
+                  An account with this email already exists.
+                </p>
+              </div>
+            )}
+
             {/* Full Name */}
             <div className="flex items-center bg-[#0d0d0f] border border-white/10 rounded-full px-4 h-12">
               <User className="text-gray-500" size={18} />
@@ -92,8 +131,14 @@ const Register = () => {
                 type="text"
                 placeholder="Full Name"
                 className="bg-transparent outline-none px-3 w-full text-white placeholder:text-gray-500"
+                {...register("name", {
+                  required: "Name is required",
+                })}
               />
             </div>
+            {errors.name && (
+              <p className="text-red-400 text-sm mt-1">{errors.name.message}</p>
+            )}
 
             {/* Username / Artist Name */}
             <div className="flex items-center bg-[#0d0d0f] border border-white/10 rounded-full px-4 h-12">
@@ -103,20 +148,43 @@ const Register = () => {
                 type="text"
                 placeholder={role === "listener" ? "Username" : "Artist Name"}
                 className="bg-transparent outline-none px-3 w-full text-white placeholder:text-gray-500"
+                {...register("displayName", {
+                  required:
+                    role === "listener"
+                      ? "Username is required"
+                      : "Artist name is required",
+                })}
               />
             </div>
 
+            {errors.displayName && (
+              <p className="text-red-400 text-sm mt-1">
+                {errors.displayName.message}
+              </p>
+            )}
+
             {/* Artist Genre */}
             {role === "artist" && (
-              <div className="flex items-center bg-[#0d0d0f] border border-white/10 rounded-full px-4 h-12">
-                <Music2 className="text-gray-500" size={18} />
+              <>
+                <div className="flex items-center bg-[#0d0d0f] border border-white/10 rounded-full px-4 h-12">
+                  <Music2 className="text-gray-500" size={18} />
 
-                <input
-                  type="text"
-                  placeholder="Genre (Pop, Rock, Hip-Hop...)"
-                  className="bg-transparent outline-none px-3 w-full text-white placeholder:text-gray-500"
-                />
-              </div>
+                  <input
+                    type="text"
+                    placeholder="Genre (Pop, Rock, Hip-Hop...)"
+                    className="bg-transparent outline-none px-3 w-full text-white placeholder:text-gray-500"
+                    {...register("genre", {
+                      required: "Genre is required",
+                    })}
+                  />
+                </div>
+
+                {errors.genre && (
+                  <p className="text-red-400 text-sm mt-1">
+                    {errors.genre.message}
+                  </p>
+                )}
+              </>
             )}
 
             {/* Email */}
@@ -127,8 +195,17 @@ const Register = () => {
                 type="email"
                 placeholder="Email Address"
                 className="bg-transparent outline-none px-3 w-full text-white placeholder:text-gray-500"
+                {...register("email", {
+                  required: "Email is required",
+                })}
               />
             </div>
+
+            {errors.email && (
+              <p className="text-red-400 text-sm mt-1">
+                {errors.email.message}
+              </p>
+            )}
 
             {/* Password */}
             <div className="flex items-center bg-[#0d0d0f] border border-white/10 rounded-full px-4 h-12">
@@ -138,6 +215,9 @@ const Register = () => {
                 type={showPassword ? "text" : "password"}
                 placeholder="Password"
                 className="bg-transparent outline-none px-3 w-full text-white placeholder:text-gray-500"
+                {...register("password", {
+                  required: "Passwrod is required",
+                })}
               />
 
               <button
@@ -154,6 +234,12 @@ const Register = () => {
                 )}
               </button>
             </div>
+
+            {errors.password && (
+              <p className="text-red-400 text-sm mt-1">
+                {errors.password.message}
+              </p>
+            )}
 
             {/* Submit */}
             <button

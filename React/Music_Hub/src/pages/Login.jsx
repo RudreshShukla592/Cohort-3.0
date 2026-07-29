@@ -1,11 +1,15 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Mail, Lock, Music2, ArrowRight, Eye, EyeOff } from "lucide-react";
 import { useNavigate } from "react-router";
 import { useForm } from "react-hook-form";
+import { AuthShop } from "../context/AuthContext";
 
 const Login = () => {
+  let { users, setCurrentUser } = useContext(AuthShop);
+
   let navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
+  const [emailToggle, setEmailToggle] = useState(false);
 
   let {
     register,
@@ -13,6 +17,20 @@ const Login = () => {
     reset,
     formState: { errors },
   } = useForm();
+
+  let formHandle = (data) => {
+    let currentLoggedGuy = users.find(
+      (user) => user.email === data.email && user.password === data.password,
+    );
+    if (!currentLoggedGuy) {
+      setEmailToggle(true);
+      return;
+    }
+     setCurrentUser(currentLoggedGuy)
+    localStorage.setItem("currentUser", JSON.stringify(currentLoggedGuy));
+    reset();
+    navigate("/main");
+  };
 
   return (
     <div className="min-h-screen bg-[#0d0d0d] flex items-center justify-center px-6 overflow-hidden relative">
@@ -50,7 +68,15 @@ const Login = () => {
             Sign in to continue your journey.
           </p>
 
-          <form className="space-y-6">
+          {emailToggle && (
+            <div className="mb-6 mt-3 rounded-xl border border-red-500/30 bg-red-500/10 px-4 py-3">
+              <p className="text-sm font-medium text-red-400">
+                Invalid email or password
+              </p>
+            </div>
+          )}
+
+          <form onSubmit={handleSubmit(formHandle)} className="space-y-6">
             {/* Email */}
             <div>
               <label className="text-xs uppercase tracking-[2px] text-gray-400 font-semibold">
@@ -61,7 +87,9 @@ const Login = () => {
                 <Mail size={18} className="text-gray-500" />
 
                 <input
-                  {...register("email")}
+                  {...register("email", {
+                    required: "Email is required",
+                  })}
                   type="email"
                   placeholder="name@example.com"
                   className="bg-transparent outline-none px-3 w-full text-white placeholder:text-gray-500"

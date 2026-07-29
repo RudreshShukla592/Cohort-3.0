@@ -5,7 +5,11 @@ import Favourites from "../pages/Favourites";
 import ArtistDashboard from "../pages/ArtistDashboard";
 import Register from "../pages/Register";
 import Login from "../pages/Login";
-import AuthLayout from "../../../Dy13_AuthPractice/src/layout/AuthLayout";
+import AuthLayout from "../layout/AuthLayout";
+import Profile from "../pages/Profile";
+import Library from "../pages/Library";
+import Upload from "../pages/Upload";
+import RouteProtection from "./RouteProtection";
 
 const Router = () => {
   let router = createBrowserRouter([
@@ -25,19 +29,37 @@ const Router = () => {
     },
     {
       path: "/main",
-      element: <MainLayout />,
+      element: <RouteProtection />,
       children: [
         {
-          index: true,
-          element: <Home />,
-        },
-        {
-          path: "favourites",
-          element: <Favourites />,
-        },
-        {
-          path: "artistdashboard",
-          element: <ArtistDashboard />,
+          path: "",
+          element: <MainLayout />,
+          children: [
+            {
+              index: true,
+              element: <Home />,
+            },
+            {
+              path: "profile",
+              element: <Profile />,
+            },
+            {
+              path: "library",
+              element: <Library />,
+            },
+            {
+              path: "favourites",
+              element: <Favourites />,
+            },
+            {
+              path: "artistdashboard",
+              element: <ArtistDashboard />,
+            },
+            {
+              path: "upload",
+              element: <Upload />,
+            },
+          ],
         },
       ],
     },
