@@ -13,6 +13,7 @@ import RouteProtection from "./RouteProtection";
 import ArtistProtection from "./ArtistProtection";
 import ListenerProtection from "./ListenerProtection";
 import AuthProtection from "./AuthProtection";
+import SongDetail from "../pages/SongDetail";
 
 const Router = () => {
   let router = createBrowserRouter([
@@ -55,6 +56,10 @@ const Router = () => {
             {
               path: "library",
               element: <Library />,
+            },
+            {
+              path:"detail/:id",
+              element:<SongDetail/>
             },
             {
               element: <ListenerProtection />,

@@ -10,6 +10,8 @@ export const AuthProvider = ({ children }) => {
     JSON.parse(localStorage.getItem("currentUser")) || null,
   );
 
+  
+
   return (
     <AuthShop.Provider value={{ users, setUsers, currentUser, setCurrentUser }}>
       {children}
