@@ -44,6 +44,7 @@ const Register = () => {
       ...data,
       role, // "listener" or "artist"
       id: crypto.randomUUID(),
+       favouriteSongs: [],
     };
 
     let arr = [...users, newUser];
@@ -148,7 +149,7 @@ const Register = () => {
                 type="text"
                 placeholder={role === "listener" ? "Username" : "Artist Name"}
                 className="bg-transparent outline-none px-3 w-full text-white placeholder:text-gray-500"
-                {...register("displayName", {
+                {...register("displayName", { 
                   required:
                     role === "listener"
                       ? "Username is required"

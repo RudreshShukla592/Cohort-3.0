@@ -1,9 +1,15 @@
-import React, { useRef, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import { Heart, Play, Pause, ArrowUpRight } from "lucide-react";
+import { AuthShop } from "../context/AuthContext";
+import { MainShop } from "../context/MainContext";
 
 const SongHero = ({ song }) => {
   const audioRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
+
+  let { users, setUsers, currentUser, setCurrentUser } = useContext(AuthShop);
+
+  let { favouriteSongs, setFavouriteSongs } = useContext(MainShop);
 
   const handlePlayPause = () => {
     if (!audioRef.current) return;
@@ -15,6 +21,43 @@ const SongHero = ({ song }) => {
       audioRef.current.play();
       setIsPlaying(true);
     }
+  };
+
+  const isFavourite = favouriteSongs.some(
+    (item) => item.trackId === song.trackId,
+  );
+
+  let handleFavourite = (song) => {
+    let arr;
+
+    let inFavourite = favouriteSongs.find(
+      (item) => item.trackId === song.trackId,
+    );
+
+    if (inFavourite) {
+      arr = favouriteSongs.filter(
+        (item) => item.trackId !== inFavourite.trackId,
+      );
+    } else {
+      arr = [...favouriteSongs, song];
+    }
+
+    setFavouriteSongs(arr);
+
+    let updatedCurrentUser = {
+      ...currentUser,
+      favouriteSongs: arr,
+    };
+
+    let updatedUsers = users.map((user) =>
+      user.id === currentUser.id ? updatedCurrentUser : user,
+    );
+
+    setCurrentUser(updatedCurrentUser);
+    setUsers(updatedUsers);
+
+    localStorage.setItem("users", JSON.stringify(updatedUsers));
+    localStorage.setItem("currentUser", JSON.stringify(updatedCurrentUser));
   };
 
   return (
@@ -41,9 +84,10 @@ const SongHero = ({ song }) => {
           <span>•</span>
           <span>
             {Math.floor(song.trackTimeMillis / 60000)}:
-            {String(
-              Math.floor((song.trackTimeMillis % 60000) / 1000)
-            ).padStart(2, "0")}
+            {String(Math.floor((song.trackTimeMillis % 60000) / 1000)).padStart(
+              2,
+              "0",
+            )}
           </span>
         </div>
 
@@ -61,9 +105,17 @@ const SongHero = ({ song }) => {
             {isPlaying ? "Pause Preview" : "Play Preview"}
           </button>
 
-          <button className="w-16 h-16 rounded-full border border-white/10 flex justify-center items-center hover:bg-violet-500 hover:border-violet-500 transition">
-            <Heart size={22} />
-          </button>
+          {currentUser.role === "listener" && (
+            <button
+              onClick={() => handleFavourite(song)}
+              className="w-16 h-16 rounded-full border border-white/10 flex justify-center items-center hover:bg-violet-500 hover:border-violet-500 transition"
+            >
+              <Heart
+                size={22}
+                className={isFavourite ? "fill-red-500 text-red-500" : ""}
+              />
+            </button>
+          )}
         </div>
 
         {/* Hidden Audio */}
