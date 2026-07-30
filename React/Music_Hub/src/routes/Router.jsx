@@ -10,20 +10,29 @@ import Profile from "../pages/Profile";
 import Library from "../pages/Library";
 import Upload from "../pages/Upload";
 import RouteProtection from "./RouteProtection";
+import ArtistProtection from "./ArtistProtection";
+import ListenerProtection from "./ListenerProtection";
+import AuthProtection from "./AuthProtection";
 
 const Router = () => {
   let router = createBrowserRouter([
     {
       path: "/",
-      element: <AuthLayout />,
+      element: <AuthProtection />,
       children: [
         {
           path: "",
-          element: <Login />,
-        },
-        {
-          path: "register",
-          element: <Register />,
+          element: <AuthLayout />,
+          children: [
+            {
+              path: "",
+              element: <Login />,
+            },
+            {
+              path: "register",
+              element: <Register />,
+            },
+          ],
         },
       ],
     },
@@ -48,16 +57,26 @@ const Router = () => {
               element: <Library />,
             },
             {
-              path: "favourites",
-              element: <Favourites />,
+              element: <ListenerProtection />,
+              children: [
+                {
+                  path: "favourites",
+                  element: <Favourites />,
+                },
+              ],
             },
             {
-              path: "artistdashboard",
-              element: <ArtistDashboard />,
-            },
-            {
-              path: "upload",
-              element: <Upload />,
+              element: <ArtistProtection />,
+              children: [
+                {
+                  path: "artistdashboard",
+                  element: <ArtistDashboard />,
+                },
+                {
+                  path: "upload",
+                  element: <Upload />,
+                },
+              ],
             },
           ],
         },

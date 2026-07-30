@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { NavLink, useNavigate } from "react-router";
-import { House, Heart, Library, User, LogOut } from "lucide-react";
+import { House, Heart, Library, User, LogOut, Upload, LayoutDashboard } from "lucide-react";
 import { AuthShop } from "../context/AuthContext";
 
 const Navbar = () => {

@@ -9,7 +9,7 @@ const MainLayout = () => {
   return (
     <div className="min-h-screen bg-[#0f0f10] text-white flex">
       {/* Desktop */}
-      <div className="hidden lg:block w-64">
+      <div className="hidden lg:fixed lg:inset-y-0 lg:left-0 lg:w-64 lg:block">
         <Navbar />
       </div>
 
@@ -30,7 +30,7 @@ const MainLayout = () => {
         />
       )}
 
-      <main className="flex-1">
+      <main className="flex-1 lg:ml-64">
         {/* Mobile Topbar */}
         <div className="lg:hidden flex items-center p-4 border-b border-white/10">
           <button onClick={() => setOpen(true)}>
