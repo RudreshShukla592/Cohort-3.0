@@ -10,16 +10,16 @@ const MainLayout = () => {
     <div className="min-h-screen bg-[#0f0f10] text-white flex">
       {/* Desktop */}
       <div className="hidden lg:fixed lg:inset-y-0 lg:left-0 lg:w-64 lg:block">
-        <Navbar />
+        <Navbar setOpen={setOpen} />
       </div>
 
       {/* Mobile Sidebar */}
       <div
-        className={`fixed inset-y-0 left-0 z-50 w-64 bg-[#171717] transform transition-transform duration-300 lg:hidden ${
+        className={`fixed top-0 left-0 z-50 h-dvh w-64 bg-[#171717] transform transition-transform duration-300 lg:hidden ${
           open ? "translate-x-0" : "-translate-x-full"
         }`}
       >
-        <Navbar />
+        <Navbar setOpen={setOpen} />
       </div>
 
       {/* Overlay */}

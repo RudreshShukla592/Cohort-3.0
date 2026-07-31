@@ -6,11 +6,11 @@ import SongCard from "../components/SongCard";
 
 const ArtistDashboard = () => {
   const { currentUser } = useContext(AuthShop);
-  const { uploadedSongs } = useContext(MainShop);
+  const { uploadedSongs, mySongs } = useContext(MainShop);
 
-  const mySongs = useMemo(() => {
-    return uploadedSongs.filter((song) => song.artistId === currentUser.id);
-  }, [uploadedSongs, currentUser]);
+  // const mySongs = useMemo(() => {
+  //   return uploadedSongs.filter((song) => song.artistId === currentUser.id);
+  // }, [uploadedSongs, currentUser]);
 
   return (
     <div className="min-h-screen bg-[#0f0f10] text-white p-6 md:p-10">

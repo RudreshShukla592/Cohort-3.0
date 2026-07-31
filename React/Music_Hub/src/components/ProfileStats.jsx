@@ -3,7 +3,7 @@ import { Music2, Heart, Disc3 } from "lucide-react";
 import { MainShop } from "../context/MainContext";
 
 const ProfileStats = ({ currentUser }) => {
-  let { favouriteSongs } = useContext(MainShop);
+  let { favouriteSongs, mySongs } = useContext(MainShop);
 
   return (
     <div className="grid md:grid-cols-2 gap-6">
@@ -18,7 +18,7 @@ const ProfileStats = ({ currentUser }) => {
         </div>
 
         <h2 className="text-5xl font-bold mt-8">
-          {currentUser.role === "artist" ? 0 : favouriteSongs.length}
+          {currentUser.role === "artist" ? mySongs.length : favouriteSongs.length}
         </h2>
 
         <p className="text-gray-400 mt-2 text-lg">

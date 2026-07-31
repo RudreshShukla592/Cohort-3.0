@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { axiosInstance } from "../config/axiosInstance";
 import { AuthShop } from "./AuthContext";
+import { useMemo } from "react";
 
 export const MainShop = createContext();
 
@@ -72,6 +73,10 @@ export const MainProvider = ({ children }) => {
     setFavouriteSongs(currentUser?.favouriteSongs || []);
   }, [currentUser]);
 
+  const mySongs = useMemo(() => {
+    return uploadedSongs.filter((song) => song.artistId === currentUser.id);
+  }, [uploadedSongs, currentUser]);
+
   return (
     <MainShop.Provider
       value={{
@@ -84,6 +89,7 @@ export const MainProvider = ({ children }) => {
         setUploadedSongs,
         librarySongs,
         setLibrarySongs,
+        mySongs
       }}
     >
       {children}

@@ -15,7 +15,7 @@ import SongCard from "../components/SongCard";
 
 const Home = () => {
   const { currentUser } = useContext(AuthShop);
-  const { allSongs, favouriteSongs } = useContext(MainShop);
+  const { allSongs, favouriteSongs, mySongs } = useContext(MainShop);
 
   const featuredSongs = [...allSongs]
     .sort(() => Math.random() - 0.5)
@@ -71,7 +71,7 @@ const Home = () => {
           </div>
 
           <h2 className="text-5xl font-bold mt-8">
-            {currentUser.role === "artist" ? 0 : favouriteSongs.length}
+            {currentUser.role === "artist" ? mySongs.length : favouriteSongs.length}
           </h2>
 
           <p className="text-gray-400 mt-2">
