@@ -1,13 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import { axiosInstance } from "../config/axiosInstance";
 import { Album, ArrowLeft, Disc3, Play, User } from "lucide-react";
 import SongHero from "../components/SongHero";
 import SongInfo from "../components/SongInfo";
+import { MainShop } from "../context/MainContext";
 
 const SongDetail = () => {
   const [singleSongData, setSingleSongData] = useState({});
-  console.log(singleSongData);
+
+  let { allSongs } = useContext(MainShop);
 
   let navigate = useNavigate();
 
@@ -15,17 +17,28 @@ const SongDetail = () => {
 
   let getSingleSongData = async () => {
     try {
-      let res = await axiosInstance.get(`/lookup?id=${id}`);
-      setSingleSongData(res.data.results[0]);
+      const song = allSongs.find((song) => song.trackId == id);
+
+      setSingleSongData(song);
     } catch (error) {
       console.log(error);
     }
   };
 
   useEffect(() => {
-    getSingleSongData();
+    if (allSongs.length > 0) {
+      getSingleSongData();
+    }
     window.scrollTo(0, 0);
-  }, [id]);
+  }, [id, allSongs]);
+
+  if (!singleSongData) {
+    return (
+      <div className="min-h-screen flex items-center justify-center text-white">
+        Loading...
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-[#0f0f10] text-white p-6 lg:p-10">

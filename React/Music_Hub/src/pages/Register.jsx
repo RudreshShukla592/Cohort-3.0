@@ -45,6 +45,7 @@ const Register = () => {
       role, // "listener" or "artist"
       id: crypto.randomUUID(),
        favouriteSongs: [],
+       
     };
 
     let arr = [...users, newUser];

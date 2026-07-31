@@ -3,10 +3,9 @@ import { MainShop } from "../context/MainContext";
 import SongCard from "../components/SongCard";
 
 const Library = () => {
-  const { allSongs, getMusicData } = useContext(MainShop);
+  const { librarySongs } = useContext(MainShop);
 
   useEffect(() => {
-    getMusicData();
     window.scrollTo(0, 0);
   }, []);
 
@@ -21,7 +20,7 @@ const Library = () => {
       </div>
 
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        {allSongs.map((song) => (
+        {librarySongs.map((song) => (
           <SongCard key={song.trackId} song={song} />
         ))}
       </div>

@@ -83,11 +83,11 @@ const SongHero = ({ song }) => {
           <span>{new Date(song.releaseDate).getFullYear()}</span>
           <span>•</span>
           <span>
-            {Math.floor(song.trackTimeMillis / 60000)}:
-            {String(Math.floor((song.trackTimeMillis % 60000) / 1000)).padStart(
-              2,
-              "0",
-            )}
+            {song.trackTimeMillis
+              ? `${Math.floor(song.trackTimeMillis / 60000)}:${String(
+                  Math.floor((song.trackTimeMillis % 60000) / 1000),
+                ).padStart(2, "0")}`
+              : "Unknown"}
           </span>
         </div>
 
