@@ -10,6 +10,8 @@ import { useDispatch } from "react-redux";
 import { addUser } from "../features/authSlice";
 import PublicProtected from "./protected/PublicProtected";
 import MainProtected from "./protected/mainProtected";
+import ShopPage from "../pages/ShopPage";
+import AboutPage from "../pages/AboutPage";
 
 const AppRoutes = () => {
   let dispatch = useDispatch();
@@ -60,6 +62,14 @@ const AppRoutes = () => {
             {
               path: "",
               element: <HomePage />,
+            },
+            {
+              path: "shop",
+              element: <ShopPage/>,
+            },
+            {
+              path: "about",
+              element: <AboutPage/>,
             },
           ],
         },
