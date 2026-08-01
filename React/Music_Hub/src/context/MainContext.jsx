@@ -73,9 +73,13 @@ export const MainProvider = ({ children }) => {
     setFavouriteSongs(currentUser?.favouriteSongs || []);
   }, [currentUser]);
 
-  const mySongs = useMemo(() => {
-    return uploadedSongs.filter((song) => song.artistId === currentUser.id);
-  }, [uploadedSongs, currentUser]);
+  const mySongs = useMemo(
+  () =>
+    uploadedSongs.filter(
+      (song) => song.artistId === currentUser?.id
+    ),
+  [uploadedSongs, currentUser]
+);
 
   return (
     <MainShop.Provider
