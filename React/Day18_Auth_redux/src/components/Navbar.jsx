@@ -39,7 +39,7 @@ const Navbar = () => {
       <div className="flex gap-8">
         <h1>Hey, Dev</h1>
         <button>Cart</button>
-            <LogOut className="cursor-pointer" size={18}/>
+        <LogOut className="cursor-pointer" size={18}/>
       </div>
     </div>
   );
