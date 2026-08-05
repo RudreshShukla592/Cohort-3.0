@@ -2,11 +2,7 @@ import React from "react";
 import { useAuth } from "../../hooks/useAuthHook";
 
 const LoginPage = () => {
-
-  let {navigate, register,
-    handleSubmit,
-    errors,
-    loginForm,} = useAuth()
+  let { navigate, register, handleSubmit, errors, loginForm } = useAuth();
 
   return (
     <div className="min-h-screen bg-gray-900 flex items-center justify-center px-4">
@@ -24,23 +20,19 @@ const LoginPage = () => {
           className="mt-8 flex flex-col gap-5"
         >
           <div>
-            <label className="block text-gray-300 mb-2">Email</label>
+            <label className="block text-gray-300 mb-2">Username</label>
 
             <input
-              type="email"
-              placeholder="Enter your email"
+              type="text"
+              placeholder="Enter your username"
               className="w-full px-4 py-3 rounded-xl bg-gray-900 border border-gray-700 text-white outline-none focus:border-indigo-500 transition"
-              {...register("email", {
-                required: "Email is required",
-                pattern: {
-                  value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-                  message: "Enter Valid Email",
-                },
+              {...register("username", {
+                required: "Username is required",
               })}
             />
           </div>
-          {errors.email && (
-            <p className="text-red-700">{errors.email.message}</p>
+          {errors.username && (
+            <p className="text-red-700">{errors.username.message}</p>
           )}
           <div>
             <label className="block text-gray-300 mb-2">Password</label>
