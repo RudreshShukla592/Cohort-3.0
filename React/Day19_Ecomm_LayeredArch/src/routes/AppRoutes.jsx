@@ -10,10 +10,11 @@ import HomePage from "../shared/ui/pages/HomePage";
 import ProductPage from "../features/product/ui/pages/ProductPage";
 import CartPage from "../features/cart/ui/pages/CartPage";
 import OrderPage from "../features/order/ui/pages/OrderPage";
-import { hydrateUser } from "../features/auth/api/authAPI";
+
 import { useDispatch } from "react-redux";
-import { addUser } from "../features/auth/state/authSlice";
+
 import { hydrateUserAction } from "../features/auth/state/authAction";
+import AboutPage from "../shared/ui/pages/AboutPage";
 
 
 const AppRoutes = () => {
@@ -77,6 +78,10 @@ const AppRoutes = () => {
             {
               path: "orders",
               element: <OrderPage />,
+            },
+            {
+              path: "about",
+              element: <AboutPage />,
             },
           ],
         },
