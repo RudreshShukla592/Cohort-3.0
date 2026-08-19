@@ -1,38 +1,38 @@
-// let http = require("http")
-
-// let server = http.createServer((req,res)=>{
-//     // res.end("Server is running")
-//     if(req.url === "/user") res.end("in the users")
-//     if(req.url === "/product") res.end("in the products")
-//     if(req.url === "/about") res.end("in the about")
-// })
-
-// server.listen(3000,()=>{
-//     console.log("server running on 3000");
-    
-// })
-
-
-const express = require('express');
-const app = express()
-app.use(express.json())
+const express = require("express");
+const app = express();
+app.use(express.json());
 // const port = 3000
+let users = []
 
-// api
-app.get('/', (req, res) => {
-  res.send('Hello World!')
+
+app.post("/create", (req, res) => {
+  // console.log(req.body);
+  let body =  req.body
+  users.push(body)
+  res.send("users saved!!!!");
+});
+
+app.get("/", (req, res) => {
+  res.send(users);
+});
+
+// update
+app.put('/update/:id',(req,res)=>{
+  let {id} = req.params
+  let body = req.body
+  let updatedUsers = users.map((val)=> val.id === id ? body : val)
+  users = updatedUsers
+
+  res.send("updation happenins.")
 })
 
-
-
-app.post("/create",(req,res)=>{
-
-  console.log(req.body);
-  
-
-  res.send("ok post")
+app.delete('/delete/:id',(req,res)=>{
+  let {id} = req.params
+  let filterUsers = users.filter((val)=> val.id !== id)
+  users= filterUsers
+  res.send(users)
 })
 
 app.listen(3000, () => {
-  console.log(`Example app listening on port 3000`)
-})
+  console.log(`Example app listening on port 3000`);
+});
