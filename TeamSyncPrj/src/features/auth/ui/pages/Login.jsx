@@ -1,23 +1,9 @@
-import { useForm } from "react-hook-form";
 import { Cloud,  KeyRound, LogIn, Network } from "lucide-react";
+import { useAuth } from "../../hooks/useAuth";
 
 const Login = () => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm({
-    mode: "onChange",
-    defaultValues: {
-      email: "",
-      password: "",
-      rememberMe: false,
-    },
-  });
 
-  const onSubmit = (data) => {
-    console.log("Login data:", data);
-  };
+  let  {register,handleSubmit,errors,onLoginSubmit, navigate} = useAuth()
 
   return (
     <div className="min-h-screen bg-[#121015] text-white flex items-center justify-center px-4">
@@ -59,7 +45,7 @@ const Login = () => {
 
     {/* Form */}
     <form
-      onSubmit={handleSubmit(onSubmit)}
+      onSubmit={handleSubmit(onLoginSubmit)}
       className="space-y-6"
     >
 
@@ -173,6 +159,7 @@ const Login = () => {
     <p className="text-center text-[11px] text-gray-300">
       Don't have an account?{" "}
       <button
+        onClick={()=>  navigate("/register")}
         type="button"
         className="text-purple-300 font-semibold hover:text-purple-200"
       >

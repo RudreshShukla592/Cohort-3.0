@@ -20,7 +20,7 @@ app.get("/", (req, res) => {
 app.put('/update/:id',(req,res)=>{
   let {id} = req.params
   let body = req.body
-  let updatedUsers = users.map((val)=> val.id === id ? body : val)
+  let updatedUsers = users.map((val)=> val.id === id ? {...val ,body} : val)
   users = updatedUsers
 
   res.send("updation happenins.")
