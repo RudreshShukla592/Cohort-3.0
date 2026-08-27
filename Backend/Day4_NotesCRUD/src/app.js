@@ -10,8 +10,6 @@ app.get("/", (req, res) => {
   res.send("done!, all working");
 });
 
-
-
 app.post("/create", async (req, res) => {
   try {
     let { title, des } = req.body;
@@ -25,7 +23,6 @@ app.post("/create", async (req, res) => {
       message: "Note created!!",
       data: newNote,
     });
-
   } catch (error) {
     console.log(error);
   }
