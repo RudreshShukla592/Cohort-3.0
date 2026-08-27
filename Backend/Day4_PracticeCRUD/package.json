@@ -1,5 +1,5 @@
 {
-  "name": "day4_notescrud",
+  "name": "day4_practicecrud",
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
@@ -11,7 +11,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "dotenv": "^17.4.2",
     "express": "^5.2.1",
     "mongoose": "^9.9.4"
   }
