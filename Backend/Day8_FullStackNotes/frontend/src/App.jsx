@@ -7,6 +7,7 @@ const App = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [allNotes, setAllNotes] = useState([]);
   const [updateNote, setUpdateNote] = useState(null);
+  const [searchNote, setSearchNote] = useState("");
 
   const {
     register,
@@ -87,6 +88,23 @@ const App = () => {
     });
   };
 
+  const noteSearching = async () => {
+    let notes = await axios.get(
+      `http://localhost:3000/notes/search?query=${searchNote}`,
+    );
+    setAllNotes(notes.data.data);
+  };
+
+  useEffect(() => {
+    
+
+    let timeout = setTimeout(() => {
+      noteSearching();
+    }, 700);
+
+    return () => clearTimeout(timeout);
+  }, [searchNote]);
+
   return (
     <div className="min-h-screen bg-zinc-950 text-zinc-100">
       {/* ================= HEADER ================= */}
@@ -129,6 +147,7 @@ const App = () => {
             />
 
             <input
+              onChange={(e) => setSearchNote(e.target.value)}
               type="text"
               placeholder="Search notes..."
               className="w-full rounded-xl border border-zinc-800 bg-zinc-900 py-3 pl-10 pr-4 text-sm outline-none placeholder:text-zinc-600 focus:border-zinc-600"
@@ -194,7 +213,7 @@ const App = () => {
       {isVisible && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4 backdrop-blur-[2px]">
           <div className="w-full max-w-2xl">
-            <div className="max-h-[90vh] overflow-y-auto rounded-2xl bg-zinc-950 px-6 py-8 text-zinc-100">
+            <div className="min-h-screen bg-zinc-950 px-6 py-8 text-zinc-100">
               {/* Form Header */}
               <div className="mb-8 flex items-center gap-4">
                 <button

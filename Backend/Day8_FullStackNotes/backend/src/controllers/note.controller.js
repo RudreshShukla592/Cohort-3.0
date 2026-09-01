@@ -89,10 +89,41 @@ const updateNotesController = async (req, res) => {
   }
 };
 
+/*
+$or     → "match ANY of these conditions"
+$regex  → "find this pattern inside the value"
+i       → "ignore uppercase/lowercase differences"
+*/
+
+const searchNotesController = async (req, res) => {
+  try {
+    let input = req.query.query;
+
+    let searchNotes = await NoteModel.find({
+      $or: [
+        { title: { $regex: input, $options: "i" } },
+        { content: { $regex: input, $options: "i" } },
+        { tags: { $regex: input, $options: "i" } },
+      ],
+    });
+
+    res.status(200).json({
+      message: "Note Updated!",
+      data: searchNotes,
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      message: "Failed!!",
+    });
+  }
+};
+
 module.exports = {
   createNoteController,
   getAllNotesController,
   getSingleNoteController,
   deleteNoteController,
   updateNotesController,
+  searchNotesController,
 };
