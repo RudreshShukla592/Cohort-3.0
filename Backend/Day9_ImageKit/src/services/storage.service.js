@@ -1,0 +1,22 @@
+import { ImageKit } from "@imagekit/nodejs";
+import dotenv from "dotenv"
+dotenv.config()
+const storageInstance = new ImageKit({
+  urlEndpoint: process.env.IK_URL,
+  publicKey: process.env.IK_PUBLIC_KEY,
+  privateKey: process.env.IK_PRIVATE_KEY,
+});
+
+export const sendFiles = async (file, fileName) => {
+  try {
+    const obj = {
+      file:`data:${file.mimetype};base64,${file.buffer.toString("base64")}`,
+      fileName,
+      folder: "cohort-3",
+    };
+
+    return await storageInstance.files.upload(obj);
+  } catch (error) {
+    console.log(error);
+  }
+};

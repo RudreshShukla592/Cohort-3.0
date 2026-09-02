@@ -9,17 +9,18 @@ export let useProductAPI = () => {
     queryKey: ["prodcuts"],
     queryFn: getProdutsData,
   });
-   let filterData
+  let filterData;
+
   let filterProducts = (searchParams) => {
-   filterData = data.filter((product) => {
+    filterData = data.filter((product) => {
       return product.title.toLowerCase().includes(searchParams.toLowerCase());
     });
-    if(filterData) setFilteredProducts(filterData);
+    if (filterData) setFilteredProducts(filterData);
   };
 
-  useEffect(()=>{
-    setFilteredProducts(data)
-  },[data,filterData])
+  useEffect(() => {
+    setFilteredProducts(data);
+  }, [data, filterData]);
 
   return {
     data,
