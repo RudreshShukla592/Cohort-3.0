@@ -96,8 +96,6 @@ const App = () => {
   };
 
   useEffect(() => {
-    
-
     let timeout = setTimeout(() => {
       noteSearching();
     }, 700);
