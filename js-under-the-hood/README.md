@@ -27,30 +27,15 @@ console.log("Hello");
 [MDN](https://developer.mozilla.org/)
 
 
-src
-│
-├── components
-│     Navbar.jsx
-│     Hero.jsx
-│     ProductCard.jsx
-│     Footer.jsx
-│
-├── forms
-│     LoginForm.jsx
-│     RegisterForm.jsx
-│
-├── pages
-│     Login.jsx
-│     Register.jsx
-│     Home.jsx
-│     Shop.jsx
-│
-├── context
-│     AuthContext.jsx
-│     CartContext.jsx
-│
-├── routes
-│     AppRoutes.jsx
-│
-├── App.jsx
-└── main.jsx
+I'd merge a few of the smaller sections like this:
+
+Introduction — Authentication and Tokens
+What is an Access Token?
+What is a Refresh Token?
+Access Token vs Refresh Token
+The Complete Authentication Flow
+Why Do Access Tokens Expire?
+Where Should Tokens Be Stored?
+JWT and Access Tokens
+Security Considerations
+What I Learned + Conclusion
