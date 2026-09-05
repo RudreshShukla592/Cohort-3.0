@@ -24,7 +24,7 @@ But why can't we simply send our username and password with every request?
 Because sending private and sensitive credentials again and again is not a good idea and increases the risk of exposing them. Instead, after login, the server can generate a token and send it back to the client. The client can then use that token with future requests, allowing the server to verify the request without asking for the user's password every time.
 
 ```mermaid
-flowchart TD
+flowchart LR
     A[User Logs In] --> B[Backend Verifies Credentials]
     B --> C[Backend Creates Token - JWT]
     C --> D[Frontend Stores Token]
