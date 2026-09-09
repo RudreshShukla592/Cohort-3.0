@@ -10,10 +10,15 @@ const userSchema = new mongoose.Schema({
   email: {
     type: String,
     required: true,
+    unique:true,
+    match: [/^\S+@\S+\.\S+$/, "Please enter a valid email"] 
   },
   passwordHash: {
     type: String,
     required: true,
+  },
+  refreshToken: {
+    type: String,
   },
 });
 

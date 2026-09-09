@@ -1,10 +1,10 @@
 import express from "express";
 const app = express();
-import jwt from "jsonwebtoken";
-import userModel from "./models/user.model.js";
-import { authenticate } from "./middleware/auth.moddleware.js";
+import authRotes from "./routes/auth.routes.js"
 
-import bcrypt from "bcryptjs";
+
+
+
 app.use(express.json());
 
 app.get("/api", (req, res) => {
@@ -13,6 +13,7 @@ app.get("/api", (req, res) => {
   });
 });
 
+app.use("/api/auth",authRotes)
 
 
 export default app;

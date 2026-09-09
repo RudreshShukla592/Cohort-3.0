@@ -163,7 +163,7 @@ This means that if an old refresh token is stolen and someone tries to reuse it 
 ## Wrapping It Up: What I Learned
 
 Before learning about Access and Refresh Tokens, I thought authentication was simply about logging in and getting a token. But after understanding the complete flow, I realized there is a lot more happening behind the scenes.
-
+    
 The main thing I understood is that both tokens have different jobs. The Access Token is used for normal API requests, while the Refresh Token helps us get a new Access Token when the old one expires.
 
 What I found most interesting was the security vs convenience part. A short-lived Access Token is safer, but we don't want users to log in again and again. That's where the Refresh Token comes in.

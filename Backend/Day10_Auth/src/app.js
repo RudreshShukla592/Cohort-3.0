@@ -60,11 +60,17 @@ app.post("/api/auth/login", async (req, res) => {
 
   const user = await userModel.findOne({ email });
 
+  if (!user) {
+    res.status(400).json({
+      message: "Invalid email",
+    });
+  }
+
   const isValidPassword = bcrypt.compare(password, user.password);
 
   if (!isValidPassword) {
     res.status(400).json({
-      message: "Invalid email or password!",
+      message: "Invalid password!",
     });
   }
 
@@ -75,13 +81,12 @@ app.post("/api/auth/login", async (req, res) => {
     process.env.JWT_SECRET,
   );
 
-  
   res.status(201).json({
     message: "User loggedIn!!",
     data: {
       user: {
-        email:user.email,
-        name:user.name,
+        email: user.email,
+        name: user.name,
       },
       token,
     },
