@@ -100,11 +100,9 @@ router.post("/refresh", async (req, res) => {
       });
     }
 
-    const { accessToken, refreshToken: newRefreshToken } = generateTokens(
-      user._id,
-    );
+    const { accessToken, refreshToken: newRefreshToken } = generateToken(user._id);
 
-    res.cookie("refreshToken", newRefreshToken);
+    res.cookie("refreshToken", newRefreshToken,{ httpOnly: true});
 
     user.refreshToken = newRefreshToken;
     await user.save();
@@ -121,3 +119,5 @@ router.post("/refresh", async (req, res) => {
 });
 
 export default router;
+
+// eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhYTI2ZWZhNmE5ZDk0OTI4NzcyMWZmYSIsImlhdCI6MTc4OTAzMDEzOCwiZXhwIjoxNzg5NjM0OTM4fQ.yg49KfVPktDic3VsidkL6XfrV7WGZLXhY8_Zb6jPSb0
