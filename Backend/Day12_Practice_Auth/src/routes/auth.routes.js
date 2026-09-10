@@ -1,8 +1,8 @@
 import express from "express";
-import bcrypt from "bcryptjs";
 import userModel from "../models/user.model.js";
+import bcrypt from "bcryptjs";
 import {
-  generateTokens,
+  generateToken,
   verifyAccessToken,
   verifyRefreshToken,
 } from "../utils/auth.js";
@@ -13,10 +13,10 @@ router.post("/register", async (req, res) => {
   try {
     const { name, email, password } = req.body;
 
-    const isAlreadyInDb = await userModel.findOne({ email });
+    const isEmailAlreadyInDb = await userModel.findOne({ email });
 
-    if (isAlreadyInDb) {
-      return res.status(400).json({
+    if (isEmailAlreadyInDb) {
+      return res.status(401).json({
         message: "Uer already exist",
         errors: {
           path: "email",
@@ -25,20 +25,18 @@ router.post("/register", async (req, res) => {
       });
     }
 
-    const newUser = await userModel.create({
+    const user = await userModel.create({
       name,
       email,
       password: await bcrypt.hash(password, 10),
     });
 
-    const { accessToken, refreshToken } = generateTokens({
-      userID: newUser._id,
-    });
+    const { accessToken, refreshToken } = generateToken(user._id);
 
-    res.cookie("refreshToken", refreshToken, { httpOnly: true });
+    res.cookie("refreshToken", refreshToken);
 
-    newUser.refreshToken = refreshToken;
-    await newUser.save();
+    user.refreshToken = refreshToken;
+    await user.save();
 
     res.status(201).json({
       message: "User registered successfully",
@@ -51,7 +49,9 @@ router.post("/register", async (req, res) => {
       accessToken: accessToken,
     });
   } catch (error) {
-    console.log(error);
+    return res.status(401).json({
+      message: "Error occured",
+    });
   }
 });
 
@@ -59,9 +59,8 @@ router.get("/me", async (req, res) => {
   const accessToken = req.headers.authorization?.split(" ")[1];
 
   try {
-    const decoded = verifyAccessToken(accessToken);
-
-    const user = await userModel.findById(decoded.id);
+    const data = verifyAccessToken(accessToken);
+    const user = await userModel.findById(data.id);
 
     res.status(200).json({
       message: "user fetched!!",
@@ -89,9 +88,8 @@ router.post("/refresh", async (req, res) => {
   }
 
   try {
-    const decoded =  verifyRefreshToken(refreshToken);
-
-    const user = await userModel.findById(decoded.id);
+    const data = verifyRefreshToken(refreshToken);
+    const user = await userModel.findById(data.id);
 
     if (refreshToken !== user.refreshToken) {
       user.refreshToken = null;
@@ -102,19 +100,19 @@ router.post("/refresh", async (req, res) => {
       });
     }
 
-    const { accessToken, refreshToken:newRefreshToken } = generateTokens({
-      userID: user._id,
-    });
+    const { accessToken, refreshToken: newRefreshToken } = generateTokens(
+      user._id,
+    );
 
-    res.cookie("refreshToken",newRefreshToken,{httpOnly:true})
+    res.cookie("refreshToken", newRefreshToken);
 
     user.refreshToken = newRefreshToken;
     await user.save();
 
     return res.status(200).json({
-      message:"Tokens created",
-      accessToken
-    })
+      message: "Tokens created",
+      accessToken,
+    });
   } catch (error) {
     return res.status(401).json({
       message: "Unauthorized, Invalid or expired refersh token",
