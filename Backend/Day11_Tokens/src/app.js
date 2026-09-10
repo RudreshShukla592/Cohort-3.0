@@ -1,11 +1,10 @@
 import express from "express";
 const app = express();
-import authRotes from "./routes/auth.routes.js"
-
-
-
+import authRotes from "./routes/auth.routes.js";
+import cookieParser from "cookie-parser";
 
 app.use(express.json());
+app.use(cookieParser());
 
 app.get("/api", (req, res) => {
   res.status(200).json({
@@ -13,7 +12,6 @@ app.get("/api", (req, res) => {
   });
 });
 
-app.use("/api/auth",authRotes)
-
+app.use("/api/auth", authRotes);
 
 export default app;

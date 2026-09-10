@@ -1,5 +1,6 @@
 import jwt from "jsonwebtoken";
 import config from "../config/config.js";
+import userModel from "../models/user.model.js";
 
 export const generateTokens = ({ userID }) => {
   const accessToken = jwt.sign(
@@ -20,3 +21,15 @@ export const generateTokens = ({ userID }) => {
 
   return {accessToken,refreshToken}
 };
+
+export const verifyAccessToken =  (token)=>{
+    const decode = jwt.verify(token,config.ACCESS_TOKEN_SECRET)
+    
+    return decode
+}
+
+export const verifyRefreshToken =  (token)=>{
+    const decode = jwt.verify(token,config.REFRESH_TOKEN_SECRET)
+    
+    return decode
+}
