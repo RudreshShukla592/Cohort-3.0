@@ -33,7 +33,9 @@ router.post("/register", async (req, res) => {
 
     const { accessToken, refreshToken } = generateToken(user._id);
 
-    res.cookie("refreshToken", refreshToken);
+    res.cookie("refreshToken", refreshToken, {
+      httpOnly: true,
+    });
 
     user.refreshToken = refreshToken;
     await user.save();
@@ -42,8 +44,8 @@ router.post("/register", async (req, res) => {
       message: "User registered successfully",
       data: {
         user: {
-          name: newUser.name,
-          email: newUser.email,
+          name: user.name,
+          email: user.email,
         },
       },
       accessToken: accessToken,
@@ -100,9 +102,11 @@ router.post("/refresh", async (req, res) => {
       });
     }
 
-    const { accessToken, refreshToken: newRefreshToken } = generateToken(user._id);
+    const { accessToken, refreshToken: newRefreshToken } = generateToken(
+      user._id,
+    );
 
-    res.cookie("refreshToken", newRefreshToken,{ httpOnly: true});
+    res.cookie("refreshToken", newRefreshToken, { httpOnly: true });
 
     user.refreshToken = newRefreshToken;
     await user.save();
