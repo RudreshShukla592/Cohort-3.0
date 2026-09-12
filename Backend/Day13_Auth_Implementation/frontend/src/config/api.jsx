@@ -3,13 +3,13 @@ import { useContext } from "react";
 import { MyStore } from "../context/MyContext";
 
 const useApi = () => {
-  const { accessToken } = useContext(MyStore);
+  const { accessToken, setAccessToken } = useContext(MyStore);
 
   const api = axios.create({
-    baseURL: "  /api",
+    baseURL: "http://localhost:5173/api",
 
     // for sending refresh token in cookies!!
-    withCredentials: true, 
+    withCredentials: true,
   });
 
   api.interceptors.request.use((config) => {
@@ -19,6 +19,22 @@ const useApi = () => {
 
     return config;
   });
+
+  api.interceptors.response.use(
+    (response) => response,
+    async (error) => {   
+      if (error.response && error.response.status === 401) {
+        const res = await api.post("/auth/refresh");
+
+        setAccessToken(res.data.accessToken);
+
+        error.config.headers.Authorization = `Bearer ${res.data.accessToken}`;
+
+        return axios(error.config);
+      }
+      return Promise.reject(error);
+    },
+  );
 
   return api;
 };

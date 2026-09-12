@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import useApi from "../config/api";
+import { useContext } from "react";
+import { MyStore } from "../context/MyContext";
+import { useNavigate } from "react-router";
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -9,6 +12,9 @@ const Register = () => {
   });
 
   const api = useApi()
+  const { setAccessToken,setUser} = useContext(MyStore)
+
+  const navigate = useNavigate()
 
   const handleChange = (e) => {
     setFormData({
@@ -25,8 +31,11 @@ const Register = () => {
     try {
       const response = await api.post("/auth/register",formData)
 
-      console.log(response);
-      
+      console.log(response.data.accessToken);
+      setAccessToken(response.data.accessToken)
+      setUser(response.data.data.user)
+
+      navigate("/profile")
     } catch (error) {
       console.log(error);
       
