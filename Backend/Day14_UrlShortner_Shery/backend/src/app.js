@@ -1,8 +1,13 @@
 import express from "express";
 import urlRouter from "./routes/url.route.js";
 import urlModel from "./models/url.model.js";
+import cors from "cors"
 
 const app = express();
+
+app.use(cors({
+    origin:"http://localhost:5173"
+}))
 
 app.use(express.json());
 app.use("/api/url", urlRouter);
@@ -36,5 +41,7 @@ app.delete("/:code", async (req, res) => {
     message: "URL deleted successfully",
   });
 });
+
+
 
 export default app;
