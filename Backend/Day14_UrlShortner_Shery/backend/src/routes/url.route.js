@@ -53,7 +53,7 @@ router.post("/create", async (req, res) => {
 
 router.get("/getAll", async (req, res) => {
   try {
-    const urls = await urlModel.find();
+    const urls = await urlModel.find().sort({ createdAt: -1 });
 
     res.status(200).json({
       message: "All URL Shortened Successfully",
@@ -67,7 +67,5 @@ router.get("/getAll", async (req, res) => {
     });
   }
 });
-
-
 
 export default router;
