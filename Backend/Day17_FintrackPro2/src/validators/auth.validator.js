@@ -6,11 +6,12 @@ export const registerValidator = [
     .withMessage("Email is Required")
     .isEmail()
     .withMessage("Invalid Email address"),
-  body("phone")
-    .exists()
-    .withMessage("Phone is required")
-    .isMobilePhone("en-IN")
-    .withMessage("Invalid Mobile Number"),
+  body("name")
+    .trim()
+    .notEmpty()
+    .withMessage("Name is required")
+    .isLength({ min: 2, max: 50 })
+    .withMessage("Name must be 2–50 characters long"),
   body("password")
     .exists()
     .withMessage("Password is required")
@@ -29,4 +30,3 @@ export const registerValidator = [
     next();
   },
 ];
-
