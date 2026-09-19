@@ -13,7 +13,7 @@ export const registerController = async (req, res) => {
 
   if (isAlreadyInDb) {
     return res.status(401).json({
-      message: "Uer already exist",
+      message: "User already exist",
       errors: {
         path: "email",
         message: "Uer already exist",
