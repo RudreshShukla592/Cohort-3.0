@@ -5,7 +5,7 @@ import { Navigate, Outlet } from 'react-router'
 const MainProtected = () => {
 
     let {user,isLoading}= useSelector((state)=> state.auth)
-      if(isLoading) return <h1>Loading....</h1>
+    if(isLoading) return <h1>Loading....</h1>
     if(!user) return <Navigate to={"/"}/>
 
   return <Outlet/>
