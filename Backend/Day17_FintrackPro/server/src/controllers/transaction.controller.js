@@ -96,3 +96,33 @@ export const updateTransactionController = async (req, res) => {
     });
   }
 };
+
+export const searchTransactionController = async (req, res) => {
+  try {
+    const input = req.query.query;
+
+    if (!input) {
+      return res.status(400).json({
+        message: "Search query is required",
+      });
+    }
+
+    let searchTransaction = await transactionModel.find({
+      userId: req.user._id,
+      $or: [
+        { title: { $regex: input, $options: "i" } },
+        { category: { $regex: input, $options: "i" } },
+        { type: { $regex: input, $options: "i" } },
+      ],
+    });
+
+    res.status(200).json({
+      message: "Transaction Fetched!",
+      data: searchTransaction,
+    });
+  } catch (error) {
+    return res.status(401).json({
+      error: `The error is ${error}`,
+    });
+  }
+};

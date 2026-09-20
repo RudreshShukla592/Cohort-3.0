@@ -3,6 +3,7 @@ import {
   createTransactionController,
   deleteTransactionController,
   getAllTransactionController,
+  searchTransactionController,
   updateTransactionController,
 } from "../controllers/transaction.controller.js";
 import { transactionValidator } from "../validators/transactionValidator.js";
@@ -14,5 +15,6 @@ router.post("/create",authenticate, transactionValidator, createTransactionContr
 router.get("/getAll",authenticate, getAllTransactionController);
 router.delete("/:id",authenticate, deleteTransactionController);
 router.put("/:id",authenticate, transactionValidator, updateTransactionController);
+router.get("/search", authenticate, searchTransactionController);
 
 export default router;
