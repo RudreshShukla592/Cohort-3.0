@@ -7,6 +7,8 @@ export const ContextProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [accessToken, setAccessToken] = useState(null);
+  const [transactions, setTransactions] = useState([])
+
 
   return (
     <MyStore.Provider
@@ -17,6 +19,7 @@ export const ContextProvider = ({ children }) => {
         setLoading,
         user,
         setUser,
+        transactions, setTransactions
       }}
     >
       {children}

@@ -5,7 +5,7 @@ export const createTransactionController = async (req, res) => {
     const { title, amount, type, category, date } = req.body;
 
     const transaction = await transactionModel.create({
-      userId: req.user.id,
+      userId: req.user._id,
       title,
       amount,
       type,
@@ -18,7 +18,7 @@ export const createTransactionController = async (req, res) => {
       data: transaction,
     });
   } catch (error) {
-    return res.status(401).json({
+    return res.status(500).json({
       error: `The error is ${error}`,
     });
   }
@@ -26,14 +26,14 @@ export const createTransactionController = async (req, res) => {
 
 export const getAllTransactionController = async (req, res) => {
   try {
-    const transactions = await transactionModel.find({ userId: req.user.id });
+    const transactions = await transactionModel.find({ userId: req.user._id });
 
     res.status(200).json({
       message: "Transactions fetched successfully",
       data: transactions,
     });
   } catch (error) {
-    return res.status(401).json({
+    return res.status(500).json({
       error: `The error is ${error}`,
     });
   }
@@ -45,7 +45,7 @@ export const deleteTransactionController = async (req, res) => {
 
     const transaction = await transactionModel.findByIdAndDelete({
       _id: id,
-      userId: req.user.id,
+      userId: req.user._id,
     });
 
     if (!transaction) {
@@ -58,7 +58,7 @@ export const deleteTransactionController = async (req, res) => {
       message: "Note Deleted!",
     });
   } catch (error) {
-    return res.status(401).json({
+    return res.status(500).json({
       error: `The error is ${error}`,
     });
   }
@@ -91,7 +91,7 @@ export const updateTransactionController = async (req, res) => {
       data: updatedTransaction,
     });
   } catch (error) {
-    return res.status(401).json({
+    return res.status(500).json({
       error: `The error is ${error}`,
     });
   }
@@ -121,7 +121,7 @@ export const searchTransactionController = async (req, res) => {
       data: searchTransaction,
     });
   } catch (error) {
-    return res.status(401).json({
+    return res.status(500).json({
       error: `The error is ${error}`,
     });
   }

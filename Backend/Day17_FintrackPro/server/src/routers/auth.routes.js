@@ -1,5 +1,6 @@
 import express from "express";
 import {
+  changeNameController,
   getMeController,
   loginController,
   logoutController,
@@ -7,6 +8,7 @@ import {
   registerController,
 } from "../controllers/auth.controller.js";
 import { registerValidator } from "../validators/auth.validator.js";
+import { authenticate } from "../middleware/auth.middleware.js";
 
 const router = express.Router();
 
@@ -15,6 +17,7 @@ router.post("/refresh", refreshAllTokenController);
 router.get("/me", getMeController);
 router.post("/login", registerValidator, loginController);
 router.post("/logout", logoutController);
+router.patch("/profile",authenticate,changeNameController)
 
 export default router;
 

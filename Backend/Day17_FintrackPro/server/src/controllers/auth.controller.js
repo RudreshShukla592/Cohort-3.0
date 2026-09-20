@@ -12,7 +12,7 @@ export const registerController = async (req, res) => {
   const isAlreadyInDb = await userModel.findOne({ email });
 
   if (isAlreadyInDb) {
-    return res.status(401).json({
+    return res.status(409).json({
       message: "User already exist",
       errors: {
         path: "email",
@@ -108,6 +108,12 @@ export const getMeController = async (req, res) => {
     const data = verifyAccessToken(accessToken);
     const user = await userModel.findById(data.id);
 
+    if (!user) {
+      return res.status(404).json({
+        message: "User not found",
+      });
+    }
+
     res.status(200).json({
       message: "user fetched!!",
       data: {
@@ -130,7 +136,7 @@ export const loginController = async (req, res) => {
   const user = await userModel.findOne({ email });
 
   if (!user) {
-    return res.status(400).json({
+    return res.status(401).json({
       message: "User not found or Invalid Email, Register first",
     });
   }
@@ -138,7 +144,7 @@ export const loginController = async (req, res) => {
   const isCorrectPassword = await bcrypt.compare(password, user.password);
 
   if (!isCorrectPassword) {
-    return res.status(400).json({
+    return res.status(401).json({
       message: "Invalid Password",
     });
   }
@@ -169,21 +175,64 @@ export const loginController = async (req, res) => {
 export const logoutController = async (req, res) => {
   const refreshToken = req.cookies.refreshToken;
 
-  if (!refreshToken) {
-    return res.status(401).json({
-      message: "Unauthorized, refersh token not found",
-    });
+  if (refreshToken) {
+    try {
+      const data = verifyRefreshToken(refreshToken);
+      const user = await userModel.findById(data.id);
+
+      if (user) {
+        user.refreshToken = null;
+        await user.save();
+      }
+    } catch (error) {
+      console.log("Refresh token already invalid or expired");
+    }
   }
-
-  const data = verifyRefreshToken(refreshToken);
-  const user = await userModel.findById(data.id);
-
-  user.refreshToken = null;
-  await user.save();
 
   res.clearCookie("refreshToken");
 
-  res.status(200).json({
+  return res.status(200).json({
     message: "Logout successful",
   });
 };
+
+export const changeNameController = async (req, res) => {
+  const user = await userModel.findById(req.user._id);
+  const { name } = req.body;
+
+  user.name = name;
+  await user.save();
+
+  res.status(200).json({
+    message: "Profile Updated",
+    data: user,
+  });
+};
+
+/* 
+| Code    | Meaning               | When to use                                                   |
+| ------- | --------------------- | ------------------------------------------------------------- |
+| **200** | OK                    | Successful GET, PUT, PATCH, or general success                |
+| **201** | Created               | Successfully created something → register, create transaction |
+| **204** | No Content            | Successful operation with nothing to return                   |
+| **400** | Bad Request           | Invalid/missing data from client                              |
+| **401** | Unauthorized          | No/invalid/expired authentication                             |
+| **403** | Forbidden             | Authenticated, but **not allowed** to perform the action      |
+| **404** | Not Found             | User/resource/route doesn't exist                             |
+| **409** | Conflict              | Duplicate/conflicting data → email already exists             |
+| **422** | Unprocessable Entity  | Request format is valid but validation fails                  |
+| **429** | Too Many Requests     | Rate limit exceeded                                           |
+| **500** | Internal Server Error | Unexpected error on your backend                              |
+| **502** | Bad Gateway           | Your server got a bad response from another server/service    |
+| **503** | Service Unavailable   | Server/service temporarily unavailable                        |
+
+
+200 → Fetch/update/delete successful
+201 → Register/create transaction
+400 → Validation/bad input
+401 → Authentication problem
+403 → User doesn't have permission
+404 → Transaction/user not found
+409 → Duplicate email/data
+500 → Backend/database error
+*/

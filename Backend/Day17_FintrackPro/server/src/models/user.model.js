@@ -22,6 +22,10 @@ const userSchema = new mongoose.Schema(
       type: String,
       default: null,
     },
+    currency:{
+      type:String,
+      default: "$"
+    }
   },
   {
     timestamps: true,
