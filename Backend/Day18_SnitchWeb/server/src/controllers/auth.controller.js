@@ -1,6 +1,6 @@
 import userModel from "../models/user.model.js";
 import bcrypt from "bcryptjs";
-import { generateToken } from "../utils/auth.js";
+import { generateToken, verifyRefreshToken } from "../utils/auth.js";
 
 export const registerController = async (req, res) => {
   try {
@@ -48,7 +48,7 @@ export const registerController = async (req, res) => {
       },
     });
   } catch (error) {
-    return res.status(500).json({
+    return res.status(401).json({
       message: `The error is ${error}`,
     });
   }
@@ -90,7 +90,7 @@ export const loginController = async (req, res) => {
       message: "User loggedIn",
       data: {
         user: {
-          id:user._id,
+          id: user._id,
           name: user.name,
           email: user.email,
         },
@@ -98,9 +98,79 @@ export const loginController = async (req, res) => {
       },
     });
   } catch (error) {
-    res.status(500).json({
+    res.status(401).json({
       message: `The error is ${error}`,
     });
   }
 };
 
+export const refreshController = async (req, res) => {
+  const refreshToken = req.cookies.refreshToken;
+
+  if (!refreshController) {
+    return res.status(401).json({
+      message: "Refresh Token is required",
+    });
+  }
+
+  try {
+    const data = verifyRefreshToken(refreshToken);
+    const user = await userModel.findById(data.id);
+
+    if (!user) {
+      return res.status(401).json({
+        message: "User not found",
+      });
+    }
+
+    if (refreshToken !== user.refreshToken) {
+      await userModel.findByIdAndUpdate(user._id, { refreshToken: null });
+
+      return res.status(401).json({
+        message: "Unauthorized, refersh token mismatch",
+      });
+    }
+
+    const { accessToken, refreshToken: newRefreshToken } = generateToken({
+      userId: user._id,
+      role: user.role,
+    });
+
+    res.cookie("refreshToken", newRefreshToken, { httpOnly: true });
+
+    await userModel.findByIdAndUpdate(user._id, {
+      refreshToken: newRefreshToken,
+    });
+
+    return res.status(200).json({
+      message: "Tokens rotated successfully",
+      data: {
+        user: {
+          id: user._id,
+          name: user.name,
+          email: user.email,
+        },
+        accessToken: accessToken,
+      },
+    });
+  } catch (error) {
+    res.status(401).json({
+      message: `The error is ${error}`,
+    });
+  }
+};
+
+export const getMeController = async (req, res) => {
+  const { _id, name, email } = req.user;
+
+  res.status(200).json({
+    message: "User data fetched successfully",
+    data: {
+      user: {
+        name,
+        email,
+        id: _id,
+      },
+    },
+  });
+};
