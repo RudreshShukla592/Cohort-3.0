@@ -1,7 +1,7 @@
-import express from "express"
+import express from "express";
+import { productValidator } from "../validators/product.validator.js";
 
-const router = express.Router()
+const router = express.Router();
 
-// router.post("/")
-
-export default router
+router.post("/", productValidator);
+export default router;
