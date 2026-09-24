@@ -17,7 +17,7 @@ export const registerValidator = [
     .bail()
     .isLength({ min: 2, max: 50 })
     .withMessage("Name must be 2–50 characters long"),
-  body("password")
+  body("passwordHash")
     .exists()
     .withMessage("Password is required")
     .bail()
