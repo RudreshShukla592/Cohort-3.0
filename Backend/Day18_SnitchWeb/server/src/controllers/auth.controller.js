@@ -26,10 +26,7 @@ export const registerController = async (req, res) => {
       passwordHash: await bcrypt.hash(password, 12),
     });
 
-    const { accessToken, refreshToken } = generateToken({
-      userId: user._id,
-      role: user.role,
-    });
+    const { accessToken, refreshToken } = generateToken(user._id, user.role);
 
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
@@ -73,10 +70,10 @@ export const loginController = async (req, res) => {
       });
     }
 
-    const { accessToken, refreshToken: newRefreshToken } = generateToken({
-      userId: user._id,
-      role: user.role,
-    });
+    const { accessToken, refreshToken: newRefreshToken } = generateToken(
+      user._id,
+      user.role,
+    );
 
     res.cookie("refreshToken", newRefreshToken, {
       httpOnly: true,
@@ -131,10 +128,10 @@ export const refreshController = async (req, res) => {
       });
     }
 
-    const { accessToken, refreshToken: newRefreshToken } = generateToken({
-      userId: user._id,
-      role: user.role,
-    });
+    const { accessToken, refreshToken: newRefreshToken } = generateToken(
+      user._id,
+      user.role,
+    );
 
     res.cookie("refreshToken", newRefreshToken, { httpOnly: true });
 

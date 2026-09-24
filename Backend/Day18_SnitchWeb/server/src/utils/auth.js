@@ -23,11 +23,11 @@ export const generateToken = (userId,role) => {
 };
 
 export const verifyRefreshToken = (token)=>{
-  const data = jwt.decode(token, config.REFRESH_TOKEN_SECRET)
+  const data = jwt.verify(token, config.REFRESH_TOKEN_SECRET)
   return data
 }
 
 export const verifyAccessToken = (token)=>{
-  const data = jwt.decode(token,config.ACCESS_TOKEN_SECRET)
+  const data = jwt.verify(token,config.ACCESS_TOKEN_SECRET)
   return data
 }
