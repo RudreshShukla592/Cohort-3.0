@@ -1,6 +1,8 @@
 import userModel from "../models/user.model.js";
 import bcrypt from "bcrypt";
 import {
+  clearCookieOptions,
+  cookieOptions,
   generateTokens,
   hashToken,
   verifyRefreshToken,
@@ -72,9 +74,9 @@ export const loginController = async (req, res) => {
       });
     }
 
-    const { accessToken, refreshToken } = generateTokens(user._id.toString());
+    const { accessToken, refreshToken } = generateTokens(user._id);
 
-    res.cookie("refreshToken", refreshToken, { httpOnly: true });
+    res.cookie("refreshToken", refreshToken, cookieOptions);
 
     await userModel.findByIdAndUpdate(user._id, {
       refreshToken: hashToken(refreshToken),
@@ -120,7 +122,7 @@ export const refreshController = async (req, res) => {
 
     if (hashToken(refreshToken) !== user.refreshToken) {
       await userModel.findByIdAndUpdate(user._id, { refreshToken: null });
-      res.clearCookie("refreshToken");
+      res.clearCookie("refreshToken",clearCookieOptions);
 
       return res.status(403).json({
         message: "Unauthorized, refersh token mismatch",
@@ -128,10 +130,10 @@ export const refreshController = async (req, res) => {
     }
 
     const { accessToken, refreshToken: newRefreshToken } = generateTokens(
-      user._id.toString(),
+      user._id
     );
 
-    res.cookie("refreshToken", newRefreshToken, { httpOnly: true });
+    res.cookie("refreshToken", newRefreshToken, cookieOptions);
 
     await userModel.findByIdAndUpdate(user._id, {
       refreshToken: hashToken(newRefreshToken),
@@ -184,7 +186,7 @@ export const logoutController = async (req, res) => {
 
     await userModel.findByIdAndUpdate(_id, { refreshToken: null });
 
-    res.clearCookie("refreshToken");
+    res.clearCookie("refreshToken",clearCookieOptions);
 
     res.status(200).json({
       message: "User Logged Out",
