@@ -26,9 +26,28 @@ export const createProductController = async (req, res) => {
 
 export const getAllProductsController = async (req, res) => {
   try {
-    const allProducts = await productModel.find().sort({ createdAt: -1 });
+    const page = req.query.page || 1;
+    const limit = req.query.limit || 10;
+    const skip = (page - 1) * limit;
 
-    res.status(200).json({ message: "Products fetched", data: allProducts });
+    const allProducts = await productModel
+      .find()
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit);
+
+    const total = await productModel.countDocuments();
+
+    res.status(200).json({
+      message: "Products fetched",
+      data: allProducts,
+      pagination: {
+        currentPage: page,
+        limit,
+        totalItems: total,
+        totalPages: Math.ceil(total / limit),
+      },
+    });
   } catch (error) {
     res.status(500).json({ message: "Server error" });
     console.log(`The error is ${error}`);
@@ -37,13 +56,29 @@ export const getAllProductsController = async (req, res) => {
 
 export const getMyProductsController = async (req, res) => {
   try {
-    const myProducts = await productModel
-      .find({ createdBy: req.user._id })
-      .sort({ createdAt: -1 });
+    const page = req.query.page || 1;
+    const limit = req.query.limit || 10;
+    const skip = (page - 1) * limit;
+    const filter = { createdBy: req.user._id };
 
-    res
-      .status(200)
-      .json({ message: "Your products fetched", data: myProducts });
+    const myProducts = await productModel
+      .find(filter)
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit);
+
+    const total = await productModel.countDocuments(filter);
+
+    res.status(200).json({
+      message: "Your products fetched",
+      data: myProducts,
+      pagination: {
+        currentPage: page,
+        limit,
+        totalItems: total,
+        totalPages: Math.ceil(total / limit),
+      },
+    });
   } catch (error) {
     res.status(500).json({ message: "Server error" });
     console.log(`The error is ${error}`);
