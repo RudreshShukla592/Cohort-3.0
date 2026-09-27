@@ -106,13 +106,13 @@ export const refreshController = async (req, res) => {
     const refreshToken = req.cookies.refreshToken;
 
     if (!refreshToken) {
-      return res.status(500).json({
+      return res.status(401).json({
         message: "Refresh Token is required",
       });
     }
 
     const data = verifyRefreshToken(refreshToken);
-    const user = await userModel.findById(data.id);
+    const user = await userModel.findById(data.id).select("+refreshToken");
 
     if (!user) {
       return res.status(401).json({
@@ -120,9 +120,11 @@ export const refreshController = async (req, res) => {
       });
     }
 
-    if (hashToken(refreshToken) !== user.refreshToken) {
+    const hashedRefreshToken = hashToken(refreshToken);
+
+    if (hashedRefreshToken !== user.refreshToken) {
       await userModel.findByIdAndUpdate(user._id, { refreshToken: null });
-      res.clearCookie("refreshToken",clearCookieOptions);
+      res.clearCookie("refreshToken", clearCookieOptions);
 
       return res.status(403).json({
         message: "Unauthorized, refersh token mismatch",
@@ -130,7 +132,7 @@ export const refreshController = async (req, res) => {
     }
 
     const { accessToken, refreshToken: newRefreshToken } = generateTokens(
-      user._id
+      user._id,
     );
 
     res.cookie("refreshToken", newRefreshToken, cookieOptions);
@@ -186,7 +188,7 @@ export const logoutController = async (req, res) => {
 
     await userModel.findByIdAndUpdate(_id, { refreshToken: null });
 
-    res.clearCookie("refreshToken",clearCookieOptions);
+    res.clearCookie("refreshToken", clearCookieOptions);
 
     res.status(200).json({
       message: "User Logged Out",
