@@ -10,7 +10,7 @@ const PublicProtected = () => {
   }
 
   if (user) {
-    return <Navigate to="/products" replace />;
+    return <Navigate to="/products" />;
   }
 
   return <Outlet />;

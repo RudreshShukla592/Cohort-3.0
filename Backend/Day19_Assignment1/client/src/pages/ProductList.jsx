@@ -3,6 +3,7 @@ import { LoaderCircle, PackageOpen } from "lucide-react";
 import { AuthContext } from "../context/AuthContext";
 import useApi from "../api/useApi";
 import ProductCard from "./ProductCard";
+import EditProductModal from "../components/EditProductModal";
 
 const ProductList = () => {
   const { user } = useContext(AuthContext);
@@ -16,6 +17,7 @@ const ProductList = () => {
     totalItems: 0,
     totalPages: 0,
   });
+  const [editingProduct, setEditingProduct] = useState(null);
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -37,7 +39,7 @@ const ProductList = () => {
       setLoading(false);
     }
   };
- 
+
   useEffect(() => {
     getAllProducts(1);
   }, []);
@@ -112,7 +114,6 @@ const ProductList = () => {
         </div>
       ) : (
         <>
-       
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {products.map((product) => (
               <ProductCard
@@ -120,6 +121,7 @@ const ProductList = () => {
                 product={product}
                 user={user}
                 onDelete={handleDelete}
+                onEdit={() => setEditingProduct(product)}
               />
             ))}
           </div>
@@ -148,6 +150,19 @@ const ProductList = () => {
             </div>
           )}
         </>
+      )}
+      {editingProduct && (
+        <EditProductModal
+          product={editingProduct}
+          onClose={() => setEditingProduct(null)}
+          onUpdated={(updatedProduct) => {
+            setProducts((prev) =>
+              prev.map((product) =>
+                product._id === updatedProduct._id ? updatedProduct : product,
+              ),
+            );
+          }}
+        />
       )}
     </section>
   );

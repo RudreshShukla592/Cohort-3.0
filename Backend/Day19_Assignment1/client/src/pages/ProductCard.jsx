@@ -1,15 +1,9 @@
 import React from "react";
 import { Edit3, Trash2, Package } from "lucide-react";
-import { useNavigate } from "react-router";
 
-const ProductCard = ({ product, user, onDelete }) => {
-  const navigate = useNavigate();
+const ProductCard = ({ product, user, onDelete, onEdit }) => {
 
   const isOwner = user && String(product.createdBy) === String(user.id);
-
-  const handleEdit = () => {
-    navigate(`/products/edit/${product._id}`);
-  };
 
   const handleDelete = () => {
     if (window.confirm("Are you sure you want to delete this product?")) {
@@ -62,11 +56,10 @@ const ProductCard = ({ product, user, onDelete }) => {
             </p>
           </div>
 
-          {/* Owner actions */}
           {isOwner && (
             <div className="flex items-center gap-2">
               <button
-                onClick={handleEdit}
+                onClick={() => onEdit()}
                 className="w-9 h-9 rounded-lg border border-[var(--border)] flex items-center justify-center text-[var(--muted)] hover:text-[var(--primary)] hover:border-[var(--primary)]/30 hover:bg-[var(--primary)]/5 transition-all"
                 title="Edit product"
               >
