@@ -23,7 +23,7 @@ router.get("/:id", idValidator, getProductByIdController);
 router.put(
   "/:id",
   autheticate,
-  idValidator,
+  idValidator,  
   productValidator,
   updateProductController,
 );

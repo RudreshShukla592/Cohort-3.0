@@ -42,7 +42,6 @@ const ProductForm = () => {
 
       reset();
 
-      // Later we can navigate to My Products here
       navigate("/my-products");
     } catch (error) {
       console.log(error);

@@ -3,10 +3,10 @@ import { LoaderCircle, PackageOpen } from "lucide-react";
 import useApi from "../api/useApi";
 import ProductCard from "./ProductCard";
 import { AuthContext } from "../context/AuthContext";
+import EditProductModal from "../components/EditProductModal";
 
 const MyProducts = () => {
-
-  const {user} = useContext(AuthContext)
+  const { user } = useContext(AuthContext);
 
   const api = useApi();
 
@@ -18,6 +18,8 @@ const MyProducts = () => {
     totalPages: 0,
   });
 
+  const [editingProduct, setEditingProduct] = useState(null);
+
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
@@ -27,8 +29,6 @@ const MyProducts = () => {
       setError("");
 
       const response = await api.get(`/products/my?page=${page}&limit=10`);
-
-      // console.log("My Products:", response.data);
 
       setProducts(response.data.data);
       setPagination(response.data.pagination);
@@ -132,6 +132,7 @@ const MyProducts = () => {
                 product={product}
                 onDelete={handleDelete}
                 user={user}
+                onEdit={() => setEditingProduct(product)}
               />
             ))}
           </div>
@@ -161,6 +162,20 @@ const MyProducts = () => {
             </div>
           )}
         </>
+      )}
+
+      {editingProduct && (
+        <EditProductModal
+          product={editingProduct}
+          onClose={() => setEditingProduct(null)}
+          onUpdated={(updatedProduct) => {
+            setProducts((prev) =>
+              prev.map((product) =>
+                product._id === updatedProduct._id ? updatedProduct : product,
+              ),
+            );
+          }}
+        />
       )}
     </section>
   );

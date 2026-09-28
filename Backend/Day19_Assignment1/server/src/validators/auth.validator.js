@@ -11,7 +11,7 @@ const handleValidationErrors = (req, res, next) => {
   }
 
   next();
-};
+};  
 
 export const registerValidator = [
   body("name")

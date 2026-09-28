@@ -21,7 +21,6 @@ const useApi = () => {
   }, []);
 
   useEffect(() => {
-    // REQUEST INTERCEPTOR
     const requestInterceptor = api.interceptors.request.use(
       (config) => {
         const token = accessTokenRef.current;
@@ -35,7 +34,6 @@ const useApi = () => {
       (error) => Promise.reject(error),
     );
 
-    // RESPONSE INTERCEPTOR
     const responseInterceptor = api.interceptors.response.use(
       (response) => response,
 
@@ -50,18 +48,20 @@ const useApi = () => {
         // Only refresh normal protected requests
         if (
           error.response?.status === 401 &&
+
+          // So that there is no infinite loop(emergency brake)
           !originalRequest._retry &&
+
+          //No need to try if the url was itself refresh!
           !originalRequest.url?.includes("/auth/refresh")
         ) {
           originalRequest._retry = true;
 
           try {
-            // Refresh token is automatically sent as HttpOnly cookie
             const response = await api.post("/auth/refresh");
 
             const newAccessToken = response.data.data.accessToken;
 
-            // Update React state
             setAccessToken(newAccessToken);
 
             // Update the request that originally failed
