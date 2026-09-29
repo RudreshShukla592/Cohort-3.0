@@ -12,7 +12,7 @@ export const authenticate = async (req, res, next) => {
 
   try {
     const data = verifyAccessToken(accessToken);
-    
+
     const user = await userModel.findById(data.id);
 
     if (!user) {
@@ -29,6 +29,14 @@ export const authenticate = async (req, res, next) => {
       message: "Invalid or expired token",
     });
     console.log(error);
-    
   }
+};
+
+export const authenticateSeller = (req, res, next) => {
+  if (req.user.role !== "seller") {
+    return res.status(403).json({
+      message: "User is not authorized to perform this task",
+    });
+  }
+  next();
 };

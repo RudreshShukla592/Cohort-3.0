@@ -1,4 +1,15 @@
-import { body, validationResult } from "express-validator";
+import { body, param, validationResult } from "express-validator";
+
+const handleValidationErrors = (req, res, next) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({
+      message: "Invalid Request",
+      errors: errors.array(),
+    });
+  }
+  next();
+};
 
 export const productValidator = [
   body("title")
@@ -69,14 +80,13 @@ export const productValidator = [
     .isInt({ min: 0 })
     .withMessage("Stock must be a integer value and must be greater than 0"),
 
-  (req, res, next) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({
-        message: "Invalid Request",
-        errors: errors.array(),
-      });
-    }
-    next();
-  },
+  handleValidationErrors,
+];
+
+export const idValidator = [
+  param("id")
+    .exists().withMessage("Product id is required in req params").bail()
+    .isMongoId().withMessage("Invalid product id"),
+
+  handleValidationErrors,
 ];
