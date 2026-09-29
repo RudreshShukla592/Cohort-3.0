@@ -122,6 +122,7 @@ export const refreshController = async (req, res) => {
 
     if (refreshToken !== user.refreshToken) {
       await userModel.findByIdAndUpdate(user._id, { refreshToken: null });
+      res.clearCookie("refreshToken")
 
       return res.status(401).json({
         message: "Unauthorized, refersh token mismatch",

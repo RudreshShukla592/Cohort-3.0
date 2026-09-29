@@ -11,21 +11,25 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
       unique: true,
+      lowercase: true,
+      trim: true,
     },
 
     password: {
       type: String,
       required: true,
+      select: false,
     },
 
     refreshToken: {
       type: String,
-      default: null,
+      select: false,
     },
-    currency:{
-      type:String,
-      default: "$"
-    }
+
+    currency: {
+      type: String,
+      default: "$",
+    },
   },
   {
     timestamps: true,

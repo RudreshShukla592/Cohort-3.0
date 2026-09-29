@@ -10,4 +10,9 @@ app.use(cookieParser())
 app.use("/api/auth",authRouter)
 app.use("/api/transaction",transactionRouter)
 
+app.use((err, req, res, next) => {
+  console.log(`the error is ${err}`);
+  res.status(500).json({ message: "Server error" });
+});
+
 export default app
