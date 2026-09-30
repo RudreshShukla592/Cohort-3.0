@@ -1,11 +1,11 @@
 import express from "express";
 import {
-  changeNameController,
   getMeController,
   loginController,
   logoutController,
   refreshAllTokenController,
   registerController,
+  updateProfileController,
 } from "../controllers/auth.controller.js";
 import { loginValidator, registerValidator } from "../validators/auth.validator.js";
 import { authenticate } from "../middleware/auth.middleware.js";
@@ -17,7 +17,7 @@ router.post("/login", loginValidator, loginController);
 router.post("/refresh", refreshAllTokenController);
 router.get("/me",authenticate, getMeController);
 router.post("/logout",authenticate, logoutController);
-router.patch("/profile",authenticate,changeNameController)
+router.patch("/profile",authenticate, updateProfileController)
 
 export default router;
 

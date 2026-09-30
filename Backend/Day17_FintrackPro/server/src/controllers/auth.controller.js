@@ -200,17 +200,27 @@ export const logoutController = async (req, res) => {
   }
 };
 
-export const changeNameController = async (req, res) => {
-  const user = await userModel.findById(req.user._id);
-  const { name } = req.body;
+export const updateProfileController = async (req, res) => {
+  try {
+    const { name, currency } = req.body;
 
-  user.name = name;
-  await user.save();
+    const user = await userModel.findOneAndUpdate(
+      { _id: req.user._id },
+      { name, currency },
+      { new: true, runValidators: true }
+    );
 
-  res.status(200).json({
-    message: "Profile Updated",
-    data: user,
-  });
+    res.status(200).json({
+      message: "Profile Updated",
+      data: user,
+    });
+  } catch (error) {
+    console.log(error);
+
+    res.status(500).json({
+      message: "Server error",
+    });
+  }
 };
 
 /* 

@@ -19,13 +19,24 @@ export const useAuth = () => {
   } = useForm();
 
   const onRegisterSubmit = async (data) => {
-    console.log("Register Data:", data);
-
     try {
       const response = await api.post("/auth/register", data);
 
-      console.log(response.data.accessToken);
-      setAccessToken(response.data.accessToken);
+      setUser(response.data.data.user);
+      setLoading(false);
+
+      navigate("/");
+    } catch (error) {
+      setLoading(false);
+      console.log(error);
+    }
+  };
+
+  const onLoginSubmit = async (data) => {
+    try {
+      const response = await api.post("/auth/login", data);
+
+      setAccessToken(response.data.data.accessToken);
       setUser(response.data.data.user);
       setLoading(false);
 
@@ -36,19 +47,15 @@ export const useAuth = () => {
     }
   };
 
-  const onLoginSubmit = async (data) => {
-    console.log("Login Data:", data);
-
+  const logout = async () => {
     try {
-      const response = await api.post("/auth/login",data)
+      await api.post("/auth/logout");
 
-      setAccessToken(response.data.accessToken);
-      setUser(response.data.data.user);
-      setLoading(false);
+      setAccessToken(null);
+      setUser(null);
 
-      navigate("/home");
+      navigate("/login");
     } catch (error) {
-      setLoading(false);
       console.log(error);
     }
   };
@@ -62,5 +69,6 @@ export const useAuth = () => {
     onRegisterSubmit,
     navigate,
     onLoginSubmit,
+    logout,
   };
 };

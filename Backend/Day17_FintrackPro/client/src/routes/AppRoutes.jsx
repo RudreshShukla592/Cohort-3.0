@@ -8,8 +8,31 @@ import Dashboard from "../feature/transaction/ui/pages/Dashboard";
 import Profile from "../feature/transaction/ui/pages/Profile";
 import PublicProtectedRoute from "./protected/PublicProtectedRoute";
 import MainProtectedRoute from "./protected/MainProtectedRoute";
+import { useContext } from "react";
+import { MyStore } from "../app/context/MyContext";
+import { useEffect } from "react";
+import useApi from "../feature/auth/api/authApi";
 
 const AppRoutes = () => {
+
+  const {setUser, setLoading} = useContext(MyStore)
+  const api = useApi()
+
+   useEffect(() => {
+    const restoreSession = async () => {
+      try {
+        const response = await api.get("/auth/me");
+        setUser(response.data.data.user);
+      } catch (error) {
+        setUser(null);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    restoreSession();
+  }, []);
+
   let router = createBrowserRouter([
     {
       path: "/",
