@@ -5,13 +5,13 @@ export const transactionValidator = [
 
   body("amount")
     .notEmpty()
-    .withMessage("Amount is required")
+    .withMessage("Amount is required").bail()
     .isFloat({ min: 0.01 })
     .withMessage("Amount must be greater than 0"),
 
   body("type")
     .notEmpty()
-    .withMessage("Type is required")
+    .withMessage("Type is required").bail()
     .isIn(["income", "expense"])
     .withMessage("Type must be income or expense"),
 

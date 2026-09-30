@@ -43,7 +43,7 @@ export const deleteTransactionController = async (req, res) => {
   try {
     const { id } = req.params;
 
-    const transaction = await transactionModel.findByIdAndDelete({
+    const transaction = await transactionModel.findOneAndDelete({
       _id: id,
       userId: req.user._id,
     });
@@ -67,14 +67,14 @@ export const deleteTransactionController = async (req, res) => {
 export const updateTransactionController = async (req, res) => {
   try {
     const { id } = req.params;
-    const body = req.body;
+    const { title, amount, type, category, date } = req.body;
 
-    const updatedTransaction = await transactionModel.findByIdAndUpdate(
+    const updatedTransaction = await transactionModel.findOneAndDelete(
       {
         _id: id,
         userId: req.user._id,
       },
-      body,
+      { title, amount, type, category, date },
       {
         new: true,
       },
@@ -123,6 +123,96 @@ export const searchTransactionController = async (req, res) => {
   } catch (error) {
     return res.status(500).json({
       error: `The error is ${error}`,
+    });
+  }
+};
+
+export const filterTransactionController = async (req, res) => {
+  try {
+    const { category, type } = req.query;
+
+    const filter = {
+      userId: req.user._id,
+    };
+
+    if (category) {
+      filter.category = category;
+    }
+
+    if (type) {
+      filter.type = type;
+    }
+
+    const transactions = await transactionModel
+      .find(filter)
+      .sort({ createdAt: -1 });
+
+    res.status(200).json({
+      message: "Transactions filtered successfully",
+      data: transactions,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      error: `The error is ${error}`,
+    });
+  }
+};
+
+export const getDashboardController = async (req, res) => {
+  try {
+    const userId = req.user._id;
+
+    const result = await transactionModel.aggregate([
+      {
+        $match: {
+          userId: userId,
+        },
+      },
+      {
+        $group: {
+          _id: "$type",
+          total: { $sum: "$amount" },
+          count: { $sum: 1 },
+        },
+      },
+    ]);
+
+    let totalIncome = 0;
+    let totalExpense = 0;
+    let incomeCount = 0;
+    let expenseCount = 0;
+
+    result.forEach((item) => {
+      if (item._id === "income") {
+        totalIncome = item.total;
+        incomeCount = item.count;
+      }
+
+      if (item._id === "expense") {
+        totalExpense = item.total;
+        expenseCount = item.count;
+      }
+    });
+
+    res.status(200).json({
+      message: "Dashboard data fetched",
+      data: {
+        totalIncome,
+        totalExpense,
+        currentBalance: totalIncome - totalExpense,
+        totalTransactions: incomeCount + expenseCount,
+
+        graph: {
+          income: totalIncome,
+          expense: totalExpense,
+        },
+      },
+    });
+  } catch (error) {
+    console.log(error);
+
+    res.status(500).json({
+      message: "Server error",
     });
   }
 };

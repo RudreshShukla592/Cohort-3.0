@@ -7,16 +7,16 @@ import {
   refreshAllTokenController,
   registerController,
 } from "../controllers/auth.controller.js";
-import { registerValidator } from "../validators/auth.validator.js";
+import { loginValidator, registerValidator } from "../validators/auth.validator.js";
 import { authenticate } from "../middleware/auth.middleware.js";
 
 const router = express.Router();
 
 router.post("/register", registerValidator, registerController);
+router.post("/login", loginValidator, loginController);
 router.post("/refresh", refreshAllTokenController);
-router.get("/me", getMeController);
-router.post("/login", registerValidator, loginController);
-router.post("/logout", logoutController);
+router.get("/me",authenticate, getMeController);
+router.post("/logout",authenticate, logoutController);
 router.patch("/profile",authenticate,changeNameController)
 
 export default router;

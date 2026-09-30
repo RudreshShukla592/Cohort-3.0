@@ -2,6 +2,7 @@ import userModel from "../models/user.model.js";
 import bcrypt from "bcryptjs";
 import {
   generateToken,
+  hashToken,
   verifyAccessToken,
   verifyRefreshToken,
 } from "../utils/auth.js";
@@ -24,8 +25,51 @@ export const registerController = async (req, res) => {
     const user = await userModel.create({
       name,
       email,
-      password: await bcrypt.hash(password, 10),
+      password: await bcrypt.hash(password, 12),
     });
+
+    res.status(201).json({
+      message: "User registered successfully",
+      data: {
+        user: {
+          id: user._id,
+          name: user.name,
+          email: user.email,
+        },
+      },
+    });
+  } catch (error) {
+    if (error.code === 11000) {
+      return res.status(409).json({
+        message: `User already exist`,
+      });
+    }
+    res.status(500).json({
+      message: `Server error`,
+    });
+    console.log(`the error is ${error}`);
+  }
+};
+
+export const loginController = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    const user = await userModel.findOne({ email }).select("+password");
+
+    if (!user) {
+      return res.status(401).json({
+        message: "Invalid Email or Password",
+      });
+    }
+
+    const isCorrectPassword = await bcrypt.compare(password, user.password);
+
+    if (!isCorrectPassword) {
+      return res.status(401).json({
+        message: "Invalid Email or Password",
+      });
+    }
 
     const { accessToken, refreshToken } = generateToken(user._id);
 
@@ -33,13 +77,15 @@ export const registerController = async (req, res) => {
       httpOnly: true,
     });
 
-    user.refreshToken = refreshToken;
-    await user.save();
+    await userModel.findByIdAndUpdate(user._id, {
+      refreshToken: hashToken(refreshToken),
+    });
 
-    res.status(201).json({
-      message: "User registered successfully",
+    res.status(200).json({
+      message: "Login successful",
       data: {
         user: {
+          id: user._id,
           name: user.name,
           email: user.email,
         },
@@ -47,9 +93,10 @@ export const registerController = async (req, res) => {
       accessToken: accessToken,
     });
   } catch (error) {
-    return res.status(401).json({
-      message: "Error occured",
+    res.status(500).json({
+      message: `Server error`,
     });
+    console.log(`In Login Form:- the error is ${error}`);
   }
 };
 
@@ -64,7 +111,7 @@ export const refreshAllTokenController = async (req, res) => {
 
   try {
     const data = verifyRefreshToken(refreshToken);
-    const user = await userModel.findById(data.id);
+    const user = await userModel.findById(data.id).select("+refreshToken");
 
     if (!user) {
       return res.status(401).json({
@@ -72,11 +119,13 @@ export const refreshAllTokenController = async (req, res) => {
       });
     }
 
-    if (refreshToken !== user.refreshToken) {
-      user.refreshToken = null;
-      await user.save();
+    const hashedRefreshToken = hashToken(refreshToken);
 
-      return res.status(401).json({
+    if (hashedRefreshToken !== user.refreshToken) {
+      await userModel.findByIdAndUpdate(user._id, { refreshToken: null });
+      res.clearCookie("refreshToken");
+
+      return res.status(403).json({
         message: "Unauthorized, refersh token mismatch",
       });
     }
@@ -87,113 +136,68 @@ export const refreshAllTokenController = async (req, res) => {
 
     res.cookie("refreshToken", newRefreshToken, { httpOnly: true });
 
-    user.refreshToken = newRefreshToken;
-    await user.save();
+    await userModel.findByIdAndUpdate(user._id, {
+      refreshToken: hashToken(newRefreshToken),
+    });
 
     return res.status(200).json({
       message: "Tokens created",
-      accessToken,
+      data: {
+        user: {
+          id: user._id,
+          name: user.name,
+          email: user.email,
+        },
+        accessToken: accessToken,
+      },
     });
   } catch (error) {
-    return res.status(401).json({
-      message: "Unauthorized, Invalid or expired refersh token",
+    res.status(500).json({
+      message: `Server error`,
     });
+    console.log(`In Refresh:- the error is ${error}`);
   }
 };
 
 export const getMeController = async (req, res) => {
-  const accessToken = req.headers.authorization?.split(" ")[1];
-
   try {
-    const data = verifyAccessToken(accessToken);
-    const user = await userModel.findById(data.id);
-
-    if (!user) {
-      return res.status(404).json({
-        message: "User not found",
-      });
-    }
+    const { _id, name, email } = req.user;
 
     res.status(200).json({
-      message: "user fetched!!",
+      message: "User data fetched successfully",
       data: {
         user: {
-          name: user.name,
-          email: user.email,
+          name,
+          email,
+          id: _id,
         },
       },
     });
   } catch (error) {
-    return res.status(401).json({
-      message: "Unauthorized, Invalid or expired access token",
+    res.status(500).json({
+      message: `Server error`,
     });
+    console.log(`the error is ${error}`);
   }
-};
-
-export const loginController = async (req, res) => {
-  const { email, password } = req.body;
-
-  const user = await userModel.findOne({ email });
-
-  if (!user) {
-    return res.status(401).json({
-      message: "User not found or Invalid Email, Register first",
-    });
-  }
-
-  const isCorrectPassword = await bcrypt.compare(password, user.password);
-
-  if (!isCorrectPassword) {
-    return res.status(401).json({
-      message: "Invalid Password",
-    });
-  }
-
-  const { accessToken, refreshToken: newRefreshToken } = generateToken(
-    user._id,
-  );
-
-  res.cookie("refreshToken", newRefreshToken, {
-    httpOnly: true,
-  });
-
-  user.refreshToken = newRefreshToken;
-  await user.save();
-
-  res.status(200).json({
-    message: "Login successful",
-    data: {
-      user: {
-        name: user.name,
-        email: user.email,
-      },
-    },
-    accessToken: accessToken,
-  });
 };
 
 export const logoutController = async (req, res) => {
-  const refreshToken = req.cookies.refreshToken;
+  try {
+    const { _id } = req.user;
 
-  if (refreshToken) {
-    try {
-      const data = verifyRefreshToken(refreshToken);
-      const user = await userModel.findById(data.id);
+    await userModel.findByIdAndUpdate(_id, { refreshToken: null });
 
-      if (user) {
-        user.refreshToken = null;
-        await user.save();
-      }
-    } catch (error) {
-      console.log("Refresh token already invalid or expired");
-    }
+    res.clearCookie("refreshToken");
+
+    res.status(200).json({
+      message: "User Logged Out",
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: `Server error`,
+    });
+    console.log(`the error is ${error}`);
   }
-
-  res.clearCookie("refreshToken");
-
-  return res.status(200).json({
-    message: "Logout successful",
-  });
 };
 
 export const changeNameController = async (req, res) => {

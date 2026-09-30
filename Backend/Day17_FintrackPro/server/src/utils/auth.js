@@ -1,5 +1,9 @@
 import jwt from "jsonwebtoken";
 import { config } from "../config/config.js";
+import crypto from "crypto";
+
+export const hashToken = (token) =>
+  crypto.createHash("sha256").update(token).digest("hex");
 
 export const generateToken = (userId) => {
   const accessToken = jwt.sign(
@@ -21,11 +25,11 @@ export const generateToken = (userId) => {
 };
 
 export const verifyRefreshToken = (token)=>{
-  const data = jwt.decode(token, config.REFRESH_TOKEN_SECRET)
+  const data = jwt.verify(token, config.REFRESH_TOKEN_SECRET)
   return data
 }
 
 export const verifyAccessToken = (token)=>{
-  const data = jwt.decode(token,config.ACCESS_TOKEN_SECRET)
+  const data = jwt.verify(token,config.ACCESS_TOKEN_SECRET)
   return data
 }
