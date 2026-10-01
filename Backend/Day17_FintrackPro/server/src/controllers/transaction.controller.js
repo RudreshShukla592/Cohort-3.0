@@ -69,7 +69,7 @@ export const updateTransactionController = async (req, res) => {
     const { id } = req.params;
     const { title, amount, type, category, date } = req.body;
 
-    const updatedTransaction = await transactionModel.findOneAndDelete(
+    const updatedTransaction = await transactionModel.findOneAndUpdate(
       {
         _id: id,
         userId: req.user._id,

@@ -1,24 +1,27 @@
 import React, { useContext, useEffect, useState } from "react";
-import { LoaderCircle, Plus } from "lucide-react";
 import CashFlowCard from "../components/CashFlowCard";
 import TransactionsCard from "../components/TransactionsCard";
-import useApi from "../../../auth/api/authApi";
 import SummaryCards from "../components/SummaryCards";
 import { MyStore } from "../../../../app/context/MyContext";
 import TransactionForm from "../components/TransactionForm";
+import DashboardSkeleton from "../components/DashboardSkeleton";
+import useApi from "../../../auth/api/authApi";
 
 const Dashboard = () => {
   const api = useApi();
-  const {user} = useContext(MyStore)
+  const { user, transactions, setTransactions } = useContext(MyStore);
 
   const [dashboard, setDashboard] = useState(null);
-  const [transactions, setTransactions] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
   const [error, setError] = useState("");
 
-  const getDashboard = async () => {
+  const getDashboard = async (showLoading = true) => {
     try {
-      setLoading(true);
+      if (showLoading) {
+        setLoading(true);
+      }
+
       setError("");
 
       const [dashboardResponse, transactionsResponse] = await Promise.all([
@@ -27,14 +30,14 @@ const Dashboard = () => {
       ]);
 
       setDashboard(dashboardResponse.data.data);
-
       setTransactions(transactionsResponse.data.data || []);
     } catch (error) {
       console.log(error);
-
       setError(error.response?.data?.message || "Failed to load dashboard.");
     } finally {
-      setLoading(false);
+      if (showLoading) {
+        setLoading(false);
+      }
     }
   };
 
@@ -43,11 +46,7 @@ const Dashboard = () => {
   }, []);
 
   if (loading) {
-    return (
-      <div className="min-h-[70vh] flex items-center justify-center">
-        <LoaderCircle size={30} className="animate-spin text-[#101b32]" />
-      </div>
-    );
+    return <DashboardSkeleton />;
   }
 
   if (error) {
@@ -76,7 +75,7 @@ const Dashboard = () => {
           </p>
         </div>
 
-        <TransactionForm/>
+        <TransactionForm onTransactionCreated={() => getDashboard(false)} />
       </div>
 
       {/* Summary */}
@@ -86,7 +85,7 @@ const Dashboard = () => {
       <CashFlowCard graph={dashboard.graph} />
 
       {/* Transactions */}
-      <TransactionsCard transactions={transactions} />
+      <TransactionsCard transactions={transactions} getDashboard={() => getDashboard(false)} />
     </section>
   );
 };

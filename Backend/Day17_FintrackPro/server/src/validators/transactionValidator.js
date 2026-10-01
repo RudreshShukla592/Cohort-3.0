@@ -1,7 +1,7 @@
 import { body, validationResult } from "express-validator";
 
 export const transactionValidator = [
-  body("title").trim().notEmpty().withMessage("Title is required"),
+   body("title").trim().notEmpty().withMessage("Title is required"),
 
   body("amount")
     .notEmpty()

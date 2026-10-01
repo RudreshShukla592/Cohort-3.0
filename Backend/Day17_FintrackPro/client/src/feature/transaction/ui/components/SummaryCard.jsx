@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useContext } from "react";
+import { MyStore } from "../../../../app/context/MyContext";
 
 const SummaryCard = ({
   title,
@@ -8,6 +9,10 @@ const SummaryCard = ({
   iconColor,
   valueColor = "text-[#101b32]",
 }) => {
+
+
+  const {user} = useContext(MyStore)
+
   return (
     <div className="bg-white border border-[#dfe5ed] rounded-2xl p-5 shadow-sm">
       <div
@@ -21,7 +26,7 @@ const SummaryCard = ({
       </p>
 
       <h2 className={`text-2xl font-bold mt-1 ${valueColor}`}>
-        ₹{value.toLocaleString("en-IN")}
+         {user.currency}{value.toLocaleString("en-IN")}
       </h2>
     </div>
   );

@@ -35,6 +35,7 @@ export const registerController = async (req, res) => {
           id: user._id,
           name: user.name,
           email: user.email,
+          currency:user.currency
         },
       },
     });
@@ -88,6 +89,7 @@ export const loginController = async (req, res) => {
           id: user._id,
           name: user.name,
           email: user.email,
+          currency:user.currency
         },
       },
       accessToken: accessToken,
@@ -147,6 +149,7 @@ export const refreshAllTokenController = async (req, res) => {
           id: user._id,
           name: user.name,
           email: user.email,
+          currency:user.currency
         },
         accessToken: accessToken,
       },
@@ -161,7 +164,7 @@ export const refreshAllTokenController = async (req, res) => {
 
 export const getMeController = async (req, res) => {
   try {
-    const { _id, name, email } = req.user;
+    const { _id, name, email, currency } = req.user;
 
     res.status(200).json({
       message: "User data fetched successfully",
@@ -170,6 +173,7 @@ export const getMeController = async (req, res) => {
           name,
           email,
           id: _id,
+          currency
         },
       },
     });

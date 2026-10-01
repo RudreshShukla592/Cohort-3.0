@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { X, Plus } from "lucide-react";
+import useApi from "../../../auth/api/authApi";
 
-const TransactionForm = () => {
+const TransactionForm = ({onTransactionCreated}) => {
   const [isOpen, setIsOpen] = useState(false);
+  const api = useApi();
 
   const {
     register,
@@ -13,18 +15,17 @@ const TransactionForm = () => {
   } = useForm({
     defaultValues: {
       type: "expense",
-      description: "",
+      title: "",
       amount: "",
       date: "",
       category: "Shopping",
     },
   });
 
-  const onSubmit = (data) => {
-    console.log(data);
-
-    // API call will go here
-    // await api.post("/transactions/create", data);
+  const onSubmit = async (data) => {
+  
+    await api.post("/transactions/create", data);
+    onTransactionCreated()
 
     reset();
     setIsOpen(false);
@@ -96,28 +97,22 @@ const TransactionForm = () => {
 
               {/* Description */}
               <div>
-                <label className="block text-sm font-medium mb-2">
-                  Description
-                </label>
+                <label className="block text-sm font-medium mb-2">Title</label>
 
                 <input
                   type="text"
                   placeholder="e.g. Grocery shopping"
-                  {...register("description", {
-                    required: "Description is required",
+                  {...register("title", {
+                    required: "Title is required",
                     minLength: {
                       value: 2,
-                      message: "Description must be at least 2 characters",
+                      message: "Title must be at least 2 characters",
                     },
                   })}
                   className="w-full h-12 px-4 rounded-xl border border-[#dbe2ea] bg-[#f8fafc] outline-none focus:border-[#4f7fc4]"
                 />
 
-                {errors.description && (
-                  <p className="text-xs text-red-500 mt-1">
-                    {errors.description.message}
-                  </p>
-                )}
+                {errors.title && <p>{errors.title.message}</p>}
               </div>
 
               {/* Amount + Date */}
