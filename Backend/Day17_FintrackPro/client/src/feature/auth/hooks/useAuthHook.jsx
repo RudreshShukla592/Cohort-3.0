@@ -20,9 +20,8 @@ export const useAuth = () => {
 
   const onRegisterSubmit = async (data) => {
     try {
-      const response = await api.post("/auth/register", data);
+      await api.post("/auth/register", data);
 
-      setUser(response.data.data.user);
       setLoading(false);
 
       navigate("/");
@@ -54,7 +53,7 @@ export const useAuth = () => {
       setAccessToken(null);
       setUser(null);
 
-      navigate("/login");
+      navigate("/");
     } catch (error) {
       console.log(error);
     }

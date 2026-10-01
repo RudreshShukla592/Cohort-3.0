@@ -6,6 +6,8 @@ import { MyStore } from "../../../../app/context/MyContext";
 import TransactionForm from "../components/TransactionForm";
 import DashboardSkeleton from "../components/DashboardSkeleton";
 import useApi from "../../../auth/api/authApi";
+import CashFlowChart from "./analytics/CashFlowChart";
+import CategoryChart from "./analytics/CategoryChart";
 
 const Dashboard = () => {
   const api = useApi();
@@ -81,11 +83,23 @@ const Dashboard = () => {
       {/* Summary */}
       <SummaryCards dashboard={dashboard} />
 
-      {/* Graph */}
-      <CashFlowCard graph={dashboard.graph} />
+      <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
+        <CashFlowChart
+          monthlyData={dashboard?.monthlyData || []}
+          currency={user?.currency || "₹"}
+        />
+
+        <CategoryChart
+          categoryData={dashboard?.categoryData || []}
+          currency={user?.currency || "₹"}
+        />
+      </div>
 
       {/* Transactions */}
-      <TransactionsCard transactions={transactions} getDashboard={() => getDashboard(false)} />
+      <TransactionsCard
+        transactions={transactions}
+        getDashboard={() => getDashboard(false)}
+      />
     </section>
   );
 };

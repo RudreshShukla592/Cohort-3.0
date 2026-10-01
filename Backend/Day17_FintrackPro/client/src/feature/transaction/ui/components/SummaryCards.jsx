@@ -37,6 +37,7 @@ const SummaryCards = ({ dashboard }) => {
         icon={ReceiptText}
         iconBg="bg-[#e5eefc]"
         iconColor="text-[#4f7fc4]"
+        showCurrency={false}
       />
     </div>
   );

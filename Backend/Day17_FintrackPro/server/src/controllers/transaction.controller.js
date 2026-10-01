@@ -162,7 +162,8 @@ export const getDashboardController = async (req, res) => {
   try {
     const userId = req.user._id;
 
-    const result = await transactionModel.aggregate([
+    // Summary
+    const summary = await transactionModel.aggregate([
       {
         $match: {
           userId: userId,
@@ -182,7 +183,7 @@ export const getDashboardController = async (req, res) => {
     let incomeCount = 0;
     let expenseCount = 0;
 
-    result.forEach((item) => {
+    summary.forEach((item) => {
       if (item._id === "income") {
         totalIncome = item.total;
         incomeCount = item.count;
@@ -194,18 +195,104 @@ export const getDashboardController = async (req, res) => {
       }
     });
 
+    // Monthly income / expense
+    const monthlyData = await transactionModel.aggregate([
+      {
+        $match: {
+          userId: userId,
+        },
+      },
+      {
+        $group: {
+          _id: {
+            year: { $year: "$date" },
+            month: { $month: "$date" },
+            type: "$type",
+          },
+          total: { $sum: "$amount" },
+        },
+      },
+      {
+        $sort: {
+          "_id.year": 1,
+          "_id.month": 1,
+        },
+      },
+    ]);
+
+    // Expense by category
+    const categoryData = await transactionModel.aggregate([
+      {
+        $match: {
+          userId: userId,
+          type: "expense",
+        },
+      },
+      {
+        $group: {
+          _id: "$category",
+          total: { $sum: "$amount" },
+        },
+      },
+      {
+        $sort: {
+          total: -1,
+        },
+      },
+    ]);
+
+    // Format monthly data for frontend
+    const formattedMonthlyData = [];
+
+    monthlyData.forEach((item) => {
+      const month = `${item._id.year}-${String(item._id.month).padStart(
+        2,
+        "0"
+      )}`;
+
+      let existingMonth = formattedMonthlyData.find(
+        (data) => data.month === month
+      );
+
+      if (!existingMonth) {
+        existingMonth = {
+          month,
+          income: 0,
+          expense: 0,
+        };
+
+        formattedMonthlyData.push(existingMonth);
+      }
+
+      if (item._id.type === "income") {
+        existingMonth.income = item.total;
+      }
+
+      if (item._id.type === "expense") {
+        existingMonth.expense = item.total;
+      }
+    });
+
+    const formattedCategoryData = categoryData.map((item) => ({
+      category: item._id,
+      amount: item.total,
+    }));
+
     res.status(200).json({
       message: "Dashboard data fetched",
+
       data: {
         totalIncome,
         totalExpense,
+
         currentBalance: totalIncome - totalExpense,
+
         totalTransactions: incomeCount + expenseCount,
 
-        graph: {
-          income: totalIncome,
-          expense: totalExpense,
-        },
+        // Old graph can now be removed
+        monthlyData: formattedMonthlyData,
+
+        categoryData: formattedCategoryData,
       },
     });
   } catch (error) {

@@ -1,11 +1,13 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Pencil, Trash2 } from "lucide-react";
 import UpdateTransactionForm from "./UpdateTransactionForm";
+import { MyStore } from "../../../../app/context/MyContext";
 
 const TransactionRow = ({ transaction, deleteTransaction, getDashboard }) => {
   const isIncome = transaction.type === "income";
 
   const [showEdit, setShowEdit] = useState(false);
+  const {user} = useContext(MyStore)
 
   return (
     <div className="grid grid-cols-4 sm:grid-cols-5 gap-3 items-center px-4 py-4 border-t border-[#edf0f4]">
@@ -30,7 +32,7 @@ const TransactionRow = ({ transaction, deleteTransaction, getDashboard }) => {
           isIncome ? "text-[#16b979]" : "text-[#ef4444]"
         }`}
       >
-        {isIncome ? "+" : "-"}₹{transaction.amount.toLocaleString("en-IN")}
+        {isIncome ? "+" : "-"}{user?.currency || "$"}{transaction.amount.toLocaleString("en-IN")}
       </div>
 
       <div className="flex gap-2">

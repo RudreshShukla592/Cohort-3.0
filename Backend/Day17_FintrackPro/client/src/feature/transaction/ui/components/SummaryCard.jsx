@@ -8,10 +8,9 @@ const SummaryCard = ({
   iconBg,
   iconColor,
   valueColor = "text-[#101b32]",
+  showCurrency = true,
 }) => {
-
-
-  const {user} = useContext(MyStore)
+  const { user } = useContext(MyStore);
 
   return (
     <div className="bg-white border border-[#dfe5ed] rounded-2xl p-5 shadow-sm">
@@ -21,12 +20,11 @@ const SummaryCard = ({
         <Icon size={21} className={iconColor} />
       </div>
 
-      <p className="text-sm text-[#63708a] mt-4">
-        {title}
-      </p>
+      <p className="text-sm text-[#63708a] mt-4">{title}</p>
 
       <h2 className={`text-2xl font-bold mt-1 ${valueColor}`}>
-         {user.currency}{value.toLocaleString("en-IN")}
+        {showCurrency && `${user?.currency || "$"}`}
+        {value.toLocaleString("en-IN")}
       </h2>
     </div>
   );

@@ -1,13 +1,15 @@
 import React, { useContext } from "react";
 import { useForm } from "react-hook-form";
 import { User, Wallet, Save, CircleUserRound } from "lucide-react";
-import useApi from "../../../auth/api/authApi";
+import { useNavigate } from "react-router";
 import { MyStore } from "../../../../app/context/MyContext";
-
+import useApi from "../../../auth/api/authApi";
 
 const Profile = () => {
   const { user, setUser } = useContext(MyStore);
   const api = useApi();
+
+  const navigate = useNavigate();
 
   const {
     register,
@@ -24,9 +26,9 @@ const Profile = () => {
     try {
       const response = await api.patch("/auth/profile", data);
 
-      setUser(response.data.data.user);
+      setUser(response.data.data);
 
-      console.log("Profile updated");
+      navigate("/home");
     } catch (error) {
       console.log(error);
     }
