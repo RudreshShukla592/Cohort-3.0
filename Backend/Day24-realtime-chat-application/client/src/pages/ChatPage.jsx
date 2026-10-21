@@ -29,8 +29,8 @@ const ChatPage = () => {
 
         socket.on("message", (msg) => {
             setMessages((prevMessages) => [ ...prevMessages, msg ]);
+           
         })
-
 
         return () => {
             socket.disconnect();

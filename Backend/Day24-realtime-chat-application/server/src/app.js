@@ -18,3 +18,6 @@ app.use(morgan(
 app.use('/api/v1', apiRouter);
 app.use(notFound);
 app.use(errorHandler);
+
+// Dummy password:- shuklaAnsh@2005
+// In vite.config.js do this:- "/socket.io": { target: "http://localhost:5001" } 
