@@ -1,4 +1,5 @@
 import { X } from "lucide-react";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 
 const inputStyles =
@@ -6,23 +7,44 @@ const inputStyles =
 
 const labelStyles = "mb-1.5 block text-sm font-medium text-slate-700";
 
-export default function TaskForm({ onClose, onSubmit }) {
+const emptyValues = {
+  title: "",
+  description: "",
+  priority: "medium",
+  status: "todo",
+  dueDate: "",
+};
+
+export default function TaskForm({ onClose, onSubmit, task }) {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors, isSubmitting },
   } = useForm({
-    defaultValues: {
-      title: "",
-      description: "",
-      priority: "medium",
-      status: "todo",
-      dueDate: "",
-    },
+    defaultValues: emptyValues,
   });
 
+  useEffect(() => {
+    reset(
+      task
+        ? {
+            title: task.title ?? "",
+            description: task.description ?? "",
+            priority: task.priority ?? "medium",
+            status: task.status ?? "todo",
+            dueDate: task.dueDate ?? "",
+          }
+        : emptyValues,
+    );
+  }, [task, reset]);
+
   const submitTask = async (data) => {
-    await onSubmit(data);
+    await onSubmit({
+      ...data,
+      title: data.title.trim(),
+      description: data.description.trim(),
+    });
   };
 
   return (
@@ -43,7 +65,7 @@ export default function TaskForm({ onClose, onSubmit }) {
             id="task-form-title"
             className="text-2xl font-bold tracking-tight text-slate-900"
           >
-            Add Task
+            {task ? "Edit Task" : "Add Task"}
           </h2>
 
           <button
@@ -57,7 +79,6 @@ export default function TaskForm({ onClose, onSubmit }) {
         </div>
 
         <form onSubmit={handleSubmit(submitTask)} noValidate>
-          {/* Title */}
           <div className="mb-5">
             <label htmlFor="title" className={labelStyles}>
               Title <span className="text-red-500">*</span>
@@ -90,7 +111,6 @@ export default function TaskForm({ onClose, onSubmit }) {
             )}
           </div>
 
-          {/* Description */}
           <div className="mb-5">
             <label htmlFor="description" className={labelStyles}>
               Description
@@ -116,7 +136,6 @@ export default function TaskForm({ onClose, onSubmit }) {
             )}
           </div>
 
-          {/* Priority and Status */}
           <div className="mb-4 grid grid-cols-1 gap-3 sm:grid-cols-2">
             <div>
               <label htmlFor="priority" className={labelStyles}>
@@ -167,7 +186,6 @@ export default function TaskForm({ onClose, onSubmit }) {
             </div>
           </div>
 
-          {/* Due date */}
           <div className="mb-5">
             <label htmlFor="dueDate" className={labelStyles}>
               Due date
@@ -181,7 +199,6 @@ export default function TaskForm({ onClose, onSubmit }) {
             />
           </div>
 
-          {/* Actions */}
           <div className="flex justify-end gap-2">
             <button
               type="button"
@@ -196,7 +213,7 @@ export default function TaskForm({ onClose, onSubmit }) {
               disabled={isSubmitting}
               className="rounded-lg bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-indigo-700 disabled:cursor-not-allowed disabled:opacity-60"
             >
-              {isSubmitting ? "Saving..." : "Save Task"}
+              {isSubmitting ? "Saving..." : task ? "Save Changes" : "Save Task"}
             </button>
           </div>
         </form>

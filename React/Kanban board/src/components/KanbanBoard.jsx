@@ -2,7 +2,7 @@ import KanbanColumn from "./KanbanColumn";
 
 const columns = ["todo", "inProgress", "completed"];
 
-export default function KanbanBoard({ tasks,  onStatusChange }) {
+export default function KanbanBoard({ tasks,  onStatusChange, onEditTask }) {
 
   return (
     <section className="grid grid-cols-1 items-start gap-4 md:grid-cols-2 xl:grid-cols-3">
@@ -12,6 +12,7 @@ export default function KanbanBoard({ tasks,  onStatusChange }) {
           status={status}
           tasks={tasks.filter((task) => task.status === status)}
           onStatusChange={onStatusChange}
+          onEditTask={onEditTask}
         />
       ))}
     </section>

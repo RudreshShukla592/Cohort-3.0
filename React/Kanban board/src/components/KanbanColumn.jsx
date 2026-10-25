@@ -17,7 +17,7 @@ const columnStyles = {
   },
 };
 
-export default function KanbanColumn({ status, tasks = [], onStatusChange }) {
+export default function KanbanColumn({ status, tasks = [], onStatusChange,  onEditTask }) {
   const column = columnStyles[status];
 
   const { deleteTasks } = useContext(MyContext);
@@ -71,6 +71,7 @@ export default function KanbanColumn({ status, tasks = [], onStatusChange }) {
               task={task}
               onStatusChange={onStatusChange}
               deleteTasks={deleteTasks}
+              onEdit={() => onEditTask(task)}
             />
           ))
         ) : (

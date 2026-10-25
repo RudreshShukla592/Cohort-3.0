@@ -6,7 +6,7 @@ const priorityStyles = {
   Low: "bg-emerald-100 text-emerald-700",
 };
 
-export default function TaskCard({ task, onStatusChange, deleteTasks }) {
+export default function TaskCard({ task, onStatusChange, deleteTasks, onEdit }) {
   const isCompleted = task.status === "completed";
 
   return (
@@ -30,6 +30,7 @@ export default function TaskCard({ task, onStatusChange, deleteTasks }) {
         <div className="flex shrink-0 items-center gap-2">
           <button
             type="button"
+            onClick={onEdit}
             aria-label={`Edit ${task.title}`}
             className="rounded p-1 text-slate-500 transition hover:bg-indigo-50 hover:text-indigo-600"
           >
