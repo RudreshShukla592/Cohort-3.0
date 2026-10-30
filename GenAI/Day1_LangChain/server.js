@@ -14,20 +14,30 @@ const model = new ChatGroq({
   apiKey: process.env.GROQ_API_KEY,
 });
 
+const messages = [];
+
 while (true) {
   const userInput = await readline.question("Enter your Input: ");
 
-  //   invoke 
-  const stream = await model.stream([
-    {
-        role:"user",
-        content:userInput
-    }
-  ]);
+  messages.push({
+    role: "user",
+    content: userInput,
+  });
 
-  for await(const chunck of stream){
+  //   invoke :- llm send whole res when it has been generated token-by-token
+  //   stream:- llm send one token at a time when it has been generated(to increase the UX)
+  const stream = await model.stream(messages);
+
+  let aiMessage = "";
+  for await (const chunck of stream) {
+    aiMessage += chunck.content;
     process.stdout.write(chunck.content);
   }
 
-  process.stdout.write("\n")
+  messages.push({
+    role: "assistant",
+    content: aiMessage,
+  });
+
+  process.stdout.write("\n");
 }
