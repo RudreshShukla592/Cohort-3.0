@@ -38,6 +38,10 @@ while (true) {
     role: "assistant",
     content: aiMessage,
   });
-
+  
   process.stdout.write("\n");
+
+  if (userInput.toLowerCase() === "exit") {
+    break;
+  }
 }
