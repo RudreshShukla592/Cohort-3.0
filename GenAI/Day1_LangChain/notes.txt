@@ -1,0 +1,38 @@
+1.createAgent function is based on langgraph, and it is made from model(LLM) + tools , the LLM use the tool through "createEventTool" 
+
+2.So the flow is, START -----> LLM_Node   <-->    ToolNode
+                 END <----------|
+
+Then their are 2 default node: START (for input), END(for output) and they are connected through edges with LLM_Node, and the LLM_Node is connectedto ToolNode with 2 edges, 1st to call the Tool and 2nd one what it returns, and when data is flowing through one node to another through edges the end is called "State", so the 1st State always start from START node and it should be predefined.
+
+3. IMPLEMENTATION
+
+Start by installing:- npm i @langchain/langgraph, then import { StateGraph, START, END } from "@langchain/langgraph";, we need StateGraph to create a graph and whenever we create the graph we also create a format for State through zod.
+
+   Eg:  const graph = new StateGraph(
+            z.object({
+                messages: z.array(
+                    z.object({
+                       role: z.string(),
+                       content: z.string(),
+                    }),
+                ),
+            }),
+        )
+This tells that the initial State would be an Obj in which there would be an array of messages in which there should be a object for role & content.
+By default nodes are START & END and we create the other nodes and it can be done through simple functions. Creating LLM_Node which needs a State, So the input is a State and output is also a State.
+   Eg:  async function LLMNode(state) {
+          console.log("LLMNode state: ", state);
+        }
+
+Then we add this node to our graph along with the edges which connects START,END,LLM_Node. It is quite easy to do so
+    Eg: const graph = new StateGraph(
+          z.object({
+            messages: z.array(z.any())
+        }))
+           .addNode("LLMNode", LLMNode)
+           .addEdge(START, "LLMNode")
+           .addEdge("LLMNode", END)
+           .compile()
+
+! Remember the sequence of the edges are very important, compile() is important so that graph gets compiled and here ".addNode("LLMNode", LLMNode)" we give name to the LLM_Node function and we will use the name afterwards. 
