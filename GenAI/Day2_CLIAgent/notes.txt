@@ -1,0 +1,5 @@
+upsertFile :- create and update the file at a time
+readFile :- read multple files
+deleteFile:- delete a file
+
+// npm link :- makes this package installed gloabally 
