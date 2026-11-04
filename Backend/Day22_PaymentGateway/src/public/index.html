@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios@1.20.0/dist/axios.min.js"></script>
+  </head>
+  <body>
+    <h1>Razorpay payment gateway</h1>
+    <button id="payButton">Pay Now</button>
+
+    <script>
+      async function payNow() {
+        const razorpayResponse = await axios.post(
+          "http://localhost:3000/payments/6ad30ec7117451cc9111a8c1/order",
+        );
+        const { data } = razorpayResponse;
+
+        console.log("Backend response:", data);
+
+        console.log("Amount:", data.amount);
+console.log("Order ID:", data.orderId);
+
+        const rzp = new window.Razorpay({
+          key: data.keyId,
+          order_id: data.orderId,
+          amount: data.amount * 100,
+          currency: data.currency,
+          name: "Kapda Co.",
+          description: "Payment for order " + data.orderId,
+
+          // Step 9: Razorpay calls this with the three values
+          handler: async function (razorpayResponse) {
+            console.log("Payment response:", razorpayResponse);
+            console.log("Razorpay response:", razorpayResponse);
+
+            // Send payment details to backend
+            const verify = await axios.post(
+              `http://localhost:3000/payments/${data.orderId}/verify`,
+              {
+                orderId: razorpayResponse.razorpay_order_id,
+                paymentId: razorpayResponse.razorpay_payment_id,
+                signature: razorpayResponse.razorpay_signature,
+              },
+            );
+
+            console.log("Verification:", verify.data);
+          },
+        });
+
+        rzp.open();
+      }
+
+      document.getElementById("payButton").addEventListener("click", payNow);
+    </script>
+  </body>
+</html>

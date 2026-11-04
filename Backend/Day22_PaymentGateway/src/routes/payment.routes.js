@@ -35,14 +35,15 @@ router.post("/:productId/order", async (req, res) => {
 
   res.status(201).json({
     message: "Order fetched to Razorpay",
-    payment,
+    ...payment.toObject(),
+    keyId:razorpay.key_id
   });
 });
 
 router.post("/:orderId/verify", async (req, res) => {
   const { orderId, paymentId, signature } = req.body;
 
-  const payment = await paymentModel.findById({
+  const payment = await paymentModel.findOne({
     orderId,
     status: "pending",
   });
@@ -65,6 +66,16 @@ router.post("/:orderId/verify", async (req, res) => {
   if (!isValid) {
     return res.status(400).json({ message: "Invalid payment verification" });
   }
+
+  // Fetch actual payment details from Razorpay
+  const razorpayPayment = await razorpay.payments.fetch(paymentId);
+
+  // Check whether payment is captured
+  if (razorpayPayment.status !== "captured") {
+    return res.status(400).json({
+      message: "Payment is not captured yet",
+    });
+  } 
 
   await paymentModel.updateOne(
     { orderId },
