@@ -18,6 +18,7 @@ router.get(
   }),
 );
 
+// can also make refreshToken here, and the flow can be same too.
 router.get(
   "/google/callback",
   passport.authenticate("google", {
@@ -28,7 +29,7 @@ router.get(
     const user = req.user;
     const email = user.emails[0].value;
 
-    const isAlreadyInDb = await userModel.find({ email });
+    const isAlreadyInDb = await userModel.findOne({ email });
 
     // handle Login
     if (isAlreadyInDb) {
@@ -54,7 +55,7 @@ router.get(
 
     const token = jwt.sign(
       {
-        id: isAlreadyInDb._id,
+        id: createdUser._id,
       },
       config.JWT_SECRET,
       { expiresIn: "1h" },

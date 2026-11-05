@@ -10,6 +10,7 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: function () {
         return !this.googleId;
+        // means if there is googleId then required is false, else it becames true
       },
     }, // only for email/password users
   },
