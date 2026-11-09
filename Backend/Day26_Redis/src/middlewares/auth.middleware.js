@@ -1,3 +1,4 @@
+import userModel from "../models/auth.model.js";
 import { verifyAccessToken } from "../utils/auth.js";
 
 export const authenticate = async (req, res, next) => {
