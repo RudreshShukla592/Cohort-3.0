@@ -1,5 +1,5 @@
 import express from "express"
-import {createPost, getPostDetails} from "../controllers/post.controller.js"
+import {createPost, getPostDetails, updatePost} from "../controllers/post.controller.js"
 import { authenticate } from "../middlewares/auth.middleware.js";
 
 const router = express.Router()
@@ -7,5 +7,7 @@ const router = express.Router()
 router.post("/", createPost);
 
 router.get("/:postId/details",getPostDetails);
+
+router.patch("/:postId", updatePost);
 
 export default router
